@@ -1,0 +1,17 @@
+{
+  "source_url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2001-2100.html",
+  "coverage": [
+    2001,
+    2100
+  ],
+  "rows": 224,
+  "type_counts": {
+    "partial": 77,
+    "annular": 72,
+    "total": 68,
+    "hybrid": 7
+  },
+  "raw_sha256": "a9c08f5b4b51d5c85ccfa18d8bfccd98ec8a7d93f06e2d40691943b4105acf9e",
+  "attribution": "Eclipse Predictions by Fred Espenak, NASA's GSFC",
+  "time_scale": "Catalog time is TD; UT is approximated by subtracting delta_t_s."
+}

@@ -1,0 +1,8 @@
+{
+  "requested_start": "2028-07-04",
+  "requested_end": "2028-07-08",
+  "forecast_horizon_start": "2026-10-09",
+  "forecast_horizon_end": "2026-10-24",
+  "status": "outside_forecast_horizon",
+  "reason": "No operational forecast exists for these dates; historical climatology remains separate."
+}

@@ -1,0 +1,14 @@
+{
+  "source_url": "https://api.open-meteo.com/v1/forecast",
+  "params": {
+    "latitude": "36.1408",
+    "longitude": "-5.3536",
+    "hourly": "temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,pressure_msl,surface_pressure,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,precipitation,rain,snowfall,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,shortwave_radiation,sunshine_duration,precipitation_probability,visibility,showers",
+    "forecast_days": 2,
+    "timezone": "GMT"
+  },
+  "resolved_url": "https://api.open-meteo.com/v1/forecast?latitude=36.1408&longitude=-5.3536&hourly=temperature_2m%2Crelative_humidity_2m%2Cdew_point_2m%2Capparent_temperature%2Cpressure_msl%2Csurface_pressure%2Ccloud_cover%2Ccloud_cover_low%2Ccloud_cover_mid%2Ccloud_cover_high%2Cprecipitation%2Crain%2Csnowfall%2Cweather_code%2Cwind_speed_10m%2Cwind_direction_10m%2Cwind_gusts_10m%2Cshortwave_radiation%2Csunshine_duration%2Cprecipitation_probability%2Cvisibility%2Cshowers&forecast_days=2&timezone=GMT",
+  "acquired_utc": "2026-10-06T13:30:12.603443+00:00",
+  "sha256": "7ee09b80d5450129fc6d99ffbb7b3915b14c95ffcddb6675e7003921a8fbbd8b",
+  "status_code": 200
+}

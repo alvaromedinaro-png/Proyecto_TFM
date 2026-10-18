@@ -1,0 +1,313 @@
+{
+  "event": {
+    "event_id": "NASA-SE-09568",
+    "event_date": "2027-08-02",
+    "catalog_number": "09568",
+    "eclipse_type": "total",
+    "type_code": "T",
+    "greatest_eclipse_td": "10:07:50",
+    "delta_t_s": 76.0,
+    "greatest_eclipse_ut_approx": "2027-08-02T10:06:34+00:00",
+    "saros_number": 136,
+    "gamma": 0.1421,
+    "eclipse_magnitude": 1.079,
+    "greatest_latitude": 26.0,
+    "greatest_longitude": 33.0,
+    "sun_altitude_deg": 82.0,
+    "path_width_km": 258.0,
+    "central_duration_at_greatest_s": 383.0,
+    "source_url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2001-2100.html",
+    "map_url": "https://eclipse.gsfc.nasa.gov/SEplot/SEplot2001/SE2027Aug02T.GIF",
+    "path_url": "https://eclipse.gsfc.nasa.gov/SEpath/SEpath2001/SE2027Aug02Tpath.html",
+    "besselian_url": "https://eclipse.gsfc.nasa.gov/SEsearch/SEdata.php?Ecl=20270802",
+    "geometry_supported": true
+  },
+  "locations": [
+    {
+      "latitude": 36.0131,
+      "longitude": -5.6044,
+      "name": "Tarifa",
+      "candidate_type": "destino",
+      "distance_km": 34.998208431232385,
+      "fraction": 0.662253437555753,
+      "time_utc_min": 527.3245068751115,
+      "duration_center_s": 291.9423939065567,
+      "path_width_km": 236.66225343755576,
+      "eligible_totality": true,
+      "estimated_totality_s": 278.8811026114371,
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "event_time_utc_approx": "2027-08-02T08:47:19.470412506+00:00"
+    },
+    {
+      "latitude": 36.5271,
+      "longitude": -6.2886,
+      "name": "Cadiz",
+      "candidate_type": "destino",
+      "distance_km": 94.69223101061971,
+      "fraction": 0.27887065106339376,
+      "time_utc_min": 526.5577413021268,
+      "duration_center_s": 289.8337885808487,
+      "path_width_km": 236.2788706510634,
+      "eligible_totality": true,
+      "estimated_totality_s": 173.30766844330182,
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "event_time_utc_approx": "2027-08-02T08:46:33.464478127+00:00"
+    },
+    {
+      "latitude": 36.1408,
+      "longitude": -5.4562,
+      "name": "Algeciras",
+      "candidate_type": "destino",
+      "distance_km": 48.62414602340952,
+      "fraction": 0.7525552892242672,
+      "time_utc_min": 527.5051105784486,
+      "duration_center_s": 292.43905409073346,
+      "path_width_km": 236.75255528922426,
+      "eligible_totality": true,
+      "estimated_totality_s": 266.6295131122833,
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "event_time_utc_approx": "2027-08-02T08:47:30.306634706+00:00"
+    },
+    {
+      "latitude": 36.7213,
+      "longitude": -4.4214,
+      "name": "Malaga",
+      "candidate_type": "destino",
+      "distance_km": 110.50017887469245,
+      "fraction": 0.3758092953939381,
+      "time_utc_min": 528.7516185907879,
+      "duration_center_s": 295.7917892655879,
+      "path_width_km": 237.37580929539394,
+      "eligible_totality": true,
+      "estimated_totality_s": 107.95861704032306,
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "event_time_utc_approx": "2027-08-02T08:48:45.097115447+00:00"
+    },
+    {
+      "latitude": 36.1408,
+      "longitude": -5.3536,
+      "name": "Gibraltar",
+      "candidate_type": "destino",
+      "distance_km": 48.2356853128697,
+      "fraction": 0.8123911164955608,
+      "time_utc_min": 527.6247822329912,
+      "duration_center_s": 292.7681511407256,
+      "path_width_km": 236.81239111649555,
+      "eligible_totality": true,
+      "estimated_totality_s": 267.37376988283256,
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "event_time_utc_approx": "2027-08-02T08:47:37.486933979+00:00"
+    },
+    {
+      "latitude": 35.7595,
+      "longitude": -5.834,
+      "name": "Tangier",
+      "candidate_type": "destino",
+      "distance_km": 7.693314213687547,
+      "fraction": 0.5206855194337949,
+      "time_utc_min": 527.0413710388676,
+      "duration_center_s": 291.1637703568859,
+      "path_width_km": 236.52068551943378,
+      "eligible_totality": true,
+      "estimated_totality_s": 290.54701031303904,
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "event_time_utc_approx": "2027-08-02T08:47:02.482262332+00:00"
+    },
+    {
+      "latitude": 35.5889,
+      "longitude": -5.3626,
+      "name": "Tetouan",
+      "candidate_type": "destino",
+      "distance_km": 13.044699309089792,
+      "fraction": 0.7904671694539841,
+      "time_utc_min": 527.5809343389079,
+      "duration_center_s": 292.64756943199694,
+      "path_width_km": 236.790467169454,
+      "eligible_totality": true,
+      "estimated_totality_s": 290.86585252614253,
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "event_time_utc_approx": "2027-08-02T08:47:34.856060334+00:00"
+    },
+    {
+      "latitude": 35.2923,
+      "longitude": -2.9381,
+      "name": "Melilla",
+      "candidate_type": "destino",
+      "distance_km": 49.99404474308617,
+      "fraction": 0.28604160700298437,
+      "time_utc_min": 530.5720832140059,
+      "duration_center_s": 300.53020803501494,
+      "path_width_km": 238.28604160700297,
+      "eligible_totality": true,
+      "estimated_totality_s": 272.7921051797012,
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "event_time_utc_approx": "2027-08-02T08:50:34.324992840+00:00"
+    }
+  ],
+  "requested_years": [
+    1997,
+    1998,
+    1999,
+    2000,
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "weather_inputs": [
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_1997.json",
+      "sha256": "faa8998c5ba1b5aa630a25451285072b1ab7641e17ade99551b1757056052744"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_1998.json",
+      "sha256": "b3540786d3a12b9d18111114b0df253da417903a091d7a5153d090cfd80edaf8"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_1999.json",
+      "sha256": "aa25a298ea787dde68a789c3c660c3bdb11416d4acfdc6e04142d7d945682652"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2000.json",
+      "sha256": "054cdbf90af96e68625b25e65564083beddd7c7ed1921080f8a13149527708a1"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2001.json",
+      "sha256": "6dabd6f2c20e2049019130c51ca9e84d11d178c4ab5b07e61d37caab6c93ec23"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2002.json",
+      "sha256": "0e4c5974070e305e90bfc404ec9c6ee967c2bb52e553ec36ec2f3600e08bffa4"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2003.json",
+      "sha256": "b29342bf5fa31ad1a1e118b26ca17eb5aeaeffeff19963d9894044d5cc06473c"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2004.json",
+      "sha256": "a7e223061ae9bd6a032bbfd8fad28658b101a947124ba02b248cbd24d2816f32"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2005.json",
+      "sha256": "d92f11558889640045261aef6b8f9290c0d7ff21adef084f0b1fc2ae85190b62"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2006.json",
+      "sha256": "97f22c6251ffa19f0ab7c437c2099b53052357d2bc68c991739e8936797af518"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2007.json",
+      "sha256": "ab73504335feb8bb188e6a0093f73d7eeb251d0974b7781af3054eef840702bd"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2008.json",
+      "sha256": "7e34babec4701e0efc5edc47413685b993385c7dca9bb7c2d11d38acea56ab7c"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2009.json",
+      "sha256": "f88cff4884c9e2d611b2f4be9126ea11edbd9315c134340672ca30e4beaf41c3"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2010.json",
+      "sha256": "24eac98c1cfaf7d91256e11eed279d4285c5e2ebd017e758bd7e247ebb0d292f"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2011.json",
+      "sha256": "fcce7d9d5e785664e35db9ead72dfab205fd6a8a1b2a27e394203d947d8f62da"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2012.json",
+      "sha256": "405a72b4f7b4301a8fcc430670448a90135ab3efcc4d0aba88010c823f92d3a7"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2013.json",
+      "sha256": "b89a43daa869d89f0b9c167e54bb3b7d91f0fe36e14cb566f727ee230e7c9512"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2014.json",
+      "sha256": "e8efc5c1ff45190b291b04fd87cb81a5f4555e1f17f5fc4014b79ec43c41ac95"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2015.json",
+      "sha256": "f09bc5efbc36b27e96a45b3c7215a5f5a603500059a0d1470aa2db7395b423fe"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2016.json",
+      "sha256": "90bc6857922d30607012c55779f0e6319df53293f895f7ae90d4b56ab164f407"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2017.json",
+      "sha256": "c9bc15de9fa806840d999ba31a25b9151f1e97c5bf23c1fc7e5e825437faf9e4"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2018.json",
+      "sha256": "939b4b9f57dc0ffd0db71886261637ad8258c306b9d4b4cb88c1f84d22ec9f68"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2019.json",
+      "sha256": "9de4cbc943aa1c7b2349dabca3c7f23156ce1523425090a0854c50d2592f5896"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2020.json",
+      "sha256": "ad66f914a852c7100f8dd8cf7f8fad20001df6ce838af27015713dae1ba991af"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2021.json",
+      "sha256": "2953a5f9661ce088b5fb0cfe5078b775708d62131debc1af1a501e6acaf23072"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2022.json",
+      "sha256": "8eb2177e6557a4fa4cdb7485bef413a785ba305a9dc640f7332bb5b31f4c37a5"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2023.json",
+      "sha256": "b407c5d71b0dee3cc9b9a1411eda6d408b5c0c171e04bbbf8587ec47869321bb"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2024.json",
+      "sha256": "c5f419c6adac5818cf60f21ae90a5ada37146141badc07a1ff13deb55922d838"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2025.json",
+      "sha256": "e8061d5954d45a29823abd740b9681f63d482802e6600fddbb2963ed057fe7d8"
+    },
+    {
+      "file": "data\\bronze\\events\\2027-08-02\\weather_2026.json",
+      "sha256": "8e98aee5e29a3518e7b51137cd38c3e3f15054e0829c80007009b48ed006d5a7"
+    }
+  ],
+  "failures": [],
+  "missing": [],
+  "rain_threshold_mm": 0.1,
+  "path_sha256": "fb85185e64efdbd6c3cb0b7267d087cbe90e955509f3e008fe22ee2dd06f8b64"
+}

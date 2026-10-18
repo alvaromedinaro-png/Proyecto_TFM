@@ -1,0 +1,689 @@
+name,latitude,longitude,elevation_m,candidate_type,location_source,country_code,country_name,country_source
+"Alert, NU",82.51666666666667,-62.333333333333336,29.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Calgary, AB",51.05,-114.08333333333333,1079.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Charlottetown, PE",46.233333333333334,-63.13333333333333,55.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Churchill, MB",58.766666666666666,-94.16666666666667,28.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Edmonton, AB",53.55,-113.46666666666667,676.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Fredericton, NB",45.96666666666667,-66.65,8.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Halifax, NS",44.65,-63.6,25.3,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Hamilton, ON",43.25,-79.85,100.3,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Inuvik, NT",68.36666666666666,-133.73333333333332,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Iqaluit, NU",63.733333333333334,-68.46666666666667,33.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Kuujjuaq, QC",58.1,-68.41666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Lethbridge, AB",49.7,-112.83333333333333,909.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"London, ON",42.983333333333334,-81.23333333333333,250.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Montreal, QC",45.516666666666666,-73.56666666666666,57.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Ottawa, ON",45.416666666666664,-75.7,114.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Prince George, BC",53.916666666666664,-122.75,676.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Quebec, QC",46.81666666666667,-71.23333333333333,72.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Regina, SK",50.416666666666664,-104.65,574.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Resolute, NU",74.68333333333334,-94.9,67.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Saint John's, NF",47.56666666666667,-52.71666666666667,64.3,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Saskatoon, SK",52.11666666666667,-106.63333333333334,515.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Sault Sainte Marie, ON",46.516666666666666,-84.33333333333333,179.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Thunder Bay, ON",48.38333333333333,-89.25,187.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Toronto, ON",43.65,-79.38333333333334,115.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Vancouver, BC",49.266666666666666,-123.11666666666666,38.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Victoria, BC",48.416666666666664,-123.36666666666666,17.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Whitehorse, YT",60.71666666666667,-135.05,702.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Winnipeg, MB",49.88333333333333,-97.15,238.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Windsor, ON",42.3,-83.01666666666667,183.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Yellowknife, NT",62.45,-114.35,205.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CA,Canadá,nasa_city_country
+"Albany, NY",42.65,-73.75,83.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Atlanta, GA",33.733333333333334,-84.38333333333334,307.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Austin, TX",30.266666666666666,-97.73333333333333,182.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Baltimore, MD",39.28333333333333,-76.6,45.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Baton Rouge, LA",30.45,-91.15,17.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Boston, MA",42.35,-71.05,4.6,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Buffalo, NY",42.88333333333333,-78.86666666666666,214.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Chicago, IL",41.85,-87.65,185.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Cincinnati, OH",39.15,-84.45,264.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Cleveland, OH",41.483333333333334,-81.68333333333334,236.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Columbus, OH",39.95,-82.98333333333333,247.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Dallas, TX",32.766666666666666,-96.78333333333333,167.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Denver, CO",39.733333333333334,-104.98333333333333,1610.3,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Detroit, MI",42.333333333333336,-83.05,192.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"El Paso, TX",31.75,-106.48333333333333,1194.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Hartford, CT",41.766666666666666,-72.68333333333334,51.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Honolulu, HI",21.3,-157.85,2.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Houston, TX",29.75,-95.35,29.3,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Indianapolis, IN",39.766666666666666,-86.15,241.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Kansas City, MO",39.083333333333336,-94.56666666666666,226.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Los Angeles, CA",34.05,-118.23333333333333,29.6,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Louisville, KY",38.25,-85.75,145.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Memphis, TN",35.13333333333333,-90.03333333333333,78.6,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Miami, FL",25.766666666666666,-80.18333333333334,2.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Milwaukee, WI",43.03333333333333,-87.9,204.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Minneapolis, MN",44.96666666666667,-93.25,254.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Nashville, TN",36.15,-86.78333333333333,179.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"New Orleans, LA",29.95,-90.06666666666666,0.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"New York, NY",40.71666666666667,-74.01666666666667,40.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Oklahoma City, OK",35.46666666666667,-97.5,391.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Philadelphia, PA",39.95,-75.15,1.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Phoenix, AZ",33.43333333333333,-112.06666666666666,340.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Pittsburgh, PA",40.43333333333333,-79.98333333333333,227.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Portland, OR",45.516666666666666,-122.66666666666667,6.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Providence, RI",41.81666666666667,-71.4,15.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Richmond, VA",37.55,-77.45,50.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Rochester, NY",43.15,-77.6,166.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Sacramento, CA",38.56666666666667,-121.48333333333333,9.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"St. Louis, MO",38.61666666666667,-90.18333333333334,163.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"St. Petersburg, FL",27.766666666666666,-82.66666666666667,6.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Salt Lake City, UT",40.75,-111.88333333333334,1286.3,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"San Antonio, TX",29.416666666666668,-98.48333333333333,240.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"San Diego, CA",32.7,-117.15,4.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"San Francisco, CA",37.766666666666666,-122.41666666666667,2.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Seattle, WA",47.6,-122.31666666666666,121.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Washington, DC",38.88333333333333,-77.03333333333333,4.3,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,US,Estados Unidos,nasa_city_country
+"Acapulco, MEXICO",16.85,-99.91666666666667,3.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Chihuahua, MEXICO",28.633333333333333,-106.08333333333333,1350.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Ciudad de Mexico, MEXICO",19.4,-99.15,2237.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Ciudad de Naucalpan, MEXICO",19.466666666666665,-99.23333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Ciudad Juarez, MEXICO",31.733333333333334,-106.48333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Ecatepec de Morelos, MEXICO",19.583333333333332,-99.06666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Guadalajara, MEXICO",20.666666666666668,-103.33333333333333,1583.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Guadalupe, MEXICO",25.683333333333334,-100.25,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Leon, MEXICO",21.116666666666667,-101.66666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Merida, MEXICO",20.966666666666665,-89.61666666666666,21.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Monterrey, MEXICO",25.666666666666668,-100.31666666666666,527.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Nezahualcoyoytl, MEXICO",19.45,-99.05,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Puebla, MEXICO",19.05,-98.2,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"San Luis Potosi, MEXICO",22.15,-100.98333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Tijuana, MEXICO",32.53333333333333,-117.01666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Tlalnepantla, MEXICO",19.55,-99.2,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Torreon, MEXICO",25.55,-103.43333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Veracruz, MEXICO",19.183333333333334,-96.13333333333334,10.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Zapopan, MEXICO",20.716666666666665,-103.4,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MX,México,nasa_city_country
+"Alajuela, COSTA RICA",10.016666666666667,-84.21666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CR,Costa Rica,nasa_city_country
+"San Jose, COSTA RICA",9.933333333333334,-84.08333333333333,1146.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CR,Costa Rica,nasa_city_country
+"San Salvador, EL SALVADOR",13.7,-89.2,682.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,SV,El Salvador,nasa_city_country
+"Santa Ana, EL SALVADOR",13.983333333333333,-89.56666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,SV,El Salvador,nasa_city_country
+"Guatemala, GUATEMALA",14.633333333333333,-90.51666666666667,1479.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,GT,Guatemala,nasa_city_country
+"San Pedro Sula, HONDURAS",15.45,-88.03333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,HN,Honduras,nasa_city_country
+"Tegucigalpa, HONDURAS",14.1,-87.21666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,HN,Honduras,nasa_city_country
+"Leon, NICARAGUA",12.433333333333334,-86.88333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,NI,Nicaragua,nasa_city_country
+"Managua, NICARAGUA",12.15,-86.28333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,NI,Nicaragua,nasa_city_country
+"Panama City, PANAMA",8.966666666666667,-79.53333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,PA,Panamá,nasa_city_country
+"Nassau, BAHAMAS",25.083333333333332,-77.35,3.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,BS,Bahamas,nasa_city_country
+"Bridgetown, BARBADOS",13.1,-59.61666666666667,55.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,BB,Barbados,nasa_city_country
+"Havana, CUBA",23.133333333333333,-82.36666666666666,24.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CU,Cuba,nasa_city_country
+"Santiago de Cuba, CUBA",20.016666666666666,-75.81666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CU,Cuba,nasa_city_country
+"Santiago, DOMINICAN REPUBLIC",19.45,-70.7,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,DO,República Dominicana,nasa_city_country
+"Santo Domingo, DOMINICAN REPUBLIC",18.466666666666665,-69.9,17.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,DO,República Dominicana,nasa_city_country
+"Saint George's, GRENADA",12.05,-61.75,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,GD,Granada,nasa_city_country
+"Basse-Terre, GUADELOUPE",16.0,-61.72833333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,GP,Guadalupe,nasa_city_country
+"Pointe a Pitre, GUADELOUPE",16.238333333333333,-61.525,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,GP,Guadalupe,nasa_city_country
+"Port-au-Prince, HAITI",18.533333333333335,-72.33333333333333,36.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,HT,Haití,nasa_city_country
+"Kingston, JAMAICA",18.0,-76.8,33.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,JM,Jamaica,nasa_city_country
+"Montego Bay, JAMAICA",18.466666666666665,-77.91666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,JM,Jamaica,nasa_city_country
+"Fort-de-France, MARTINIQUE",14.6,-61.083333333333336,4.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,MQ,Martinica,nasa_city_country
+"Oranjestad, Aruba, NETHERLANDS ANTILLES",12.516666666666667,-70.03333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,AW,Aruba,nasa_city_country
+"Willemstad, Curacao, NETHERLANDS ANTILLES",12.108333333333333,-68.93,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,CW,Curazao,nasa_city_country
+"Arecibo, PUERTO RICO",18.466666666666665,-66.71666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,PR,Puerto Rico,nasa_city_country
+"Ponce, PUERTO RICO",18.016666666666666,-66.61666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,PR,Puerto Rico,nasa_city_country
+"San Juan, PUERTO RICO",18.466666666666665,-66.11666666666666,4.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,PR,Puerto Rico,nasa_city_country
+"Castries, ST. LUCIA",14.016666666666667,-61.0,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,LC,Santa Lucía,nasa_city_country
+"Kingstown, ST. VINCENT & GRENADINES",13.15,-61.233333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,VC,San Vicente y las Granadinas,nasa_city_country
+"Port-of-Spain, TRINIDAD & TOBAGO",10.65,-61.516666666666666,20.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,TT,Trinidad y Tobago,nasa_city_country
+"Charlotte Am., St. Thomas, U.S. VIRGIN IS.",18.35,-64.93333333333334,3.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,VI,Islas Vírgenes de Estados Unidos,nasa_city_country
+"Road Town, Tortola, UK VIRGIN IS.",18.433333333333334,-64.61666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,VG,Islas Vírgenes Británicas,nasa_city_country
+"Hamilton, BERMUDA",32.28333333333333,-64.76666666666667,46.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-na.js,BM,Bermudas,nasa_city_country
+"Buenos Aires, ARGENTINA",-34.6,-58.45,27.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"Cordoba, ARGENTINA",-31.4,-64.18333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"General Sarmiento, ARGENTINA",-34.55,-58.71666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"La Plata, ARGENTINA",-34.916666666666664,-57.95,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"Lomas de Zamora, ARGENTINA",-34.766666666666666,-58.4,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"Mar del Plata, ARGENTINA",-38.0,-57.55,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"Mendoza, ARGENTINA",-32.88333333333333,-68.81666666666666,800.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"Moron, ARGENTINA",-34.65,-58.61666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"Quilmes, ARGENTINA",-34.733333333333334,-58.266666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"Rosario, ARGENTINA",-32.95,-60.666666666666664,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"San Justo, ARGENTINA",-34.666666666666664,-58.55,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"San Miguel de Tucuman, ARGENTINA",-26.816666666666666,-65.21666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,AR,Argentina,nasa_city_country
+"Cochabamba, BOLIVIA",-17.4,-66.15,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BO,Bolivia,nasa_city_country
+"La Paz, BOLIVIA",-16.5,-68.15,3657.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BO,Bolivia,nasa_city_country
+"Santa Cruz, BOLIVIA",-17.8,-63.166666666666664,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BO,Bolivia,nasa_city_country
+"Anil, BRAZIL",-2.533333333333333,-44.233333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Belem, BRAZIL",-1.45,-48.483333333333334,12.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Belford Roxo, BRAZIL",-22.766666666666666,-43.4,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Belo Horizonte, BRAZIL",-19.916666666666668,-43.93333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Brasilia, BRAZIL",-15.783333333333333,-47.916666666666664,1061.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Campinas, BRAZIL",-22.9,-47.083333333333336,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Campo Grande, BRAZIL",-20.45,-54.61666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Capuava, BRAZIL",-23.65,-46.483333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Cava, BRAZIL",-22.683333333333334,-43.43333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Curitiba, BRAZIL",-25.416666666666668,-49.25,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Fortaleza, BRAZIL",-3.716666666666667,-38.5,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Goiania, BRAZIL",-16.666666666666668,-49.266666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Guarulhos, BRAZIL",-23.466666666666665,-46.53333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Icoraci, BRAZIL",-1.3,-48.46666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Ipiiba, BRAZIL",-22.866666666666667,-42.95,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Japeri, BRAZIL",-22.65,-43.666666666666664,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Jardim {Pres. Dutra}, BRAZIL",-21.466666666666665,-56.15,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Joao Pessoa, BRAZIL",-7.116666666666666,-34.86666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Maceio, BRAZIL",-9.666666666666666,-35.71666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Manaus, BRAZIL",-3.1333333333333333,-60.016666666666666,43.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Mesquita, BRAZIL",-22.8,-43.43333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Natal, BRAZIL",-5.783333333333333,-35.21666666666667,15.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Neves, BRAZIL",-22.85,-43.1,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Nova Iguacu, BRAZIL",-22.75,-43.45,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Osasco, BRAZIL",-23.533333333333335,-46.766666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Pinheirinhos, BRAZIL",-22.433333333333334,-44.983333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Porto Alegre, BRAZIL",-30.066666666666666,-51.18333333333333,10.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Queimados, BRAZIL",-22.7,-43.56666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Recife, BRAZIL",-8.05,-34.9,29.6,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Rio de Janeiro, BRAZIL",-22.9,-43.233333333333334,61.3,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Salvador, BRAZIL",-12.983333333333333,-38.516666666666666,46.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Santo Andre, BRAZIL",-23.666666666666668,-46.516666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Santos, BRAZIL",-23.95,-46.333333333333336,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Sao Bernardo do Campo, BRAZIL",-23.7,-46.55,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Sao Luis, BRAZIL",-2.5166666666666666,-44.266666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Sao Paulo, BRAZIL",-23.533333333333335,-46.61666666666667,801.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Sete Pontes, BRAZIL",-22.85,-43.083333333333336,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Teresina, BRAZIL",-5.083333333333333,-42.81666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Vitoria, BRAZIL",-20.316666666666666,-40.35,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,BR,Brasil,nasa_city_country
+"Concepcion, CHILE",-36.833333333333336,-73.05,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,CL,Chile,nasa_city_country
+"Santiago, CHILE",-33.45,-70.66666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,CL,Chile,nasa_city_country
+"Valparaiso, CHILE",-33.03333333333333,-71.63333333333334,41.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,CL,Chile,nasa_city_country
+"Barranquilla, COLOMBIA",10.983333333333333,-74.8,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,CO,Colombia,nasa_city_country
+"Bogota, COLOMBIA",4.6,-74.08333333333333,2546.6,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,CO,Colombia,nasa_city_country
+"Bucaramanga, COLOMBIA",7.133333333333334,-73.15,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,CO,Colombia,nasa_city_country
+"Cali, COLOMBIA",3.45,-76.51666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,CO,Colombia,nasa_city_country
+"Cartagena, COLOMBIA",10.416666666666666,-75.53333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,CO,Colombia,nasa_city_country
+"Medellin, COLOMBIA",6.25,-75.58333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,CO,Colombia,nasa_city_country
+"Guayaquil, ECUADOR",-2.1666666666666665,-79.83333333333333,6.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,EC,Ecuador,nasa_city_country
+"Quito, ECUADOR",-0.21666666666666667,-78.5,2810.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,EC,Ecuador,nasa_city_country
+"Georgetown, GUYANA",6.8,-58.166666666666664,1.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,GY,Guyana,nasa_city_country
+"Asuncion, PARAGUAY",-25.266666666666666,-57.666666666666664,139.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,PY,Paraguay,nasa_city_country
+"Arequipa, PERU",-16.4,-71.55,2578.6,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,PE,Perú,nasa_city_country
+"Lima, PERU",-12.05,-77.05,120.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,PE,Perú,nasa_city_country
+"Paramaribo, SURINAME",5.833333333333333,-55.166666666666664,3.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,SR,Surinam,nasa_city_country
+"Montevideo, URUGUAY",-34.88333333333333,-56.18333333333333,21.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,UY,Uruguay,nasa_city_country
+"Rivera, URUGUAY",-30.9,-55.516666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,UY,Uruguay,nasa_city_country
+"Barquismeto, VENEZUELA",10.066666666666666,-69.31666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,VE,Venezuela,nasa_city_country
+"Caracas, VENEZUELA",10.5,-66.93333333333334,1041.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,VE,Venezuela,nasa_city_country
+"Maracaibo, VENEZUELA",10.666666666666666,-71.61666666666666,6.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,VE,Venezuela,nasa_city_country
+"Valencia, VENEZUELA",10.183333333333334,-68.0,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,VE,Venezuela,nasa_city_country
+"Stanley, FALKLAND ISLANDS",-51.7,-57.85,1.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-sa.js,FK,Islas Malvinas,nasa_city_country
+"Tirane, ALBANIA",41.333333333333336,19.833333333333332,7.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,AL,Albania,nasa_city_country
+"Vienna, AUSTRIA",48.21666666666667,16.333333333333332,202.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,AT,Austria,nasa_city_country
+"Gomel', BELARUS",52.416666666666664,31.0,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,BY,Bielorrusia,nasa_city_country
+"Minsk, BELARUS",53.9,27.566666666666666,224.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,BY,Bielorrusia,nasa_city_country
+"Antwerpen, BELGIUM",51.21666666666667,4.416666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,BE,Bélgica,nasa_city_country
+"Brussels, BELGIUM",50.833333333333336,4.333333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,BE,Bélgica,nasa_city_country
+"Sarajevo, BOSNIA & HERZEGOVINA",43.86666666666667,18.416666666666668,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,BA,Bosnia y Herzegovina,nasa_city_country
+"Sofia, BULGARIA",42.68333333333333,23.316666666666666,550.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,BG,Bulgaria,nasa_city_country
+"Las Palmas, G. Canaria, CANARY ISLANDS",28.116666666666667,-15.466666666666667,6.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,ES,España,nasa_city_country
+"Santa Cruz, Tenerife, CANARY ISLANDS",28.416666666666668,-16.266666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,ES,España,nasa_city_country
+"Praia, CAPE VERDE",14.916666666666666,-23.516666666666666,34.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,CV,Cabo Verde,nasa_city_country
+"Zagreb, CROATIA",45.8,15.966666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,HR,Croacia,nasa_city_country
+"Lesmesos, CYPRUS",34.666666666666664,33.03333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,CY,Chipre,nasa_city_country
+"Nicosia, CYPRUS",35.166666666666664,33.36666666666667,218.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,CY,Chipre,nasa_city_country
+"Brno, CZECH REPUBLIC",49.2,16.616666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,CZ,Chequia,nasa_city_country
+"Ostrava, CZECH REPUBLIC",49.833333333333336,18.283333333333335,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,CZ,Chequia,nasa_city_country
+"Praha, CZECH REPUBLIC",50.083333333333336,14.433333333333334,201.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,CZ,Chequia,nasa_city_country
+"Copenhagen, DENMARK",55.666666666666664,12.583333333333334,13.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DK,Dinamarca,nasa_city_country
+"Tallinn, ESTONIA",59.416666666666664,24.75,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,EE,Estonia,nasa_city_country
+"Helsinki, FINLAND",60.166666666666664,24.966666666666665,9.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,FI,Finlandia,nasa_city_country
+"Bordeaux, FRANCE",44.833333333333336,-0.5666666666666667,47.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,FR,Francia,nasa_city_country
+"Lille, FRANCE",50.63333333333333,3.066666666666667,43.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,FR,Francia,nasa_city_country
+"Lyon, FRANCE",45.75,4.85,285.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,FR,Francia,nasa_city_country
+"Marseille, FRANCE",43.3,5.4,75.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,FR,Francia,nasa_city_country
+"Nice, FRANCE",43.7,7.25,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,FR,Francia,nasa_city_country
+"Paris, FRANCE",48.86666666666667,2.3333333333333335,50.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,FR,Francia,nasa_city_country
+"Strasbourg, FRANCE",48.583333333333336,7.75,141.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,FR,Francia,nasa_city_country
+"Toulouse, FRANCE",43.6,1.4333333333333333,164.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,FR,Francia,nasa_city_country
+"Aachen, GERMANY",50.78333333333333,6.083333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Berlin, GERMANY",52.5,13.366666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Bielefeld, GERMANY",52.016666666666666,8.516666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Bonn, GERMANY",50.733333333333334,7.083333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Bremen, GERMANY",53.06666666666667,8.816666666666666,15.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Cologne, GERMANY",50.93333333333333,6.983333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Dortmund, GERMANY",51.516666666666666,7.466666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Dresden, GERMANY",51.05,13.733333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Duisburg, GERMANY",51.416666666666664,6.766666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Dusseldorf, GERMANY",51.2,6.783333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Essen, GERMANY",51.46666666666667,7.016666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Frankfurt, GERMANY",50.11666666666667,8.666666666666666,103.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Hamburg, GERMANY",53.55,9.983333333333333,20.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Hannover, GERMANY",52.4,9.733333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Leipzig, GERMANY",51.31666666666667,12.333333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Mannheim, GERMANY",49.483333333333334,8.483333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Munchen, GERMANY",48.13333333333333,11.566666666666666,530.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Nurnberg, GERMANY",49.45,11.066666666666666,320.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Stuttgart, GERMANY",48.766666666666666,9.183333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Wiesbaden, GERMANY",50.083333333333336,8.233333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Wuppertal, GERMANY",51.266666666666666,7.183333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,DE,Alemania,nasa_city_country
+"Athens, GREECE",37.96666666666667,23.716666666666665,107.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GR,Grecia,nasa_city_country
+"Godthab, GREENLAND",64.18333333333334,-51.733333333333334,20.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GL,Groenlandia,nasa_city_country
+"Budapest, HUNGARY",47.5,19.083333333333332,120.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,HU,Hungría,nasa_city_country
+"Reykjavik, ICELAND",64.15,-21.85,28.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,IS,Islandia,nasa_city_country
+"Dublin, IRELAND",53.333333333333336,-6.25,47.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,IE,Irlanda,nasa_city_country
+"Florence, ITALY",43.766666666666666,11.25,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,IT,Italia,nasa_city_country
+"Genoa, ITALY",44.416666666666664,8.95,96.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,IT,Italia,nasa_city_country
+"Milan, ITALY",45.46666666666667,9.2,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,IT,Italia,nasa_city_country
+"Naples, ITALY",40.85,14.283333333333333,25.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,IT,Italia,nasa_city_country
+"Palermo, ITALY",38.11666666666667,13.366666666666667,107.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,IT,Italia,nasa_city_country
+"Rome, ITALY",41.9,12.483333333333333,114.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,IT,Italia,nasa_city_country
+"Turin, ITALY",45.05,7.666666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,IT,Italia,nasa_city_country
+"Venice, ITALY",45.45,12.35,25.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,IT,Italia,nasa_city_country
+"Kaliningrad, KALININGRAD",54.71666666666667,20.5,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Riga, LATVIA",56.95,24.1,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,LV,Letonia,nasa_city_country
+"Kaunas, LITHUANIA",54.9,23.9,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,LT,Lituania,nasa_city_country
+"Vilnius, LITHUANIA",54.68333333333333,25.316666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,LT,Lituania,nasa_city_country
+"Luxembourg, LUXEMBOURG",49.6,6.15,334.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,LU,Luxemburgo,nasa_city_country
+"Skopje, MACEDONIA",41.983333333333334,21.433333333333334,239.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,MK,Macedonia del Norte,nasa_city_country
+"Valletta, MALTA",35.9,14.516666666666667,71.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,MT,Malta,nasa_city_country
+"Kisin'ov, MOLDOVA",47.0,28.833333333333332,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,MD,Moldavia,nasa_city_country
+"Amsterdam, NETHERLANDS",52.36666666666667,4.9,1.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,NL,Países Bajos,nasa_city_country
+"Rotterdam, NETHERLANDS",51.916666666666664,4.466666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,NL,Países Bajos,nasa_city_country
+"Oslo, NORWAY",59.916666666666664,10.75,93.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,NO,Noruega,nasa_city_country
+"Gdansk, POLAND",54.38333333333333,18.666666666666668,11.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,PL,Polonia,nasa_city_country
+"Katowice, POLAND",50.266666666666666,19.0,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,PL,Polonia,nasa_city_country
+"Krakow, POLAND",50.05,19.966666666666665,220.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,PL,Polonia,nasa_city_country
+"Lodz, POLAND",51.766666666666666,19.5,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,PL,Polonia,nasa_city_country
+"Poznan, POLAND",52.416666666666664,16.916666666666668,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,PL,Polonia,nasa_city_country
+"Warsaw, POLAND",52.25,21.0,89.6,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,PL,Polonia,nasa_city_country
+"Wroclaw, POLAND",51.1,17.0,146.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,PL,Polonia,nasa_city_country
+"Lisbon, PORTUGAL",38.71666666666667,-9.133333333333333,95.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,PT,Portugal,nasa_city_country
+"Porto, PORTUGAL",41.18333333333333,-8.6,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,PT,Portugal,nasa_city_country
+"Bucharest, ROMANIA",44.43333333333333,26.1,82.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RO,Rumania,nasa_city_country
+"Barnaul, RUSSIA",53.36666666666667,83.75,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Chabarovsk, RUSSIA",48.45,135.1,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Chelyabinsk, RUSSIA",55.166666666666664,61.4,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Ekaterinburg, RUSSIA",48.083333333333336,39.666666666666664,272.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Irkutsk, RUSSIA",52.266666666666666,104.33333333333333,467.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Izevsk, RUSSIA",56.85,53.233333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Jaroslavl', RUSSIA",57.61666666666667,39.86666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Kazan, RUSSIA",55.81666666666667,49.13333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Krasnodar, RUSSIA",45.03333333333333,39.0,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Krasnojarsk, RUSSIA",56.016666666666666,92.83333333333333,151.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Kujbysev, RUSSIA",53.2,50.15,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Moscow, RUSSIA",55.75,37.583333333333336,153.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Gorki, RUSSIA",56.333333333333336,44.0,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Novokuzneck, RUSSIA",53.75,87.1,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Novosibirsk, RUSSIA",55.03333333333333,82.91666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Omsk, RUSSIA",55.0,73.4,85.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Perm, RUSSIA",58.0,56.25,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Rostov-na-Donu, RUSSIA",47.233333333333334,39.7,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"St. Petersburg, RUSSIA",59.916666666666664,30.25,4.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Samara, RUSSIA",53.2,50.15,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Saratov, RUSSIA",51.56666666666667,46.03333333333333,60.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Toljatti, RUSSIA",53.516666666666666,49.43333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Tula, RUSSIA",54.2,37.61666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Ufa, RUSSIA",54.733333333333334,55.93333333333333,174.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Uljanovsk, RUSSIA",54.333333333333336,48.4,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Vladivostok, RUSSIA",43.166666666666664,131.93333333333334,28.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Volgograd, RUSSIA",48.733333333333334,44.416666666666664,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Voronez, RUSSIA",51.666666666666664,39.166666666666664,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RU,Rusia,nasa_city_country
+"Beograd, SERBIA AND MONTENEGRO",44.833333333333336,20.5,138.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,RS,Serbia,nasa_city_country
+"Bratislava, SLOVAKIA",48.15,17.116666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,SK,Eslovaquia,nasa_city_country
+"Ljubljana, SLOVENIA",46.05,14.516666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,SI,Eslovenia,nasa_city_country
+"Barcelona, SPAIN",41.38333333333333,2.183333333333333,95.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,ES,España,nasa_city_country
+"Bilbao, SPAIN",43.25,-2.966666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,ES,España,nasa_city_country
+"Madrid, SPAIN",40.4,-3.6833333333333336,666.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,ES,España,nasa_city_country
+"Sevilla, SPAIN",37.38333333333333,-5.983333333333333,29.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,ES,España,nasa_city_country
+"Valencia, SPAIN",39.46666666666667,-0.36666666666666664,24.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,ES,España,nasa_city_country
+"Goteborg, SWEDEN",57.71666666666667,11.966666666666667,16.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,SE,Suecia,nasa_city_country
+"Stockholm, SWEDEN",59.333333333333336,18.05,44.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,SE,Suecia,nasa_city_country
+"Basel, SWITZERLAND",47.55,7.583333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,CH,Suiza,nasa_city_country
+"Bern, SWITZERLAND",46.95,7.433333333333334,572.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,CH,Suiza,nasa_city_country
+"Geneva, SWITZERLAND",46.2,6.15,405.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,CH,Suiza,nasa_city_country
+"Zurich, SWITZERLAND",47.38333333333333,8.533333333333333,492.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,CH,Suiza,nasa_city_country
+"Char'kov, UKRAINE",50.0,36.25,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,UA,Ucrania,nasa_city_country
+"Dnepropetrovsk, UKRAINE",48.45,34.983333333333334,78.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,UA,Ucrania,nasa_city_country
+"Doneck, UKRAINE",48.0,37.8,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,UA,Ucrania,nasa_city_country
+"Kharkov, UKRAINE",50.0,36.25,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,UA,Ucrania,nasa_city_country
+"Kiev, UKRAINE",50.43333333333333,30.516666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,UA,Ucrania,nasa_city_country
+"Krivoj Rog, UKRAINE",47.916666666666664,33.35,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,UA,Ucrania,nasa_city_country
+"Lugansk, UKRAINE",48.56666666666667,39.333333333333336,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,UA,Ucrania,nasa_city_country
+"L'vov, UKRAINE",49.833333333333336,24.0,298.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,UA,Ucrania,nasa_city_country
+"Odessa, UKRAINE",46.46666666666667,30.733333333333334,65.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,UA,Ucrania,nasa_city_country
+"Stachanov, UKRAINE",48.56666666666667,38.666666666666664,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,UA,Ucrania,nasa_city_country
+"Zaporozje, UKRAINE",47.833333333333336,35.166666666666664,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,UA,Ucrania,nasa_city_country
+"Birmingham, UK",52.5,-1.8333333333333335,163.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Brighton, UK",50.833333333333336,-0.13333333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Bristol, UK",51.45,-2.5833333333333335,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Coventry, UK",52.416666666666664,-1.5,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Leeds, UK",53.833333333333336,-1.5833333333333335,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Leicester, UK",52.63333333333333,-1.0833333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Liverpool, UK",53.416666666666664,-2.9166666666666665,60.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"London, UK",51.5,-0.16666666666666666,45.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Manchester, UK",53.5,-2.25,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Middlesbrough, UK",54.583333333333336,-1.2333333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Newcastle upon Tyne, UK",54.983333333333334,-1.5833333333333335,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Nottingham, UK",52.96666666666667,-1.1666666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Portsmouth, UK",50.8,-1.0833333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Sheffield, UK",53.38333333333333,-1.5,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Belfast, UK",54.583333333333336,-5.916666666666667,17.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Cardiff, UK",51.483333333333334,-3.216666666666667,61.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Edinburgh, UK",55.95,-3.216666666666667,134.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Glasgow, UK",55.88333333333333,-4.25,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-eu.js,GB,Reino Unido,nasa_city_country
+"Algiers, ALGERIA",36.78333333333333,3.05,59.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,DZ,Argelia,nasa_city_country
+"Annaba, ALGERIA",36.9,7.766666666666667,20.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,DZ,Argelia,nasa_city_country
+"Constantine, ALGERIA",36.36666666666667,6.616666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,DZ,Argelia,nasa_city_country
+"Oran, ALGERIA",35.71666666666667,-0.7166666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,DZ,Argelia,nasa_city_country
+"Luanda, ANGOLA",-8.8,13.233333333333333,59.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,AO,Angola,nasa_city_country
+"Georgetown, ASCENSION IS.",-7.95,-14.366666666666667,16.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,SH,"Santa Elena, Ascensión y Tristán de Acuña",nasa_city_country
+"Ponta Delgada, AZORES",37.733333333333334,-25.666666666666668,36.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,PT,Portugal,nasa_city_country
+"Cotonou, BENIN",6.35,2.4333333333333336,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,BJ,Benín,nasa_city_country
+"Porto-Novo, BENIN",6.483333333333333,2.6166666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,BJ,Benín,nasa_city_country
+"Gaborone, BOTSWANA",-24.75,25.916666666666668,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,BW,Botsuana,nasa_city_country
+"Ouagadougou, BURKINA FASO",12.366666666666667,-1.5166666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,BF,Burkina Faso,nasa_city_country
+"Bujumbura, BURUNDI",-3.3833333333333333,29.366666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,BI,Burundi,nasa_city_country
+"Douala, CAMEROON",4.05,9.7,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CM,Camerún,nasa_city_country
+"Yaounde, CAMEROON",3.8666666666666667,11.516666666666667,769.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CM,Camerún,nasa_city_country
+"Bangui, CENTRAL AFRICAN REPUBLIC",4.366666666666666,18.583333333333332,387.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CF,República Centroafricana,nasa_city_country
+"Ndjamena, CHAD",12.116666666666667,15.05,295.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,TD,Chad,nasa_city_country
+"Brazzaville, CONGO",-4.266666666666667,15.283333333333333,317.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CG,República del Congo,nasa_city_country
+"Pointe-Noire, CONGO",-4.8,11.85,50.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CG,República del Congo,nasa_city_country
+"Kinshasa, DEM. REP. OF THE CONGO",-4.3,15.3,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CD,República Democrática del Congo,nasa_city_country
+"Kolwezi, DEM. REP. OF THE CONGO",-10.716666666666667,25.466666666666665,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CD,República Democrática del Congo,nasa_city_country
+"Lubumbashi, DEM. REP. OF THE CONGO",-11.666666666666666,27.466666666666665,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CD,República Democrática del Congo,nasa_city_country
+"Mbuji-Mayi, DEM. REP. OF THE CONGO",-6.15,23.633333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CD,República Democrática del Congo,nasa_city_country
+"Djibouti, DJIBOUTI",11.6,43.15,7.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,DJ,Yibuti,nasa_city_country
+"Alexandria, EGYPT",31.2,29.9,32.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,EG,Egipto,nasa_city_country
+"Al-Mansurah, EGYPT",26.466666666666665,31.8,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,EG,Egipto,nasa_city_country
+"Asyut, EGYPT",27.183333333333334,31.183333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,EG,Egipto,nasa_city_country
+"Bur Said, EGYPT",31.266666666666666,32.3,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,EG,Egipto,nasa_city_country
+"Cairo, EGYPT",30.05,31.25,116.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,EG,Egipto,nasa_city_country
+"Giza, EGYPT",30.016666666666666,31.216666666666665,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,EG,Egipto,nasa_city_country
+"Suez, EGYPT",29.966666666666665,32.55,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,EG,Egipto,nasa_city_country
+"Asmara, ERITREA",15.333333333333334,38.93333333333333,2325.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ER,Eritrea,nasa_city_country
+"Addis Abeba, ETHIOPIA",9.033333333333333,38.7,2450.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ET,Etiopía,nasa_city_country
+"Libreville, GABON",0.38333333333333336,9.45,35.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,GA,Gabón,nasa_city_country
+"Banjul, GAMBIA",13.466666666666667,-16.65,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,GM,Gambia,nasa_city_country
+"Accra, GHANA",5.55,-0.21666666666666667,26.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,GH,Ghana,nasa_city_country
+"Kumasi, GHANA",6.683333333333334,-1.5833333333333335,287.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,GH,Ghana,nasa_city_country
+"Conakry, GUINEA",9.516666666666667,-13.716666666666667,7.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,GN,Guinea,nasa_city_country
+"Bissau, GUINEA-BISSAU",11.85,-15.583333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,GW,Guinea-Bisáu,nasa_city_country
+"Abidjan, IVORY COAST",5.316666666666666,-4.033333333333333,19.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CI,Costa de Marfil,nasa_city_country
+"Bouake, IVORY COAST",7.683333333333334,-5.033333333333333,363.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CI,Costa de Marfil,nasa_city_country
+"Yamoussoukro, IVORY COAST",6.816666666666666,-5.283333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,CI,Costa de Marfil,nasa_city_country
+"Mombasa, KENYA",-4.05,39.666666666666664,15.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,KE,Kenia,nasa_city_country
+"Nairobi, KENYA",-1.2833333333333332,36.81666666666667,1820.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,KE,Kenia,nasa_city_country
+"Maseru, LESOTHO",-29.3,27.5,1560.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,LS,Lesoto,nasa_city_country
+"Monrovia, LIBERIA",6.3,-10.783333333333333,22.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,LR,Liberia,nasa_city_country
+"Banghazi, LIBYA",32.11666666666667,20.066666666666666,25.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,LY,Libia,nasa_city_country
+"Tripoli, LIBYA",32.9,13.183333333333334,21.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,LY,Libia,nasa_city_country
+"Antananarivo, MADAGASCAR",-18.916666666666668,47.516666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MG,Madagascar,nasa_city_country
+"Fianarantsoa, MADAGASCAR",-21.433333333333334,47.083333333333336,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MG,Madagascar,nasa_city_country
+"Blantyre, MALAWI",-15.783333333333333,35.0,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MW,Malaui,nasa_city_country
+"Lilongwe, MALAWI",-13.983333333333333,33.733333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MW,Malaui,nasa_city_country
+"Bamako, MALI",12.65,-8.0,340.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ML,Malí,nasa_city_country
+"Nouakchott, MAURITANIA",18.1,-15.95,21.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MR,Mauritania,nasa_city_country
+"Casablanca, MOROCCO",33.6,-7.633333333333333,8.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MA,Marruecos,nasa_city_country
+"Fes, MOROCCO",34.083333333333336,-4.95,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MA,Marruecos,nasa_city_country
+"Marrakech, MOROCCO",31.633333333333333,-8.0,459.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MA,Marruecos,nasa_city_country
+"Rabat, MOROCCO",34.03333333333333,-6.85,64.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MA,Marruecos,nasa_city_country
+"Tangier, MOROCCO",35.8,-5.75,72.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MA,Marruecos,nasa_city_country
+"Beira, MOZAMBIQUE",-19.816666666666666,34.86666666666667,8.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MZ,Mozambique,nasa_city_country
+"Maputo, MOZAMBIQUE",-25.966666666666665,32.583333333333336,59.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,MZ,Mozambique,nasa_city_country
+"Windhoek, NAMIBIA",-22.566666666666666,17.1,1727.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NA,Namibia,nasa_city_country
+"Niamey, NIGER",13.516666666666667,2.1166666666666667,216.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NE,Níger,nasa_city_country
+"Abeokuta, NIGERIA",7.15,3.35,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NG,Nigeria,nasa_city_country
+"Enugu, NIGERIA",6.45,7.45,232.6,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NG,Nigeria,nasa_city_country
+"Ibadan, NIGERIA",7.383333333333334,3.9,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NG,Nigeria,nasa_city_country
+"Ilesha, NIGERIA",7.633333333333333,4.75,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NG,Nigeria,nasa_city_country
+"Ilorin, NIGERIA",8.5,4.533333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NG,Nigeria,nasa_city_country
+"Kano, NIGERIA",12.0,8.5,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NG,Nigeria,nasa_city_country
+"Lagos, NIGERIA",6.45,3.4,3.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NG,Nigeria,nasa_city_country
+"Ogbomosho, NIGERIA",8.133333333333333,4.25,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NG,Nigeria,nasa_city_country
+"Oshogbo, NIGERIA",7.783333333333333,4.566666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NG,Nigeria,nasa_city_country
+"Port Harcourt, NIGERIA",4.783333333333333,7.016666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NG,Nigeria,nasa_city_country
+"Zaria, NIGERIA",11.116666666666667,7.733333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,NG,Nigeria,nasa_city_country
+"Sao Tome, SAO TOME & PRINCIPE",0.3333333333333333,6.733333333333333,4.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ST,Santo Tomé y Príncipe,nasa_city_country
+"Dakar, SENEGAL",14.666666666666666,-17.433333333333334,39.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,SN,Senegal,nasa_city_country
+"Freetown, SIERRA LEONE",8.5,-13.25,28.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,SL,Sierra Leona,nasa_city_country
+"Moqadisho, SOMALIA",2.066666666666667,45.36666666666667,11.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,SO,Somalia,nasa_city_country
+"Cape Town, SOUTH AFRICA",-33.916666666666664,18.416666666666668,38.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZA,Sudáfrica,nasa_city_country
+"Durban, SOUTH AFRICA",-29.916666666666668,30.933333333333334,4.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZA,Sudáfrica,nasa_city_country
+"East London, SOUTH AFRICA",-33.0,27.916666666666668,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZA,Sudáfrica,nasa_city_country
+"Johannesburg, SOUTH AFRICA",-26.25,28.0,1700.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZA,Sudáfrica,nasa_city_country
+"Port Elizabeth, SOUTH AFRICA",-33.96666666666667,25.616666666666667,57.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZA,Sudáfrica,nasa_city_country
+"Pretoria, SOUTH AFRICA",-25.75,28.166666666666668,1368.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZA,Sudáfrica,nasa_city_country
+"Soweto, SOUTH AFRICA",-26.233333333333334,27.9,1665.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZA,Sudáfrica,nasa_city_country
+"Vereeniging, SOUTH AFRICA",-26.633333333333333,27.95,1460.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZA,Sudáfrica,nasa_city_country
+"Khartoum, SUDAN",15.6,32.53333333333333,389.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,SD,Sudán,nasa_city_country
+"Al-Khartum Bahri, SUDAN",15.633333333333333,32.55,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,SD,Sudán,nasa_city_country
+"Umm Durman, SUDAN",15.633333333333333,32.5,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,SD,Sudán,nasa_city_country
+"Dar-es-Salaam, TANZANIA",-6.8,39.28333333333333,14.3,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,TZ,Tanzania,nasa_city_country
+"Mwanza, TANZANIA",-2.5166666666666666,32.9,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,TZ,Tanzania,nasa_city_country
+"Lome, TOGO",6.133333333333334,1.2166666666666668,21.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,TG,Togo,nasa_city_country
+"Sfax, TUNISIA",34.733333333333334,10.766666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,TN,Túnez,nasa_city_country
+"Tunis, TUNISIA",36.8,10.183333333333334,66.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,TN,Túnez,nasa_city_country
+"Kampala, UGANDA",0.31666666666666665,32.583333333333336,1311.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,UG,Uganda,nasa_city_country
+"El Aaiun, WESTERN SAHARA",27.15,-13.2,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,EH,Sahara Occidental,nasa_city_country
+"Kitwe, ZAMBIA",-12.816666666666666,28.216666666666665,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZM,Zambia,nasa_city_country
+"Lusaka, ZAMBIA",-15.416666666666666,28.283333333333335,1277.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZM,Zambia,nasa_city_country
+"Ndola, ZAMBIA",-12.966666666666667,28.633333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZM,Zambia,nasa_city_country
+"Bulawayo, ZIMBABWE",-20.15,28.6,1342.6,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZW,Zimbabue,nasa_city_country
+"Harare, ZIMBABWE",-17.833333333333332,31.05,1472.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-af.js,ZW,Zimbabue,nasa_city_country
+"Jerevan, ARMENIA",40.18333333333333,44.5,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,AM,Armenia,nasa_city_country
+"Baku, AZERBAIJAN",40.38333333333333,49.85,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,AZ,Azerbaiyán,nasa_city_country
+"Ganca, AZERBAIJAN",40.666666666666664,46.36666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,AZ,Azerbaiyán,nasa_city_country
+"Al-Manamah, BAHRAIN",26.216666666666665,50.583333333333336,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,BH,Baréin,nasa_city_country
+"Tbilisi, GEORGIA",41.71666666666667,44.81666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,GE,Georgia,nasa_city_country
+"Esfahan, IRAN",32.666666666666664,51.63333333333333,1596.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IR,Irán,nasa_city_country
+"Mashhad, IRAN",36.3,59.6,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IR,Irán,nasa_city_country
+"Tabriz, IRAN",38.083333333333336,46.3,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IR,Irán,nasa_city_country
+"Tehran, IRAN",35.666666666666664,51.43333333333333,1200.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IR,Irán,nasa_city_country
+"Basra, IRAQ",30.5,47.78333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IQ,Irak,nasa_city_country
+"Baghdad, IRAQ",33.35,44.416666666666664,33.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IQ,Irak,nasa_city_country
+"Haifa, ISRAEL",32.81666666666667,34.983333333333334,7.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IL,Israel,nasa_city_country
+"Jerusalem, ISRAEL",31.766666666666666,35.233333333333334,808.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IL,Israel,nasa_city_country
+"Tel Aviv-Yafo, ISRAEL",32.06666666666667,34.766666666666666,10.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IL,Israel,nasa_city_country
+"Amman, JORDAN",31.95,35.93333333333333,776.3,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,JO,Jordania,nasa_city_country
+"Kuwait City, KUWAIT",29.333333333333332,47.983333333333334,4.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,KW,Kuwait,nasa_city_country
+"Beirut, LEBANON",33.88333333333333,35.5,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,LB,Líbano,nasa_city_country
+"Tripoli, LEBANON",34.43333333333333,35.85,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,LB,Líbano,nasa_city_country
+"Doha, QATAR",25.283333333333335,51.53333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,QA,Catar,nasa_city_country
+"Jiddah, SAUDI ARABIA",21.5,39.2,6.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,SA,Arabia Saudita,nasa_city_country
+"Mecca, SAUDI ARABIA",21.4225,39.80722222222222,304.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,SA,Arabia Saudita,nasa_city_country
+"Riyadh, SAUDI ARABIA",24.633333333333333,46.71666666666667,590.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,SA,Arabia Saudita,nasa_city_country
+"Damascus, SYRIA",33.5,36.3,719.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,SY,Siria,nasa_city_country
+"Halab, SYRIA",36.2,37.166666666666664,390.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,SY,Siria,nasa_city_country
+"Adana, TURKEY",37.016666666666666,35.3,25.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,TR,Turquía,nasa_city_country
+"Ankara, TURKEY",39.93333333333333,32.86666666666667,861.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,TR,Turquía,nasa_city_country
+"Antalya, TURKEY",36.88333333333333,30.7,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,TR,Turquía,nasa_city_country
+"Bursa, TURKEY",40.18333333333333,29.066666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,TR,Turquía,nasa_city_country
+"Gaziantep, TURKEY",37.083333333333336,37.36666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,TR,Turquía,nasa_city_country
+"Istanbul, TURKEY",41.016666666666666,28.966666666666665,18.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,TR,Turquía,nasa_city_country
+"Izmir, TURKEY",38.416666666666664,27.15,28.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,TR,Turquía,nasa_city_country
+"Konya, TURKEY",37.86666666666667,32.516666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,TR,Turquía,nasa_city_country
+"Abu Dhabi, UNITED ARAB EMIRATES",24.466666666666665,54.36666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,AE,Emiratos Árabes Unidos,nasa_city_country
+"Dubayy, UNITED ARAB EMIRATES",25.3,55.3,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,AE,Emiratos Árabes Unidos,nasa_city_country
+"Adan, YEMEN",12.783333333333333,45.03333333333333,21.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,YE,Yemen,nasa_city_country
+"Sana, YEMEN",15.383333333333333,44.2,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,YE,Yemen,nasa_city_country
+"Kabul, AFGHANISTAN",34.516666666666666,69.2,1815.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,AF,Afganistán,nasa_city_country
+"Chittagong, BANGLADESH",22.333333333333332,91.83333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,BD,Bangladés,nasa_city_country
+"Dacca, BANGLADESH",23.716666666666665,90.41666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,BD,Bangladés,nasa_city_country
+"Anshan, CHINA",41.13333333333333,122.98333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Baotou, CHINA",40.666666666666664,109.98333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Beijing, CHINA",39.916666666666664,116.41666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Changchun, CHINA",43.88333333333333,125.31666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Changsha, CHINA",28.2,112.96666666666667,49.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Chao'an, CHINA",23.683333333333334,116.63333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Chengdu, CHINA",30.65,104.06666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Chongqing, CHINA",29.566666666666666,106.58333333333333,260.6,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Dairen, CHINA",38.88333333333333,121.58333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Dongguan, CHINA",23.05,113.76666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Fushun, CHINA",41.86666666666667,123.88333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Fuzhou, CHINA",26.1,119.28333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Guangzhou, CHINA",23.1,113.26666666666667,18.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Guiyang, CHINA",26.583333333333332,106.71666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Hangzhou, CHINA",30.25,120.16666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Harbin, CHINA",45.75,126.68333333333334,145.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Kirin, CHINA",43.85,126.55,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Kunming, CHINA",25.083333333333332,102.66666666666667,1893.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Lanzhou, CHINA",36.05,103.68333333333334,1556.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Nanchuang, CHINA",24.6,120.98333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Nanjing, CHINA",32.05,118.78333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Pingxiang, CHINA",27.633333333333333,113.83333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Qingdao, CHINA",36.1,120.31666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Qiqihar, CHINA",47.31666666666667,123.91666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Shanghai, CHINA",31.233333333333334,121.46666666666667,4.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Shenyang, CHINA",41.8,123.45,42.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Shijiazhuang, CHINA",38.05,114.46666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Shuicheng, CHINA",26.683333333333334,104.83333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Suining, CHINA",30.516666666666666,105.56666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Taian, CHINA",36.2,117.11666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Taiyuan, CHINA",37.916666666666664,112.5,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Tangshan, CHINA",39.63333333333333,118.18333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Tianjin, CHINA",39.13333333333333,117.2,4.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Tsinan, CHINA",36.666666666666664,116.95,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Wuhan, CHINA",30.6,114.28333333333333,22.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Urumchi, CHINA",43.8,87.58333333333333,905.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Xian, CHINA",34.25,108.86666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Xiaogan, CHINA",30.916666666666668,113.9,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Xintai, CHINA",35.9,117.73333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Yancheng, CHINA",33.4,120.15,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Yulin, CHINA",22.6,110.11666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Zaozhuang, CHINA",34.88333333333333,117.56666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Zhengzhou, CHINA",34.8,113.65,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Zhongshan, CHINA",22.516666666666666,113.36666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Zibo, CHINA",36.78333333333333,118.01666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,CN,China,nasa_city_country
+"Victoria, HONG KONG",22.283333333333335,114.15,33.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,HK,Hong Kong,nasa_city_country
+"Ahmadabad, INDIA",23.033333333333335,72.61666666666666,54.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Bangalore, INDIA",12.983333333333333,77.58333333333333,895.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Bombay, INDIA",18.966666666666665,72.83333333333333,8.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Calcutta, INDIA",22.533333333333335,88.36666666666666,6.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Delhi, INDIA",28.666666666666668,77.21666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Hyderabad, INDIA",17.383333333333333,78.48333333333333,530.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Jaipur, INDIA",26.916666666666668,75.81666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Kanpur, INDIA",26.466666666666665,80.35,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Lucknow, INDIA",26.85,80.91666666666667,121.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Madras, INDIA",13.083333333333334,80.28333333333333,15.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Nagpur, INDIA",21.15,79.1,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"New Delhi, INDIA",28.6,77.2,211.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Patna, INDIA",25.6,85.11666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Pune, INDIA",18.533333333333335,73.86666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Vishakhapatnam, INDIA",17.7,83.3,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,IN,India,nasa_city_country
+"Fukuoka, JAPAN",33.583333333333336,130.4,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,JP,Japón,nasa_city_country
+"Nagoya, JAPAN",35.166666666666664,136.91666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,JP,Japón,nasa_city_country
+"Osaka, JAPAN",34.666666666666664,135.5,14.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,JP,Japón,nasa_city_country
+"Sapporo, JAPAN",43.05,141.35,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,JP,Japón,nasa_city_country
+"Tokyo, JAPAN",35.7,139.76666666666668,5.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,JP,Japón,nasa_city_country
+"Yokohama, JAPAN",35.45,139.65,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,JP,Japón,nasa_city_country
+"Alma-Ata, KAZAKHSTAN",43.25,76.95,775.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,KZ,Kazajistán,nasa_city_country
+"Cimkent, KAZAKHSTAN",42.3,69.6,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,KZ,Kazajistán,nasa_city_country
+"Karaganda, KAZAKHSTAN",49.833333333333336,73.16666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,KZ,Kazajistán,nasa_city_country
+"Bishkek (Frunze), KYRGYZSTAN",42.9,74.6,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,KG,Kirguistán,nasa_city_country
+"Vientiane, LAOS",17.966666666666665,102.6,170.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,LA,Laos,nasa_city_country
+"Macau, MACAU",22.233333333333334,113.58333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,MO,Macao,nasa_city_country
+"Ulaanbaatar, MONGOLIA",47.916666666666664,106.88333333333334,1306.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,MN,Mongolia,nasa_city_country
+"Kathmandu, NEPAL",27.716666666666665,85.31666666666666,1348.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,NP,Nepal,nasa_city_country
+"P'yongyang, NORTH KOREA",39.016666666666666,125.75,28.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,KP,Corea del Norte,nasa_city_country
+"Islamabad, PAKISTAN",33.7,73.16666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,PK,Pakistán,nasa_city_country
+"Karachi, PAKISTAN",24.866666666666667,67.05,4.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,PK,Pakistán,nasa_city_country
+"Lahore, PAKISTAN",31.583333333333332,74.3,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,PK,Pakistán,nasa_city_country
+"Pusan, SOUTH KOREA",35.1,129.05,1.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,KR,Corea del Sur,nasa_city_country
+"Seoul, SOUTH KOREA",37.55,126.96666666666667,10.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,KR,Corea del Sur,nasa_city_country
+"Taegu, SOUTH KOREA",35.86666666666667,128.58333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,KR,Corea del Sur,nasa_city_country
+"Colombo, SRI LANKA",6.933333333333334,79.85,6.7,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,LK,Sri Lanka,nasa_city_country
+"Taipei, TAIWAN",25.05,121.5,6.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,TW,Taiwán,nasa_city_country
+"Dusanbe, TAJIKISTAN",38.583333333333336,68.8,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,TJ,Tayikistán,nasa_city_country
+"Aschabad, TURKMENISTAN",37.95,58.38333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,TM,Turkmenistán,nasa_city_country
+"Taskent, UZBEKISTAN",41.333333333333336,69.3,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-as.js,UZ,Uzbekistán,nasa_city_country
+"Bandar Seri Begawan, BRUNEI",4.933333333333334,114.91666666666667,3.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,BN,Brunéi,nasa_city_country
+"Phnum Penh, CAMBODIA",11.55,104.91666666666667,11.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,KH,Camboya,nasa_city_country
+"Bandung, INDONESIA",-6.9,107.6,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Banyuwangi, INDONESIA",-8.2,114.35,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Bekasi, INDONESIA",-6.233333333333333,106.98333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Bojonegoro, INDONESIA",-7.15,111.86666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Brebes, INDONESIA",-6.883333333333333,109.05,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Cianjur, INDONESIA",-6.816666666666666,107.13333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Cibinong, INDONESIA",-6.45,106.85,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Cikampek, INDONESIA",-6.4,107.45,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Cilacap, INDONESIA",-7.733333333333333,109.0,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Ciledug, INDONESIA",-6.9,108.73333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Cimahi, INDONESIA",-6.883333333333333,107.53333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Ciparay, INDONESIA",-7.05,107.71666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Denpasar, INDONESIA",-8.65,115.21666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Depok, INDONESIA",-6.4,106.83333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Dumai, INDONESIA",1.6833333333333333,101.45,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Garut, INDONESIA",-7.216666666666667,107.9,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Genteng, INDONESIA",-8.366666666666667,114.15,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Gresik, INDONESIA",-7.15,112.63333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Indramayu, INDONESIA",-6.333333333333333,108.31666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Jakarta, INDONESIA",-6.166666666666667,106.8,7.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Jember, INDONESIA",-8.166666666666666,113.7,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Jepara, INDONESIA",-6.583333333333333,110.65,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Jombang, INDONESIA",-7.55,112.23333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Krawang, INDONESIA",-6.316666666666666,107.28333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Kebumen, INDONESIA",-7.666666666666667,109.65,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Kisaran, INDONESIA",2.9833333333333334,99.61666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Klangenang, INDONESIA",-6.7,108.43333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Klaten, INDONESIA",-7.7,110.58333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Lumajang, INDONESIA",-8.133333333333333,113.21666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Majalaya, INDONESIA",-7.05,107.75,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Makasar, INDONESIA",-5.116666666666666,119.4,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Mataram, INDONESIA",-8.583333333333334,116.11666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Medan, INDONESIA",3.5833333333333335,98.66666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Muncar, INDONESIA",-8.433333333333334,114.33333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Padangsidempuan, INDONESIA",1.3666666666666667,99.26666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Palembang, INDONESIA",-2.9166666666666665,104.75,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Pare, INDONESIA",-7.766666666666667,112.18333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Pati, INDONESIA",-6.75,111.01666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Pemalang, INDONESIA",-6.9,109.36666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Ponorogo, INDONESIA",-7.866666666666667,111.45,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Pringsewu, INDONESIA",-5.4,104.91666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Purwokerto, INDONESIA",-7.416666666666667,109.23333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Semarang, INDONESIA",-6.966666666666667,110.41666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Serang, INDONESIA",-6.116666666666666,106.15,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Sidoarjo, INDONESIA",-7.45,112.71666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Subang, INDONESIA",-6.566666666666666,107.75,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Sumenep, INDONESIA",-7.016666666666667,113.86666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Surabaya, INDONESIA",-7.25,112.75,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Taman, INDONESIA",-7.416666666666667,112.68333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Tangerang, INDONESIA",-6.183333333333334,106.61666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Tasikmalaya, INDONESIA",-7.333333333333333,108.2,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Tembilahan, INDONESIA",-0.31666666666666665,103.15,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Tuban, INDONESIA",-6.9,112.05,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Tulungagung, INDONESIA",-8.066666666666666,111.9,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Yogyakarta, INDONESIA",-7.8,110.36666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,ID,Indonesia,nasa_city_country
+"Kuala Lumpur, MALAYSIA",3.1666666666666665,101.7,33.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,MY,Malasia,nasa_city_country
+"Mandalay, MYANMAR",22.0,96.08333333333333,76.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,MM,Birmania,nasa_city_country
+"Yangon, MYANMAR",16.783333333333335,96.16666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,MM,Birmania,nasa_city_country
+"Noumea, NEW CALEDONIA",-22.266666666666666,166.45,75.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,NC,Nueva Caledonia,nasa_city_country
+"Port Moresby, PAPUA NEW GUINEA",-9.5,147.16666666666666,38.4,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,PG,Papúa Nueva Guinea,nasa_city_country
+"Caloocan, PHILIPPINES",14.65,120.96666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,PH,Filipinas,nasa_city_country
+"Cebu, PHILIPPINES",10.3,123.9,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,PH,Filipinas,nasa_city_country
+"Davao, PHILIPPINES",7.066666666666666,125.6,26.8,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,PH,Filipinas,nasa_city_country
+"Manila, PHILIPPINES",14.583333333333334,121.0,14.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,PH,Filipinas,nasa_city_country
+"Quezon City, PHILIPPINES",14.633333333333333,121.05,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,PH,Filipinas,nasa_city_country
+"Singapore, SINGAPORE",1.2833333333333332,103.85,10.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,SG,Singapur,nasa_city_country
+"Bangkok, THAILAND",13.75,100.51666666666667,16.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,TH,Tailandia,nasa_city_country
+"Hai Phong, VIETNAM",20.866666666666667,106.68333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,VN,Vietnam,nasa_city_country
+"Ha Noi, VIETNAM",21.033333333333335,105.85,6.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,VN,Vietnam,nasa_city_country
+"Ho Chi Minh, VIETNAM",10.75,106.66666666666667,10.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,VN,Vietnam,nasa_city_country
+"Adelaide, AUSTRALIA",-34.916666666666664,138.58333333333334,6.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Alice Springs, AUSTRALIA",-23.7,133.88333333333333,545.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Brisbane, AUSTRALIA",-27.466666666666665,153.03333333333333,5.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Canberra, AUSTRALIA",-35.28333333333333,149.13333333333333,574.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Darwin, AUSTRALIA",-12.466666666666667,130.83333333333334,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Geelong, AUSTRALIA",-38.13333333333333,144.35,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Hobart, AUSTRALIA",-42.88333333333333,147.31666666666666,53.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Melbourne, AUSTRALIA",-37.81666666666667,144.96666666666667,35.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Newcastle, AUSTRALIA",-32.93333333333333,151.76666666666668,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Perth, AUSTRALIA",-31.95,115.85,19.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Rockhampton, AUSTRALIA",-23.383333333333333,150.51666666666668,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Southport, AUSTRALIA",-27.966666666666665,153.41666666666666,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Sydney, AUSTRALIA",-33.86666666666667,151.21666666666667,18.9,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Townsville, AUSTRALIA",-19.266666666666666,146.8,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Wollongong, AUSTRALIA",-34.416666666666664,150.9,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,AU,Australia,nasa_city_country
+"Auckland, NEW ZEALAND",-36.86666666666667,174.76666666666668,7.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,NZ,Nueva Zelanda,nasa_city_country
+"Christchurch, NEW ZEALAND",-43.53333333333333,172.63333333333333,36.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,NZ,Nueva Zelanda,nasa_city_country
+"Dunedin, NEW ZEALAND",-45.86666666666667,170.5,1.2,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,NZ,Nueva Zelanda,nasa_city_country
+"Hamilton, NEW ZEALAND",-37.78333333333333,175.28333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,NZ,Nueva Zelanda,nasa_city_country
+"Manukau, NEW ZEALAND",-37.03333333333333,174.9,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,NZ,Nueva Zelanda,nasa_city_country
+"Wellington, NEW ZEALAND",-41.3,174.78333333333333,126.5,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,NZ,Nueva Zelanda,nasa_city_country
+"Easter Island, CHILE",-27.15,-109.45,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,CL,Chile,nasa_city_country
+"Santa Cruz, Galapagos, ECUADOR",-0.6333333333333333,-90.33333333333333,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,EC,Ecuador,nasa_city_country
+"Suva, FIJI ISLANDS",-18.133333333333333,178.41666666666666,6.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,FJ,Fiyi,nasa_city_country
+"Papeete, FRENCH POLYNESIA",-17.533333333333335,-149.56666666666666,2.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,PF,Polinesia Francesa,nasa_city_country
+"Agana, GUAM",13.466666666666667,144.75,110.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,GU,Guam,nasa_city_country
+"Susupe, Saipan, NORTHERN MARIANA IS.",15.15,145.71666666666667,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,MP,Islas Marianas del Norte,nasa_city_country
+"Pitcairn Island, PITCAIRN",-25.066666666666666,-130.1,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,PN,Islas Pitcairn,nasa_city_country
+"Honolulu, Oahu, USA",21.3,-157.85,2.1,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,US,Estados Unidos,nasa_city_country
+"Apia, WESTERN SAMOA",-13.833333333333334,-171.73333333333332,0.0,ciudad NASA,https://eclipse.gsfc.nasa.gov/JSEX/city-au.js,WS,Samoa,nasa_city_country

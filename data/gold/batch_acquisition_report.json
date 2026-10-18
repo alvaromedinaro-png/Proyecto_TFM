@@ -1,0 +1,152 @@
+{
+  "planning_start": "2026-10-06",
+  "planning_end_exclusive": "2029-10-06",
+  "future_years": 3,
+  "planning_events": 14,
+  "future_catalog_events": 14,
+  "requested_events": 14,
+  "processed_events": 14,
+  "batch_finished": true,
+  "results": [
+    {
+      "event_id": "NASA-SE-09567",
+      "event_date": "2027-02-06",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Referencia central NASA 3",
+      "best_evaluated_destination": "Mar del Plata, ARGENTINA"
+    },
+    {
+      "event_id": "NASA-LE-09710",
+      "event_date": "2027-02-20",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Ndjamena, CHAD",
+      "best_evaluated_destination": "Ndjamena, CHAD"
+    },
+    {
+      "event_id": "NASA-LE-09711",
+      "event_date": "2027-07-18",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Referencia NASA del máximo",
+      "best_evaluated_destination": "Mataram, INDONESIA"
+    },
+    {
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Referencia central NASA 4",
+      "best_evaluated_destination": "Al-Mansurah, EGYPT"
+    },
+    {
+      "event_id": "NASA-LE-09712",
+      "event_date": "2027-08-17",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Santa Cruz, Galapagos, ECUADOR",
+      "best_evaluated_destination": "Santa Cruz, Galapagos, ECUADOR"
+    },
+    {
+      "event_id": "NASA-LE-09713",
+      "event_date": "2028-01-12",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Santo Domingo, DOMINICAN REPUBLIC",
+      "best_evaluated_destination": "Santo Domingo, DOMINICAN REPUBLIC"
+    },
+    {
+      "event_id": "NASA-SE-09569",
+      "event_date": "2028-01-26",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Sevilla, SPAIN",
+      "best_evaluated_destination": "Sevilla, SPAIN"
+    },
+    {
+      "event_id": "NASA-LE-09714",
+      "event_date": "2028-07-06",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Perth, AUSTRALIA",
+      "best_evaluated_destination": "Perth, AUSTRALIA"
+    },
+    {
+      "event_id": "NASA-SE-09570",
+      "event_date": "2028-07-22",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Referencia central NASA 5",
+      "best_evaluated_destination": "Sydney, AUSTRALIA"
+    },
+    {
+      "event_id": "NASA-LE-09715",
+      "event_date": "2028-12-31",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Mandalay, MYANMAR",
+      "best_evaluated_destination": "Mandalay, MYANMAR"
+    },
+    {
+      "event_id": "NASA-SE-09571",
+      "event_date": "2029-01-14",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Ciudad Juarez, MEXICO",
+      "best_evaluated_destination": "Ciudad Juarez, MEXICO"
+    },
+    {
+      "event_id": "NASA-SE-09572",
+      "event_date": "2029-06-12",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Referencia NASA del máximo",
+      "best_evaluated_destination": "Oslo, NORWAY"
+    },
+    {
+      "event_id": "NASA-LE-09716",
+      "event_date": "2029-06-26",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Arequipa, PERU",
+      "best_evaluated_destination": "Arequipa, PERU"
+    },
+    {
+      "event_id": "NASA-SE-09573",
+      "event_date": "2029-07-11",
+      "status": "complete",
+      "climate_failures": [],
+      "reused_preparation": false,
+      "forecast_status": "outside_forecast_horizon",
+      "best_evaluated_location": "Stanley, FALKLAND ISLANDS",
+      "best_evaluated_destination": "Stanley, FALKLAND ISLANDS"
+    }
+  ]
+}

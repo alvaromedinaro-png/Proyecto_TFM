@@ -1,0 +1,6 @@
+numpy>=1.24,<3
+pandas>=2,<3
+requests>=2.31,<3
+beautifulsoup4>=4.12,<5
+# Solo para abrir el notebook de la entrega.
+notebook>=7,<8

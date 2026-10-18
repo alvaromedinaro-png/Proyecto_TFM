@@ -1,0 +1,157 @@
+{
+  "as_of": "2026-10-06",
+  "coverage_end": "3000-11-04",
+  "rows": 4687,
+  "family_counts": {
+    "lunar": 2355,
+    "solar": 2332
+  },
+  "century_sources": [
+    {
+      "family": "solar",
+      "url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2001-2100.html",
+      "file": "data\\bronze\\nasa\\SE2001-2100.html",
+      "sha256": "a9c08f5b4b51d5c85ccfa18d8bfccd98ec8a7d93f06e2d40691943b4105acf9e",
+      "rows": 224
+    },
+    {
+      "family": "solar",
+      "url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2101-2200.html",
+      "file": "data\\bronze\\nasa\\SE2101-2200.html",
+      "sha256": "ab4ce2a70cd658daf1aa932ea978ec35785101ecf35ef448738e05f07a9bc313",
+      "rows": 235
+    },
+    {
+      "family": "solar",
+      "url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2201-2300.html",
+      "file": "data\\bronze\\nasa\\SE2201-2300.html",
+      "sha256": "be6f3baf8d4270130681529d99075a157a3966a13511213d5135308aeaf2cbc5",
+      "rows": 248
+    },
+    {
+      "family": "solar",
+      "url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2301-2400.html",
+      "file": "data\\bronze\\nasa\\SE2301-2400.html",
+      "sha256": "f9aa0c96c68c1499b86e7f5dd42baacb8556541ffdf0b5b9e34c95949ecf0894",
+      "rows": 248
+    },
+    {
+      "family": "solar",
+      "url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2401-2500.html",
+      "file": "data\\bronze\\nasa\\SE2401-2500.html",
+      "sha256": "fd75f5ca083bb25455dd2b39c34878b6cd7147a45005601b3c11d7bcdaac9b36",
+      "rows": 237
+    },
+    {
+      "family": "solar",
+      "url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2501-2600.html",
+      "file": "data\\bronze\\nasa\\SE2501-2600.html",
+      "sha256": "c9f6891662fad9c7dfaea703119c6af553ac7b0ba8a8be16ad8f037dc61375ad",
+      "rows": 225
+    },
+    {
+      "family": "solar",
+      "url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2601-2700.html",
+      "file": "data\\bronze\\nasa\\SE2601-2700.html",
+      "sha256": "4a50b4c26ae28da8759ce3ddd72f888620e22dd3111d2d95913a4c48fdceb817",
+      "rows": 227
+    },
+    {
+      "family": "solar",
+      "url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2701-2800.html",
+      "file": "data\\bronze\\nasa\\SE2701-2800.html",
+      "sha256": "1c7021846a5cc366ef25ef1ed7c0f3fd232f06e9675cd74bdee564a1e083b14e",
+      "rows": 242
+    },
+    {
+      "family": "solar",
+      "url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2801-2900.html",
+      "file": "data\\bronze\\nasa\\SE2801-2900.html",
+      "sha256": "5fc9b93afced87c217f3526f61a0d08f294f974339d1b71887c4b38b09260694",
+      "rows": 254
+    },
+    {
+      "family": "solar",
+      "url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2901-3000.html",
+      "file": "data\\bronze\\nasa\\SE2901-3000.html",
+      "sha256": "38f866f3a11870a810625b35425a3423685bfc3df4a93e80ac5986144644ab2a",
+      "rows": 248
+    },
+    {
+      "family": "lunar",
+      "url": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2001-2100.html",
+      "file": "data\\bronze\\nasa\\LE2001-2100.html",
+      "sha256": "0f640913669a640418f05c173cea0bdeca194fcac6b5b196b6b9ab1b08122792",
+      "rows": 228
+    },
+    {
+      "family": "lunar",
+      "url": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2101-2200.html",
+      "file": "data\\bronze\\nasa\\LE2101-2200.html",
+      "sha256": "3a6838aa16e5ebc775df2cff5a02dd955f0eafdfa3ec1b14fa122bd729041e73",
+      "rows": 238
+    },
+    {
+      "family": "lunar",
+      "url": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2201-2300.html",
+      "file": "data\\bronze\\nasa\\LE2201-2300.html",
+      "sha256": "d4691ebef2adf381c8eccfeaf2d2d64f5b36630a71814869e6b0aabe770ae1a1",
+      "rows": 252
+    },
+    {
+      "family": "lunar",
+      "url": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2301-2400.html",
+      "file": "data\\bronze\\nasa\\LE2301-2400.html",
+      "sha256": "d2c8e8e4530fc13900195b7c975851614a86844e3d176c548d864972b3ec47a2",
+      "rows": 253
+    },
+    {
+      "family": "lunar",
+      "url": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2401-2500.html",
+      "file": "data\\bronze\\nasa\\LE2401-2500.html",
+      "sha256": "ea3751130ef7b62f69da43caad0884b20bbf045f8bb55e05b66ec83218121e85",
+      "rows": 237
+    },
+    {
+      "family": "lunar",
+      "url": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2501-2600.html",
+      "file": "data\\bronze\\nasa\\LE2501-2600.html",
+      "sha256": "847dafdf99b217e07fa53cc1768c6d43e6fd1795f7b7665e647e34a83b685808",
+      "rows": 227
+    },
+    {
+      "family": "lunar",
+      "url": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2601-2700.html",
+      "file": "data\\bronze\\nasa\\LE2601-2700.html",
+      "sha256": "ea5356a89e2c82e571cc0fbb23e18fb4c1f81dc599720652c00e70aebdb0d747",
+      "rows": 230
+    },
+    {
+      "family": "lunar",
+      "url": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2701-2800.html",
+      "file": "data\\bronze\\nasa\\LE2701-2800.html",
+      "sha256": "d8ec56c7a34900d71bf2eedc0981e292b938b077dbe10e619624f330c47dd475",
+      "rows": 241
+    },
+    {
+      "family": "lunar",
+      "url": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2801-2900.html",
+      "file": "data\\bronze\\nasa\\LE2801-2900.html",
+      "sha256": "66fba56986a3ecd74e48dbff559121a4bb6a04c17302205b39926417700ca723",
+      "rows": 259
+    },
+    {
+      "family": "lunar",
+      "url": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2901-3000.html",
+      "file": "data\\bronze\\nasa\\LE2901-3000.html",
+      "sha256": "d981ca4aa0f8a67d17156716be2605b57fdb568c83adaecce55c942dae493469",
+      "rows": 249
+    }
+  ],
+  "catalog_complete": true,
+  "indexes": {
+    "solar": "https://eclipse.gsfc.nasa.gov/SEcat5/catalog.html",
+    "lunar": "https://eclipse.gsfc.nasa.gov/LEcat5/LEcatalog.html"
+  },
+  "attribution": "Eclipse Predictions by Fred Espenak, NASA/GSFC"
+}

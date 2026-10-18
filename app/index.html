@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#122c36">
+  <title>Planificador de eclipses</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="../data/gold/planner_data.js" defer></script>
+  <script src="world-map.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#event-selector">Ir al selector de eclipses</a>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Planificador de eclipses, inicio">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Planificador <strong>de eclipses</strong></span>
+      </a>
+      <span class="offline-badge"><span aria-hidden="true"></span> Consulta sin conexión</span>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Elige una fecha. Explora dónde observar.</p>
+        <h1 id="page-title">Tu próximo eclipse,<br><span>con los datos a mano.</span></h1>
+        <p class="intro-copy">Eclipses solares y lunares, ubicaciones y climatología en un catálogo preparado para los próximos tres años.</p>
+        <div class="catalog-summary" id="catalog-summary" aria-live="polite"></div>
+        <p class="window-notice" id="window-notice" hidden></p>
+      </section>
+
+      <section class="selector-panel" aria-label="Seleccionar un eclipse">
+        <div class="select-field family-field">
+          <label for="family-selector">Tipo de eclipse</label>
+          <select id="family-selector">
+            <option value="all">Solares y lunares</option>
+            <option value="solar">Solo solares</option>
+            <option value="lunar">Solo lunares</option>
+          </select>
+        </div>
+        <div class="select-field event-field">
+          <label for="event-selector">Eclipses por fecha</label>
+          <select id="event-selector" aria-describedby="selector-note"></select>
+        </div>
+        <div class="select-field country-field">
+          <label for="country-selector">País</label>
+          <select id="country-selector" aria-describedby="country-note" disabled></select>
+        </div>
+        <p id="selector-note" class="selector-note">Seleccionar un eclipse o un país utiliza los datos guardados en tu equipo.</p>
+        <p id="country-note" class="selector-note"></p>
+      </section>
+
+      <div id="load-error" class="empty-state" hidden role="alert"></div>
+      <section id="event-content" class="event-content" aria-labelledby="event-title" hidden>
+        <header class="event-header" aria-live="polite" aria-atomic="true">
+          <div>
+            <p class="eyebrow" id="event-date"></p>
+            <h2 id="event-title"></h2>
+          </div>
+          <span id="event-status" class="status-badge"></span>
+        </header>
+        <p id="event-note" class="event-note"></p>
+        <section class="map-panel" aria-labelledby="map-title">
+          <div class="map-heading">
+            <div>
+              <h3 id="map-title">Explora las zonas en el mapa</h3>
+              <p id="map-description">Selecciona un país o un punto para ver sus ubicaciones.</p>
+            </div>
+            <div class="map-controls" aria-label="Controles del mapa">
+              <button type="button" id="map-zoom-in" class="map-button" aria-label="Acercar mapa">+</button>
+              <button type="button" id="map-zoom-out" class="map-button" aria-label="Alejar mapa">−</button>
+              <button type="button" id="map-reset" class="map-button map-reset">Mundo</button>
+            </div>
+          </div>
+          <div id="map-container" class="map-container"></div>
+          <p id="map-selection" class="map-selection" role="status" aria-live="polite">Todos los países disponibles.</p>
+          <div class="map-legend">
+            <span><i class="legend-country" aria-hidden="true"></i> País con zonas disponibles</span>
+            <span><i class="legend-point" aria-hidden="true"></i> Con climatología</span>
+            <span><i class="legend-pending" aria-hidden="true"></i> Climatología pendiente</span>
+          </div>
+          <p class="map-note">Los puntos representan ubicaciones analizadas. El color de un país no significa que el eclipse se vea igual en todo su territorio.</p>
+        </section>
+        <div class="section-heading">
+          <div>
+            <h3 id="locations-title">Ubicaciones para observar</h3>
+            <p id="locations-note"></p>
+          </div>
+          <span class="small-label">Horarios en UTC</span>
+        </div>
+        <div id="locations" class="locations-grid"></div>
+        <div id="locations-empty" class="empty-state" hidden></div>
+        <div class="more-container">
+          <button id="show-more" class="secondary-button" type="button" hidden></button>
+        </div>
+        <aside class="reading-note" aria-label="Cómo interpretar los resultados">
+          <span class="note-icon" aria-hidden="true">i</span>
+          <div>
+            <h3>Cómo leer la climatología</h3>
+            <p>Los porcentajes de cielo despejado y lluvia resumen los años históricos disponibles en la hora de referencia. Cielo despejado significa una nubosidad de hasta el 20 %. La nubosidad media indica cuánto cielo estaba cubierto. Para fechas lejanas, estos datos describen el clima habitual y no anticipan el tiempo de ese día.</p>
+            <p id="forecast-note"></p>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Fuentes: <a href="https://eclipse.gsfc.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA GSFC</a> · <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · Mapa: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a></p>
+      <p id="prepared-at">Datos preparados para consulta local.</p>
+    </footer>
+  </div>
+  <noscript><p class="noscript-note">Activa JavaScript en el navegador para utilizar el selector local.</p></noscript>
+</body>
+</html>

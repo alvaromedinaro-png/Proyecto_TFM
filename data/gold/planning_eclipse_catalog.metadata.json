@@ -1,0 +1,32 @@
+{
+  "planning_start": "2026-10-18",
+  "planning_end_exclusive": "2029-10-18",
+  "future_years": 3,
+  "rows": 14,
+  "family_counts": {
+    "solar": 7,
+    "lunar": 7
+  },
+  "century_sources": [
+    {
+      "family": "solar",
+      "url": "https://eclipse.gsfc.nasa.gov/SEcat5/SE2001-2100.html",
+      "file": "data\\bronze\\nasa\\SE2001-2100.html",
+      "sha256": "a9c08f5b4b51d5c85ccfa18d8bfccd98ec8a7d93f06e2d40691943b4105acf9e",
+      "rows": 224
+    },
+    {
+      "family": "lunar",
+      "url": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2001-2100.html",
+      "file": "data\\bronze\\nasa\\LE2001-2100.html",
+      "sha256": "0f640913669a640418f05c173cea0bdeca194fcac6b5b196b6b9ab1b08122792",
+      "rows": 228
+    }
+  ],
+  "catalog_complete": true,
+  "indexes": {
+    "solar": "https://eclipse.gsfc.nasa.gov/SEcat5/catalog.html",
+    "lunar": "https://eclipse.gsfc.nasa.gov/LEcat5/LEcatalog.html"
+  },
+  "attribution": "Eclipse Predictions by Fred Espenak, NASA/GSFC"
+}
