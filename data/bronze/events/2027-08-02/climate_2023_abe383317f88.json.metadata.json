@@ -1,0 +1,16 @@
+{
+  "source_url": "https://archive-api.open-meteo.com/v1/archive",
+  "params": {
+    "latitude": "28.848333,22.513333,33.361667,26.466667,32.116667,21.500000,34.733333,35.716667,35.800000,15.383333,37.383333,35.900000",
+    "longitude": "27.556667,37.351667,16.045000,31.800000,20.066667,39.200000,10.766667,-0.716667,-5.750000,44.200000,-5.983333,14.516667",
+    "start_date": "2023-07-30",
+    "end_date": "2023-08-05",
+    "hourly": "temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,pressure_msl,surface_pressure,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,precipitation,rain,snowfall,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,shortwave_radiation,sunshine_duration",
+    "timezone": "GMT",
+    "models": "era5"
+  },
+  "resolved_url": "https://archive-api.open-meteo.com/v1/archive?latitude=28.848333%2C22.513333%2C33.361667%2C26.466667%2C32.116667%2C21.500000%2C34.733333%2C35.716667%2C35.800000%2C15.383333%2C37.383333%2C35.900000&longitude=27.556667%2C37.351667%2C16.045000%2C31.800000%2C20.066667%2C39.200000%2C10.766667%2C-0.716667%2C-5.750000%2C44.200000%2C-5.983333%2C14.516667&start_date=2023-07-30&end_date=2023-08-05&hourly=temperature_2m%2Crelative_humidity_2m%2Cdew_point_2m%2Capparent_temperature%2Cpressure_msl%2Csurface_pressure%2Ccloud_cover%2Ccloud_cover_low%2Ccloud_cover_mid%2Ccloud_cover_high%2Cprecipitation%2Crain%2Csnowfall%2Cweather_code%2Cwind_speed_10m%2Cwind_direction_10m%2Cwind_gusts_10m%2Cshortwave_radiation%2Csunshine_duration&timezone=GMT&models=era5",
+  "acquired_utc": "2026-10-09T19:00:46.082993+00:00",
+  "sha256": "220f02ae132b89ffa8a76255080583967b2e992ab7a0d753c3528126ab0e5b9d",
+  "status_code": 200
+}

@@ -25,6 +25,10 @@ python src/eclipse_pipeline.py --catalog-only
 python src/eclipse_pipeline.py --export-only
 # Volver a descargar las fuentes y recalcular.
 python src/eclipse_pipeline.py --refresh
+# Comprobar que datos, informes y código son de la misma versión.
+python src/eclipse_pipeline.py --verify
+# Reconstruir sin red el ejemplo pequeño (2027-08-02, 2022–2026) y comparar hashes.
+python src/eclipse_example.py
 # Ejecutar los tests.
 python -W error::DeprecationWarning -m unittest discover -s tests
 ```
@@ -40,7 +44,7 @@ Open-Meteo limita el uso gratuito a 600 llamadas por minuto, 5.000 por hora y 10
 Un evento solo aparece como **preparado** si tiene al menos 15 años de histórico y no le faltan años ni valores. Los demás casos se marcan así:
 
 - **Parcial:** faltan datos o la última actualización falló; se muestran los resultados anteriores con un aviso.
-- **Pendiente:** la climatología no está preparada o procede de una versión anterior del pipeline.
+- **Pendiente:** la climatología no está preparada o se preparó con otra configuración.
 
 `data/gold/batch_acquisition_report.json` resume el resultado de la última ejecución.
 
@@ -55,8 +59,10 @@ Un evento solo aparece como **preparado** si tiene al menos 15 años de históri
 Se versionan:
 
 - los originales NASA y la cartografía;
-- una respuesta climática de muestra (`data/bronze/events/2027-08-02/climate_2025_*`);
-- las capas Silver y Gold ligeras;
+- las respuestas climáticas de 2022 a 2026 del eclipse de ejemplo (`data/bronze/events/2027-08-02/`, unos 1,1 MB) y su resultado de referencia (`data/example/2027-08-02/`), para reconstruirlo sin red;
+- las capas Silver y Gold ligeras de todos los eventos, incluido el dataset de ML `planning_ml_dataset.csv`, generadas en una misma ejecución;
 - la exportación que abre el selector (`data/gold/planner_data.js`).
 
-Las respuestas climáticas completas, los ficheros horarios de Silver y los catálogos auxiliares hasta el año 3000 se regeneran con el pipeline y están en `.gitignore`. La exploración inicial está en [data/legacy/](data/legacy/README.md), separada del producto.
+Las respuestas climáticas completas, los ficheros horarios de Silver y los catálogos auxiliares hasta el año 3000 se regeneran con el pipeline y están en `.gitignore`.
+
+Para entregar el proyecto, genera el ZIP desde git tras confirmar los cambios (`git archive -o entrega.zip HEAD`): así contiene exactamente los archivos versionados, sin restos locales, y `python src/eclipse_pipeline.py --verify` coincide en la copia descomprimida.
