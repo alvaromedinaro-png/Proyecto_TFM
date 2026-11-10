@@ -1,0 +1,187 @@
+target,model,segment,value,rows,positive_rate,mean_predicted,brier
+clear_sky_proxy,calibrated_climatology,all_rows,todas,624,0.29968,0.23562,0.15668
+clear_sky_proxy,climatology_prior,all_rows,todas,624,0.29968,0.26134,0.15279
+clear_sky_proxy,global_prevalence,all_rows,todas,624,0.29968,0.24992,0.2123
+clear_sky_proxy,gradient_boosting,all_rows,todas,624,0.29968,0.23983,0.15378
+clear_sky_proxy,logistic_full,all_rows,todas,624,0.29968,0.23774,0.15213
+rain_proxy,calibrated_climatology,all_rows,todas,624,0.20994,0.17289,0.13682
+rain_proxy,climatology_prior,all_rows,todas,624,0.20994,0.16542,0.13552
+rain_proxy,global_prevalence,all_rows,todas,624,0.20994,0.17057,0.16764
+rain_proxy,gradient_boosting,all_rows,todas,624,0.20994,0.18014,0.13435
+rain_proxy,logistic_full,all_rows,todas,624,0.20994,0.17781,0.13379
+clear_sky_proxy,calibrated_climatology,event_family,lunar,324,0.23765,0.18766,0.13898
+clear_sky_proxy,calibrated_climatology,event_family,solar,300,0.36667,0.28741,0.1758
+clear_sky_proxy,climatology_prior,event_family,lunar,324,0.23765,0.2081,0.1362
+clear_sky_proxy,climatology_prior,event_family,solar,300,0.36667,0.31885,0.1707
+clear_sky_proxy,global_prevalence,event_family,lunar,324,0.23765,0.24987,0.18131
+clear_sky_proxy,global_prevalence,event_family,solar,300,0.36667,0.24998,0.24576
+clear_sky_proxy,gradient_boosting,event_family,lunar,324,0.23765,0.18743,0.13608
+clear_sky_proxy,gradient_boosting,event_family,solar,300,0.36667,0.29642,0.17289
+clear_sky_proxy,logistic_full,event_family,lunar,324,0.23765,0.1857,0.13245
+clear_sky_proxy,logistic_full,event_family,solar,300,0.36667,0.29395,0.17339
+rain_proxy,calibrated_climatology,event_family,lunar,324,0.24691,0.1795,0.1723
+rain_proxy,calibrated_climatology,event_family,solar,300,0.17,0.16575,0.09849
+rain_proxy,climatology_prior,event_family,lunar,324,0.24691,0.17224,0.1728
+rain_proxy,climatology_prior,event_family,solar,300,0.17,0.15806,0.09526
+rain_proxy,global_prevalence,event_family,lunar,324,0.24691,0.17054,0.19211
+rain_proxy,global_prevalence,event_family,solar,300,0.17,0.17061,0.14122
+rain_proxy,gradient_boosting,event_family,lunar,324,0.24691,0.20638,0.16921
+rain_proxy,gradient_boosting,event_family,solar,300,0.17,0.15179,0.0967
+rain_proxy,logistic_full,event_family,lunar,324,0.24691,0.20253,0.16739
+rain_proxy,logistic_full,event_family,solar,300,0.17,0.15112,0.09749
+clear_sky_proxy,calibrated_climatology,candidate_type,ciudad NASA,537,0.27747,0.21929,0.15252
+clear_sky_proxy,calibrated_climatology,candidate_type,referencia astronómica,87,0.43678,0.33644,0.18234
+clear_sky_proxy,climatology_prior,candidate_type,ciudad NASA,537,0.27747,0.24345,0.1497
+clear_sky_proxy,climatology_prior,candidate_type,referencia astronómica,87,0.43678,0.37176,0.17184
+clear_sky_proxy,global_prevalence,candidate_type,ciudad NASA,537,0.27747,0.24992,0.2012
+clear_sky_proxy,global_prevalence,candidate_type,referencia astronómica,87,0.43678,0.24995,0.28076
+clear_sky_proxy,gradient_boosting,candidate_type,ciudad NASA,537,0.27747,0.22149,0.14837
+clear_sky_proxy,gradient_boosting,candidate_type,referencia astronómica,87,0.43678,0.35302,0.18714
+clear_sky_proxy,logistic_full,candidate_type,ciudad NASA,537,0.27747,0.21755,0.14949
+clear_sky_proxy,logistic_full,candidate_type,referencia astronómica,87,0.43678,0.36237,0.16847
+rain_proxy,calibrated_climatology,candidate_type,ciudad NASA,537,0.21974,0.17868,0.14264
+rain_proxy,calibrated_climatology,candidate_type,referencia astronómica,87,0.14943,0.13714,0.10089
+rain_proxy,climatology_prior,candidate_type,ciudad NASA,537,0.21974,0.17185,0.14094
+rain_proxy,climatology_prior,candidate_type,referencia astronómica,87,0.14943,0.12576,0.10203
+rain_proxy,global_prevalence,candidate_type,ciudad NASA,537,0.21974,0.17057,0.17409
+rain_proxy,global_prevalence,candidate_type,referencia astronómica,87,0.14943,0.17059,0.12786
+rain_proxy,gradient_boosting,candidate_type,ciudad NASA,537,0.21974,0.18819,0.13945
+rain_proxy,gradient_boosting,candidate_type,referencia astronómica,87,0.14943,0.13047,0.10286
+rain_proxy,logistic_full,candidate_type,ciudad NASA,537,0.21974,0.18405,0.13917
+rain_proxy,logistic_full,candidate_type,referencia astronómica,87,0.14943,0.13934,0.10054
+clear_sky_proxy,calibrated_climatology,latitude_band,alta,72,0.25,0.15658,0.18907
+clear_sky_proxy,calibrated_climatology,latitude_band,media,151,0.4702,0.38259,0.20087
+clear_sky_proxy,calibrated_climatology,latitude_band,tropical,401,0.24439,0.19447,0.13423
+clear_sky_proxy,climatology_prior,latitude_band,alta,72,0.25,0.17608,0.18543
+clear_sky_proxy,climatology_prior,latitude_band,media,151,0.4702,0.42599,0.19555
+clear_sky_proxy,climatology_prior,latitude_band,tropical,401,0.24439,0.21465,0.13082
+clear_sky_proxy,global_prevalence,latitude_band,alta,72,0.25,0.24998,0.18784
+clear_sky_proxy,global_prevalence,latitude_band,media,151,0.4702,0.24996,0.29739
+clear_sky_proxy,global_prevalence,latitude_band,tropical,401,0.24439,0.2499,0.18464
+clear_sky_proxy,gradient_boosting,latitude_band,alta,72,0.25,0.15533,0.18954
+clear_sky_proxy,gradient_boosting,latitude_band,media,151,0.4702,0.39498,0.19851
+clear_sky_proxy,gradient_boosting,latitude_band,tropical,401,0.24439,0.19658,0.13051
+clear_sky_proxy,logistic_full,latitude_band,alta,72,0.25,0.14864,0.18598
+clear_sky_proxy,logistic_full,latitude_band,media,151,0.4702,0.38937,0.19802
+clear_sky_proxy,logistic_full,latitude_band,tropical,401,0.24439,0.19664,0.12878
+rain_proxy,calibrated_climatology,latitude_band,alta,72,0.09722,0.14392,0.08424
+rain_proxy,calibrated_climatology,latitude_band,media,151,0.11258,0.13155,0.09463
+rain_proxy,calibrated_climatology,latitude_band,tropical,401,0.26683,0.19366,0.16215
+rain_proxy,climatology_prior,latitude_band,alta,72,0.09722,0.12932,0.08325
+rain_proxy,climatology_prior,latitude_band,media,151,0.11258,0.11554,0.09466
+rain_proxy,climatology_prior,latitude_band,tropical,401,0.26683,0.19069,0.16029
+rain_proxy,global_prevalence,latitude_band,alta,72,0.09722,0.17061,0.09322
+rain_proxy,global_prevalence,latitude_band,media,151,0.11258,0.1706,0.10337
+rain_proxy,global_prevalence,latitude_band,tropical,401,0.26683,0.17056,0.20521
+rain_proxy,gradient_boosting,latitude_band,alta,72,0.09722,0.10661,0.08487
+rain_proxy,gradient_boosting,latitude_band,media,151,0.11258,0.11706,0.0944
+rain_proxy,gradient_boosting,latitude_band,tropical,401,0.26683,0.21709,0.15828
+rain_proxy,logistic_full,latitude_band,alta,72,0.09722,0.11101,0.08488
+rain_proxy,logistic_full,latitude_band,media,151,0.11258,0.10634,0.09702
+rain_proxy,logistic_full,latitude_band,tropical,401,0.26683,0.21672,0.15641
+clear_sky_proxy,calibrated_climatology,climatology_band,0-10 %,186,0.04301,0.03914,0.03933
+clear_sky_proxy,calibrated_climatology,climatology_band,10-30 %,233,0.27039,0.16144,0.19977
+clear_sky_proxy,calibrated_climatology,climatology_band,30-60 %,123,0.43902,0.34669,0.23981
+clear_sky_proxy,calibrated_climatology,climatology_band,60-100 %,82,0.7561,0.72545,0.17575
+clear_sky_proxy,climatology_prior,climatology_band,0-10 %,186,0.04301,0.02923,0.0392
+clear_sky_proxy,climatology_prior,climatology_band,10-30 %,233,0.27039,0.183,0.19404
+clear_sky_proxy,climatology_prior,climatology_band,30-60 %,123,0.43902,0.40598,0.23161
+clear_sky_proxy,climatology_prior,climatology_band,60-100 %,82,0.7561,0.79349,0.17499
+clear_sky_proxy,global_prevalence,climatology_band,0-10 %,186,0.04301,0.24989,0.08398
+clear_sky_proxy,global_prevalence,climatology_band,10-30 %,233,0.27039,0.24994,0.19771
+clear_sky_proxy,global_prevalence,climatology_band,30-60 %,123,0.43902,0.25002,0.2817
+clear_sky_proxy,global_prevalence,climatology_band,60-100 %,82,0.7561,0.24981,0.44069
+clear_sky_proxy,gradient_boosting,climatology_band,0-10 %,186,0.04301,0.03165,0.03867
+clear_sky_proxy,gradient_boosting,climatology_band,10-30 %,233,0.27039,0.17231,0.19144
+clear_sky_proxy,gradient_boosting,climatology_band,30-60 %,123,0.43902,0.34389,0.24342
+clear_sky_proxy,gradient_boosting,climatology_band,60-100 %,82,0.7561,0.74784,0.1734
+clear_sky_proxy,logistic_full,climatology_band,0-10 %,186,0.04301,0.03928,0.03762
+clear_sky_proxy,logistic_full,climatology_band,10-30 %,233,0.27039,0.16478,0.19324
+clear_sky_proxy,logistic_full,climatology_band,30-60 %,123,0.43902,0.33064,0.23314
+clear_sky_proxy,logistic_full,climatology_band,60-100 %,82,0.7561,0.75588,0.17358
+rain_proxy,calibrated_climatology,climatology_band,0-10 %,232,0.06034,0.04647,0.05507
+rain_proxy,calibrated_climatology,climatology_band,10-30 %,292,0.20205,0.18963,0.15966
+rain_proxy,calibrated_climatology,climatology_band,30-60 %,80,0.525,0.36262,0.27862
+rain_proxy,calibrated_climatology,climatology_band,60-100 %,20,0.8,0.6361,0.18431
+rain_proxy,climatology_prior,climatology_band,0-10 %,232,0.06034,0.02049,0.05649
+rain_proxy,climatology_prior,climatology_band,10-30 %,292,0.20205,0.17971,0.15978
+rain_proxy,climatology_prior,climatology_band,30-60 %,80,0.525,0.39545,0.26984
+rain_proxy,climatology_prior,climatology_band,60-100 %,20,0.8,0.71794,0.16073
+rain_proxy,global_prevalence,climatology_band,0-10 %,232,0.06034,0.17048,0.06893
+rain_proxy,global_prevalence,climatology_band,10-30 %,292,0.20205,0.17067,0.16255
+rain_proxy,global_prevalence,climatology_band,30-60 %,80,0.525,0.17048,0.37519
+rain_proxy,global_prevalence,climatology_band,60-100 %,20,0.8,0.17061,0.55684
+rain_proxy,gradient_boosting,climatology_band,0-10 %,232,0.06034,0.04325,0.05323
+rain_proxy,gradient_boosting,climatology_band,10-30 %,292,0.20205,0.19493,0.15802
+rain_proxy,gradient_boosting,climatology_band,30-60 %,80,0.525,0.40432,0.26927
+rain_proxy,gradient_boosting,climatology_band,60-100 %,20,0.8,0.65538,0.19006
+rain_proxy,logistic_full,climatology_band,0-10 %,232,0.06034,0.04791,0.05247
+rain_proxy,logistic_full,climatology_band,10-30 %,292,0.20205,0.1913,0.15739
+rain_proxy,logistic_full,climatology_band,30-60 %,80,0.525,0.38918,0.26887
+rain_proxy,logistic_full,climatology_band,60-100 %,20,0.8,0.64234,0.19211
+clear_sky_proxy,calibrated_climatology,reference_year,2023,159,0.28931,0.23288,0.15496
+clear_sky_proxy,calibrated_climatology,reference_year,2024,159,0.2956,0.23662,0.15887
+clear_sky_proxy,calibrated_climatology,reference_year,2025,159,0.27673,0.24043,0.16811
+clear_sky_proxy,calibrated_climatology,reference_year,2026,147,0.34014,0.23229,0.14382
+clear_sky_proxy,climatology_prior,reference_year,2023,159,0.28931,0.26269,0.15291
+clear_sky_proxy,climatology_prior,reference_year,2024,159,0.2956,0.26369,0.15569
+clear_sky_proxy,climatology_prior,reference_year,2025,159,0.27673,0.26482,0.16832
+clear_sky_proxy,climatology_prior,reference_year,2026,147,0.34014,0.25358,0.13271
+clear_sky_proxy,global_prevalence,reference_year,2023,159,0.28931,0.24648,0.20744
+clear_sky_proxy,global_prevalence,reference_year,2024,159,0.2956,0.24899,0.21039
+clear_sky_proxy,global_prevalence,reference_year,2025,159,0.27673,0.25157,0.20078
+clear_sky_proxy,global_prevalence,reference_year,2026,147,0.34014,0.25288,0.23206
+clear_sky_proxy,gradient_boosting,reference_year,2023,159,0.28931,0.2342,0.15353
+clear_sky_proxy,gradient_boosting,reference_year,2024,159,0.2956,0.24024,0.15906
+clear_sky_proxy,gradient_boosting,reference_year,2025,159,0.27673,0.24668,0.16234
+clear_sky_proxy,gradient_boosting,reference_year,2026,147,0.34014,0.23807,0.13908
+clear_sky_proxy,logistic_full,reference_year,2023,159,0.28931,0.23367,0.15136
+clear_sky_proxy,logistic_full,reference_year,2024,159,0.2956,0.23839,0.15626
+clear_sky_proxy,logistic_full,reference_year,2025,159,0.27673,0.24236,0.16144
+clear_sky_proxy,logistic_full,reference_year,2026,147,0.34014,0.23644,0.13844
+rain_proxy,calibrated_climatology,reference_year,2023,159,0.25157,0.16351,0.15895
+rain_proxy,calibrated_climatology,reference_year,2024,159,0.2327,0.1711,0.15176
+rain_proxy,calibrated_climatology,reference_year,2025,159,0.14465,0.1762,0.09785
+rain_proxy,calibrated_climatology,reference_year,2026,147,0.21088,0.1814,0.13886
+rain_proxy,climatology_prior,reference_year,2023,159,0.25157,0.15973,0.1559
+rain_proxy,climatology_prior,reference_year,2024,159,0.2327,0.16314,0.15133
+rain_proxy,climatology_prior,reference_year,2025,159,0.14465,0.16563,0.09631
+rain_proxy,climatology_prior,reference_year,2026,147,0.21088,0.17382,0.13877
+rain_proxy,global_prevalence,reference_year,2023,159,0.25157,0.16549,0.19569
+rain_proxy,global_prevalence,reference_year,2024,159,0.2327,0.17053,0.18242
+rain_proxy,global_prevalence,reference_year,2025,159,0.14465,0.17397,0.12459
+rain_proxy,global_prevalence,reference_year,2026,147,0.21088,0.17244,0.16789
+rain_proxy,gradient_boosting,reference_year,2023,159,0.25157,0.16985,0.15079
+rain_proxy,gradient_boosting,reference_year,2024,159,0.2327,0.1767,0.14684
+rain_proxy,gradient_boosting,reference_year,2025,159,0.14465,0.18471,0.10232
+rain_proxy,gradient_boosting,reference_year,2026,147,0.21088,0.19005,0.1377
+rain_proxy,logistic_full,reference_year,2023,159,0.25157,0.16808,0.15256
+rain_proxy,logistic_full,reference_year,2024,159,0.2327,0.17595,0.14721
+rain_proxy,logistic_full,reference_year,2025,159,0.14465,0.18102,0.1022
+rain_proxy,logistic_full,reference_year,2026,147,0.21088,0.18689,0.13312
+clear_sky_proxy,calibrated_climatology,confidence,p<=0.1,189,0.04233,0.0401,0.03886
+clear_sky_proxy,calibrated_climatology,confidence,p>=0.7,44,0.84091,0.82576,0.13471
+clear_sky_proxy,calibrated_climatology,confidence,resto,391,0.36317,0.26372,0.21611
+clear_sky_proxy,climatology_prior,confidence,p<=0.1,186,0.04301,0.02923,0.0392
+clear_sky_proxy,climatology_prior,confidence,p>=0.7,64,0.79688,0.83528,0.15892
+clear_sky_proxy,climatology_prior,confidence,resto,374,0.34225,0.27856,0.20823
+clear_sky_proxy,global_prevalence,confidence,resto,624,0.29968,0.24992,0.2123
+clear_sky_proxy,gradient_boosting,confidence,p<=0.1,227,0.06167,0.03589,0.05514
+clear_sky_proxy,gradient_boosting,confidence,p>=0.7,47,0.85106,0.833,0.1283
+clear_sky_proxy,gradient_boosting,confidence,resto,350,0.38,0.29245,0.22117
+clear_sky_proxy,logistic_full,confidence,p<=0.1,243,0.04527,0.04565,0.04139
+clear_sky_proxy,logistic_full,confidence,p>=0.7,50,0.84,0.82747,0.13409
+clear_sky_proxy,logistic_full,confidence,resto,331,0.40483,0.28968,0.23617
+rain_proxy,calibrated_climatology,confidence,p<=0.1,217,0.0553,0.04275,0.05082
+rain_proxy,calibrated_climatology,confidence,p>=0.7,6,0.83333,0.71359,0.15741
+rain_proxy,calibrated_climatology,confidence,resto,401,0.28429,0.23523,0.18305
+rain_proxy,climatology_prior,confidence,p<=0.1,232,0.06034,0.02049,0.05649
+rain_proxy,climatology_prior,confidence,p>=0.7,11,0.90909,0.76993,0.1115
+rain_proxy,climatology_prior,confidence,resto,381,0.28084,0.23622,0.18434
+rain_proxy,global_prevalence,confidence,resto,624,0.20994,0.17057,0.16764
+rain_proxy,gradient_boosting,confidence,p<=0.1,235,0.05106,0.03766,0.04657
+rain_proxy,gradient_boosting,confidence,p>=0.7,5,0.8,0.7416,0.15855
+rain_proxy,gradient_boosting,confidence,resto,384,0.29948,0.26002,0.18775
+rain_proxy,logistic_full,confidence,p<=0.1,236,0.04661,0.04038,0.04263
+rain_proxy,logistic_full,confidence,p>=0.7,4,0.75,0.71142,0.19606
+rain_proxy,logistic_full,confidence,resto,384,0.30469,0.25672,0.18916

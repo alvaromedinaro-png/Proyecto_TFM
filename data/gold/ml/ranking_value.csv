@@ -1,0 +1,11 @@
+phase,model,top_choice_clear,random_choice_clear,any_candidate_clear,event_years
+holdout,calibrated_climatology,0.58824,0.29902,0.90196,51
+holdout,climatology_prior,0.58824,0.29902,0.90196,51
+holdout,global_prevalence,0.29902,0.29902,0.90196,51
+holdout,gradient_boosting,0.58824,0.29902,0.90196,51
+holdout,logistic_full,0.64706,0.29902,0.90196,51
+selection,calibrated_climatology,0.49359,0.23825,0.85897,78
+selection,climatology_prior,0.49359,0.23825,0.85897,78
+selection,global_prevalence,0.23825,0.23825,0.85897,78
+selection,gradient_boosting,0.44872,0.23825,0.85897,78
+selection,logistic_full,0.51282,0.23825,0.85897,78

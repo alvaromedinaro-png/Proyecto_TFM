@@ -1,0 +1,99 @@
+{
+  "gold_inputs_sha256": {
+    "data/gold/events/2027-02-06/planning_ml_dataset.csv": "557314ac82c59608b5ee4707c62354c2d81f84967e7187dee7796487b3a649a6",
+    "data/gold/events/2027-02-20/planning_ml_dataset.csv": "5140bbadc8c62b685a47a445352549b7cc2eef0b8177a241f461d562f07b9c13",
+    "data/gold/events/2027-07-18/planning_ml_dataset.csv": "9d6846d416cab117a408ab9072a879105b6cd747ea114eb105cbab602fe85985",
+    "data/gold/events/2027-08-02/planning_ml_dataset.csv": "998e51597b7a3a21200868b94da498885bbab8730dc835cf24cd437a3bf11ff6",
+    "data/gold/events/2027-08-17/planning_ml_dataset.csv": "fff9b811c5dde008a1321ab6f1c7729b1d05c91379b569ec17d75f0226da713e",
+    "data/gold/events/2028-01-12/planning_ml_dataset.csv": "d4c9746f0b16463946a7a86e34b7d9bedeeaba9a1c40f45c0cad13d06a552f7d",
+    "data/gold/events/2028-01-26/planning_ml_dataset.csv": "2127a19e191ba6e1acce9daa9d070ffb4f055c1335e22e55a328a787c12d33d6",
+    "data/gold/events/2028-07-06/planning_ml_dataset.csv": "7d91aa465c6bfd0b08cba30887c7833836566fc0f53ff6c0ddccc8f90edd5c31",
+    "data/gold/events/2028-07-22/planning_ml_dataset.csv": "9315c3a0f119c557431f7054eb692eaad0fe6e7f742ae7ac8a9cef8c7409711c",
+    "data/gold/events/2028-12-31/planning_ml_dataset.csv": "a65343fb2def974f48b2810d196be5f5996db9ce523d531340f02d6d292ccbb1",
+    "data/gold/events/2029-01-14/planning_ml_dataset.csv": "5b7255714b75a356665059fb766561f1173737e33b0c56b65c206e21b49f996c",
+    "data/gold/events/2029-06-12/planning_ml_dataset.csv": "dcc28c2f91dbd749d57910c53cebeb21cb90ee4db7878b64a30963f490f3aef9",
+    "data/gold/events/2029-06-26/planning_ml_dataset.csv": "27cad34ef4ff1b2a98f5ab32f33b808a1653f29e1d36326060cebf81f7cc7c66",
+    "data/gold/events/2029-07-11/planning_ml_dataset.csv": "2d2ab2ff5a4a2887a0a96f8f3ecd4709bfaac56e7f397342c9966956c86d2c11"
+  },
+  "script_sha256": "55428d2ed7737af8febc49240e5051b6183c22c9cfffaeb6ab0e5ad409994759",
+  "scikit_learn_version": "1.9.1",
+  "seed": 20260,
+  "evaluable_rows": 3180,
+  "query_rows": 159,
+  "selection_years": [
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "holdout_years": [
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "models": [
+    "global_prevalence",
+    "climatology_prior",
+    "calibrated_climatology",
+    "logistic_full",
+    "gradient_boosting"
+  ],
+  "rule": {
+    "min_skill": 0.01,
+    "parsimony_margin": 0.005,
+    "bootstrap_resamples": 5000
+  },
+  "selected_models": {
+    "clear_sky_proxy": "climatology_prior",
+    "rain_proxy": "climatology_prior"
+  },
+  "band_reliability": {
+    "clear_sky_proxy": {
+      "baja": {
+        "rows": 366,
+        "mean_predicted": 0.0919471782953976,
+        "observed_rate": 0.12295081967213115
+      },
+      "media": {
+        "rows": 158,
+        "mean_predicted": 0.3457470011922216,
+        "observed_rate": 0.43670886075949367
+      },
+      "alta": {
+        "rows": 100,
+        "mean_predicted": 0.7479736642667677,
+        "observed_rate": 0.73
+      }
+    },
+    "rain_proxy": {
+      "baja": {
+        "rows": 477,
+        "mean_predicted": 0.09330804299357755,
+        "observed_rate": 0.12368972746331237
+      },
+      "media": {
+        "rows": 121,
+        "mean_predicted": 0.34150399119051156,
+        "observed_rate": 0.4380165289256198
+      },
+      "alta": {
+        "rows": 26,
+        "mean_predicted": 0.6689757462303881,
+        "observed_rate": 0.7307692307692307
+      }
+    }
+  },
+  "output_files": [
+    "metrics_summary.csv",
+    "metrics_by_year.csv",
+    "ranking_value.csv",
+    "calibration.csv",
+    "error_segments.csv",
+    "worst_locations.csv",
+    "out_of_time_predictions.csv",
+    "query_predictions.csv"
+  ]
+}

@@ -1,0 +1,11 @@
+target,model,name,rows,positive_rate,mean_predicted,brier
+clear_sky_proxy,climatology_prior,"Curitiba, BRAZIL",4,0.75,0.10828,0.60119
+clear_sky_proxy,climatology_prior,"Santa Cruz, BOLIVIA",4,0.75,0.15363,0.55625
+clear_sky_proxy,climatology_prior,"Copenhagen, DENMARK",4,0.75,0.21755,0.47365
+clear_sky_proxy,climatology_prior,"Monrovia, LIBERIA",4,0.75,0.27152,0.43673
+clear_sky_proxy,climatology_prior,"Concepcion, CHILE",4,0.75,0.24471,0.43627
+rain_proxy,climatology_prior,"Davao, PHILIPPINES",8,0.875,0.28542,0.45817
+rain_proxy,climatology_prior,"Pringsewu, INDONESIA",4,0.5,0.07185,0.45075
+rain_proxy,climatology_prior,"Havana, CUBA",4,0.5,0.0904,0.41964
+rain_proxy,climatology_prior,"Castries, ST. LUCIA",4,0.5,0.15363,0.39245
+rain_proxy,climatology_prior,"Cali, COLOMBIA",4,0.5,0.11789,0.3915

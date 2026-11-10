@@ -4,7 +4,9 @@ El proyecto prepara los eclipses solares y lunares de los **próximos tres años
 
 - [Datos y preparación](docs/entregas/02_datos_y_preparacion.md): fuentes, variables, flujo Bronze → Silver → Gold y limitaciones.
 - [Notebook](docs/entregas/02_planificador_eclipse.ipynb): ejemplo reproducible de selección y análisis.
+- [Machine Learning](docs/entregas/03_machine_learning.md): problema, baseline, validación por años y decisión para el producto.
 - [Pipeline](src/eclipse_pipeline.py): adquisición y preparación de los datos.
+- [Experimento de ML](src/ml_planning_experiment.py): reproduce sin red las métricas de `data/gold/ml/` a partir del Gold.
 - [Selector](app/index.html): interfaz local que explora los resultados preparados.
 
 ## Uso
@@ -29,6 +31,8 @@ python src/eclipse_pipeline.py --refresh
 python src/eclipse_pipeline.py --verify
 # Reconstruir sin red el ejemplo pequeño (2027-08-02, 2022–2026) y comparar hashes.
 python src/eclipse_example.py
+# Reproducir el experimento de ML y comparar con los resultados guardados, sin red.
+python src/ml_planning_experiment.py --check
 # Ejecutar los tests.
 python -W error::DeprecationWarning -m unittest discover -s tests
 ```
@@ -61,6 +65,7 @@ Se versionan:
 - los originales NASA y la cartografía;
 - las respuestas climáticas de 2022 a 2026 del eclipse de ejemplo (`data/bronze/events/2027-08-02/`, unos 1,1 MB) y su resultado de referencia (`data/example/2027-08-02/`), para reconstruirlo sin red;
 - las capas Silver y Gold ligeras de todos los eventos, incluido el dataset de ML `planning_ml_dataset.csv`, generadas en una misma ejecución;
+- los resultados del experimento de ML (`data/gold/ml/`, unos 400 kB);
 - la exportación que abre el selector (`data/gold/planner_data.js`).
 
 Las respuestas climáticas completas, los ficheros horarios de Silver y los catálogos auxiliares hasta el año 3000 se regeneran con el pipeline y están en `.gitignore`.
