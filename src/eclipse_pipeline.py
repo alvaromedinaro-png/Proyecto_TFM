@@ -24,16 +24,29 @@ HISTORICAL_VARIABLES = ["temperature_2m", "relative_humidity_2m", "dew_point_2m"
     "wind_gusts_10m", "shortwave_radiation", "sunshine_duration"]
 FORECAST_VARIABLES = HISTORICAL_VARIABLES + ["precipitation_probability", "visibility", "showers"]
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
-PREPARATION_VERSION = 2
+PREPARATION_VERSION = 3
 # En lunares la duración publicada es global (igual en todos los destinos) y la
 # altura ya es la componente astronómica: no se cuentan dos veces.
 SCORE_WEIGHTS = {
     "solar": {"clear_probability": 0.40, "no_rain_probability": 0.15, "astronomy": 0.20, "duration": 0.15, "altitude": 0.10},
     "lunar": {"clear_probability": 0.45, "no_rain_probability": 0.20, "astronomy": 0.35, "duration": 0.0, "altitude": 0.0}}
 FAILURE_MARKER = "preparation_failure.json"
-SNAPSHOT_FILES = ("climate_event_samples.csv", "location_ranking.csv", "destination_ranking.csv",
+SNAPSHOT_FILES = ("climate_event_samples.csv", "planning_ml_dataset.csv", "location_ranking.csv", "destination_ranking.csv",
                   "astronomical_references.csv", "climate_daily_summary.csv", "climate_daily_conditions.csv",
                   "operational_forecast.csv", "forecast_status.json")
+# Papel de cada columna de planning_ml_dataset.csv. Las 19 variables observadas a la hora
+# del máximo de ese mismo año (y los días −2..+2 de ese año) definen las etiquetas o se
+# observan con ellas: no se conocen al planificar y no son predictores.
+ML_COLUMNS = {
+    "identifiers": ["sample_id", "event_id", "event_date", "event_family", "name", "country_code",
+                    "candidate_type", "reference_year", "row_role"],
+    "predictors": ["latitude", "longitude", "elevation_m", "grid_latitude", "grid_longitude",
+                   "day_of_year", "local_solar_hour", "body_altitude_deg",
+                   "prior_years", "prior_clear_frequency", "prior_rain_frequency",
+                   "prior_window_clear_frequency", "prior_mean_cloud_cover_pct", "prior_mean_cloud_cover_low_pct"],
+    "baseline": ["baseline_clear_probability", "baseline_rain_probability"],
+    "labels": ["clear_sky_proxy", "rain_proxy"]}
+MIN_PRIOR_YEARS_FOR_EVALUATION = 10
 
 
 def preparation_config(event, locations_file, max_locations, years, before, after, rain_threshold):
@@ -181,7 +194,7 @@ def climate_window(event, locations, client, years, before=2, after=2, rain_thre
             records.extend(year_records)
             missing.extend(year_missing)
             hourly_frames.append(hourly.loc[hourly.day_offset.between(-before, after)].copy())
-            inputs.append({"file": str(raw.relative_to(root)), "sha256": hashlib.sha256(body).hexdigest()})
+            inputs.append({"file": raw.relative_to(root).as_posix(), "sha256": hashlib.sha256(body).hexdigest()})
         except sources.RateLimitExceeded:
             raise
         except (ValueError, KeyError, requests.RequestException) as error:
@@ -204,6 +217,51 @@ def climate_window(event, locations, client, years, before=2, after=2, rain_thre
     return pd.concat(hourly_frames, ignore_index=True), samples, {"years": years, "failures": failures,
         "missing_key_values": missing, "units": units, "days_before": before, "days_after": after,
         "hourly_rows": sum(len(frame) for frame in hourly_frames), "sample_rows": len(samples)}
+
+
+def planning_dataset(event, locations, samples):
+    """Una fila por ubicación y año: la etiqueta de ese año y solo predictores conocidos al planificar.
+
+    La climatología de cada fila usa exclusivamente años anteriores, como una consulta real.
+    La fila «query» es la del propio eclipse: todos los años preparados y etiqueta desconocida."""
+    yearly = samples.loc[samples.day_offset.eq(0), ["name", "reference_year", "clear_sky_proxy", "rain_proxy",
+                                                   "cloud_cover", "cloud_cover_low", "grid_latitude", "grid_longitude"]]
+    window = samples.groupby(["name", "reference_year"]).clear_sky_proxy.agg(window_clear_sum="sum", window_clear_n="count")
+    yearly = yearly.merge(window.reset_index(), on=["name", "reference_year"], how="left")
+    query = yearly.drop_duplicates("name").assign(reference_year=int(event["event_date"][:4]), clear_sky_proxy=np.nan,
+        rain_proxy=np.nan, cloud_cover=np.nan, cloud_cover_low=np.nan, window_clear_sum=0, window_clear_n=0)
+    yearly = pd.concat([yearly.assign(row_role="history"), query.assign(row_role="query")], ignore_index=True)
+    yearly = yearly.sort_values(["name", "reference_year"]).reset_index(drop=True)
+
+    def prior(values, counts=None):
+        # Suma acumulada exclusiva: la fila de un año nunca ve su propio valor.
+        counts = values.notna().astype(int) if counts is None else counts
+        filled = values.fillna(0)
+        total = filled.groupby(yearly.name).cumsum() - filled
+        n = counts.groupby(yearly.name).cumsum() - counts
+        return total / n.where(n > 0), n
+
+    yearly["prior_clear_frequency"], yearly["prior_years"] = prior(yearly.clear_sky_proxy)
+    yearly["prior_rain_frequency"], _ = prior(yearly.rain_proxy)
+    yearly["prior_window_clear_frequency"], _ = prior(yearly.window_clear_sum, yearly.window_clear_n)
+    yearly["prior_mean_cloud_cover_pct"], _ = prior(yearly.cloud_cover)
+    yearly["prior_mean_cloud_cover_low_pct"], _ = prior(yearly.cloud_cover_low)
+    yearly["baseline_clear_probability"] = yearly.prior_clear_frequency
+    yearly["baseline_rain_probability"] = yearly.prior_rain_frequency
+    static = locations.copy()
+    peak = pd.to_datetime(static.event_time_utc_approx, utc=True)
+    static["local_solar_hour"] = ((peak.dt.hour + peak.dt.minute / 60 + static.longitude / 15) % 24).round(3)
+    static["day_of_year"] = peak.dt.dayofyear
+    static["event_family"] = event["event_family"]
+    for column in ["country_code", "elevation_m"]:
+        if column not in static:
+            static[column] = np.nan
+    dataset = yearly.merge(static[["name", "latitude", "longitude", "elevation_m", "country_code", "candidate_type",
+                                   "body_altitude_deg", "local_solar_hour", "day_of_year", "event_family"]], on="name", how="left")
+    dataset["event_id"] = event["event_id"]
+    dataset["event_date"] = event["event_date"]
+    dataset["sample_id"] = dataset.event_id + "|" + dataset.name + "|" + dataset.reference_year.astype(str)
+    return dataset[[column for role in ML_COLUMNS.values() for column in role]]
 
 
 def operational_forecast(event, locations, client, before=2, after=2, root=sources.ROOT,
@@ -349,19 +407,20 @@ def acquire_complete_event(event, client=None, root=sources.ROOT, locations_file
     gold = root / "data/gold/events" / event["event_date"]
     silver.mkdir(parents=True, exist_ok=True)
     gold.mkdir(parents=True, exist_ok=True)
-    hourly.to_csv(silver / "climate_hourly.csv", index=False)
-    samples.to_csv(gold / "climate_event_samples.csv", index=False)
-    ranking.to_csv(gold / "location_ranking.csv", index=False)
+    sources.save_csv(hourly, silver / "climate_hourly.csv")
+    sources.save_csv(samples, gold / "climate_event_samples.csv")
+    sources.save_csv(planning_dataset(event, locations, samples), gold / "planning_ml_dataset.csv")
+    sources.save_csv(ranking, gold / "location_ranking.csv")
     destinations = ranking.loc[~ranking.candidate_type.eq("referencia astronómica")].copy()
     destinations["destination_rank"] = np.arange(1, len(destinations) + 1)
-    destinations.to_csv(gold / "destination_ranking.csv", index=False)
-    ranking.loc[ranking.candidate_type.eq("referencia astronómica")].to_csv(gold / "astronomical_references.csv", index=False)
+    sources.save_csv(destinations, gold / "destination_ranking.csv")
+    sources.save_csv(ranking.loc[ranking.candidate_type.eq("referencia astronómica")], gold / "astronomical_references.csv")
     summary = samples.groupby(["name", "day_offset"]).agg(valid_cloud_years=("clear_sky_proxy", "count"),
         valid_rain_years=("rain_proxy", "count"), clear_probability=("clear_sky_proxy", "mean"),
         rain_probability=("rain_proxy", "mean"), mean_temperature_c=("temperature_2m", "mean"),
         mean_wind_speed_kmh=("wind_speed_10m", "mean"), mean_cloud_cover_pct=("cloud_cover", "mean")).reset_index()
     summary["cloud_probability"] = 1 - summary.clear_probability
-    summary.to_csv(gold / "climate_daily_summary.csv", index=False)
+    sources.save_csv(summary, gold / "climate_daily_summary.csv")
     daily_records = []
     for (name, reference_year, offset), group in hourly.groupby(["name", "reference_year", "day_offset"]):
         daily_records.append({"name": name, "reference_year": reference_year, "day_offset": offset,
@@ -372,11 +431,11 @@ def acquire_complete_event(event, client=None, root=sources.ROOT, locations_file
             "rain_mm": group.rain_next_hour_mm.sum(min_count=24),
             "precipitation_mm": group.precipitation_next_hour_mm.sum(min_count=24),
             "valid_rain_hours": int(group.rain_next_hour_mm.notna().sum()), "valid_temperature_hours": int(group.temperature_2m.notna().sum())})
-    pd.DataFrame(daily_records).to_csv(gold / "climate_daily_conditions.csv", index=False)
+    sources.save_csv(pd.DataFrame(daily_records), gold / "climate_daily_conditions.csv")
     # Escribir también una tabla vacía si no hay previsión: evita reutilizar una salida antigua.
     if forecast.empty:
         forecast = pd.DataFrame(columns=["event_id", "event_date", "name", "time_utc", "precipitation_probability", "cloud_cover"])
-    forecast.to_csv(gold / "operational_forecast.csv", index=False)
+    sources.save_csv(forecast, gold / "operational_forecast.csv")
     sources.save_json(gold / "forecast_status.json", forecast_status)
     report = {"event_id": event["event_id"], "event_date": event["event_date"], "event_family": event["event_family"],
         "geometry": geometry, "climate": quality, "forecast": forecast_status,
@@ -385,11 +444,15 @@ def acquire_complete_event(event, client=None, root=sources.ROOT, locations_file
         "location_interpretation": "Astronomical references may be at sea or inaccessible; destination ranking is separate.",
         "ranking_basis": ranking.ranking_basis.iloc[0],
         "rain_threshold_mm": rain_threshold, "cloud_threshold_pct": 20,
+        "ml_dataset": {"file": "planning_ml_dataset.csv", "columns": ML_COLUMNS,
+            "min_prior_years_for_evaluation": MIN_PRIOR_YEARS_FOR_EVALUATION,
+            "excluded_from_predictors": "weather variables observed in the same reference year (event hour and days -2..+2)",
+            "validation": "temporal split by reference_year; baseline = prior empirical frequency"},
         "preparation_config": config, "reused_preparation": False,
         "prepared_at_utc": datetime.now(timezone.utc).isoformat(),
         "output_sha256": {filename: hashlib.sha256((gold / filename).read_bytes()).hexdigest()
                           for filename in SNAPSHOT_FILES},
-        "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+        "code_sha256": sources.code_sha256()}
     sources.save_json(gold / "pipeline_quality_report.json", report)
     (gold / FAILURE_MARKER).unlink(missing_ok=True)
     return ranking, report
@@ -401,6 +464,38 @@ def record_failure(event, error, root=None):
     sources.save_json(root / "data/gold/events" / event["event_date"] / FAILURE_MARKER, {
         "event_id": event["event_id"], "event_date": event["event_date"],
         "failed_at_utc": datetime.now(timezone.utc).isoformat(), "error": str(error)})
+
+
+def verify_outputs(root=sources.ROOT):
+    """Comprueba que cada informe describe los archivos entregados y el código actual.
+
+    Las respuestas climáticas no versionadas cuentan como no incluidas, no como error."""
+    code = sources.code_sha256()
+    results = []
+    for report_path in sorted((root / "data/gold/events").glob("*/pipeline_quality_report.json")):
+        folder = report_path.parent
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        problems = []
+        for filename, expected in report.get("output_sha256", {}).items():
+            if not (folder / filename).is_file():
+                problems.append(f"falta {filename}")
+            elif sources.file_sha256(folder / filename) != expected:
+                problems.append(f"{filename} no coincide con el hash del informe")
+        if report.get("code_sha256") != code:
+            problems.append("el informe se generó con otra versión del código")
+        inputs, included = [], 0
+        manifest = root / "data/bronze/events" / folder.name / "climate_manifest.json"
+        if manifest.is_file():
+            inputs = json.loads(manifest.read_text(encoding="utf-8")).get("inputs", [])
+            for item in inputs:
+                path = root / item["file"].replace("\\", "/")
+                if path.is_file():
+                    included += 1
+                    if sources.file_sha256(path) != item["sha256"]:
+                        problems.append(f"{item['file']} no coincide con el manifiesto")
+        results.append({"event_date": folder.name, "problems": problems,
+                        "climate_inputs": len(inputs), "climate_inputs_included": included})
+    return results
 
 
 def main(argv=None):
@@ -422,7 +517,15 @@ def main(argv=None):
     parser.add_argument("--rain-threshold", type=float, default=0.1)
     parser.add_argument("--offline", action="store_true")
     parser.add_argument("--refresh", action="store_true")
+    parser.add_argument("--verify", action="store_true", help="Comprobar hashes de las salidas Gold y versión del código, sin red.")
     args = parser.parse_args(argv)
+    if args.verify:
+        results = verify_outputs()
+        for result in results:
+            state = "; ".join(result["problems"]) or "coincide"
+            print(f"{result['event_date']}: {state} (respuestas climáticas incluidas: "
+                  f"{result['climate_inputs_included']}/{result['climate_inputs']})")
+        return 1 if not results or any(result["problems"] for result in results) else 0
     if args.refresh and args.offline:
         parser.error("--offline y --refresh son incompatibles.")
     if args.event_date and args.all_future:

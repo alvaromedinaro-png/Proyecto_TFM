@@ -105,7 +105,7 @@ def _collect_catalogs(client=None, refresh=False, offline=False, root=sources.RO
                 catalog["geometry_supported"] = catalog.besselian_url.notna()
                 catalog["geometry_method"] = "besselian_local_circumstances"
             frames.append(catalog)
-            provenance.append({"family": family, "url": url, "file": str(raw.relative_to(root)),
+            provenance.append({"family": family, "url": url, "file": raw.relative_to(root).as_posix(),
                                "sha256": hashlib.sha256(body).hexdigest(), "rows": len(catalog)})
     if not frames:
         raise ValueError("NASA no publica catálogos para la ventana de planificación solicitada.")
@@ -124,8 +124,8 @@ def load_all_catalogs(client=None, refresh=False, offline=False, as_of=None, roo
     for layer in ["silver", "gold"]:
         folder = root / "data" / layer
         folder.mkdir(parents=True, exist_ok=True)
-        all_events.to_csv(folder / "all_eclipse_catalog.csv", index=False)
-        future.to_csv(folder / "future_eclipse_catalog.csv", index=False)
+        sources.save_csv(all_events, folder / "all_eclipse_catalog.csv")
+        sources.save_csv(future, folder / "future_eclipse_catalog.csv")
     sources.save_json(root / "data/gold/future_eclipse_catalog.metadata.json", {
         "as_of": as_of, "coverage_end": all_events.event_date.max(), "rows": len(future),
         "family_counts": future.event_family.value_counts().to_dict(), "century_sources": provenance,
@@ -142,7 +142,7 @@ def load_planning_catalog(client=None, refresh=False, offline=False, as_of=None,
     for layer in ["silver", "gold"]:
         folder = root / "data" / layer
         folder.mkdir(parents=True, exist_ok=True)
-        events.to_csv(folder / "planning_eclipse_catalog.csv", index=False)
+        sources.save_csv(events, folder / "planning_eclipse_catalog.csv")
     sources.save_json(root / "data/gold/planning_eclipse_catalog.metadata.json", {
         "planning_start": begin, "planning_end_exclusive": end, "future_years": future_years,
         "rows": len(events), "family_counts": events.event_family.value_counts().to_dict(),

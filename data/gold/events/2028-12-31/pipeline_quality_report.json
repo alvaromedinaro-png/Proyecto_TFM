@@ -75,8 +75,8 @@
   "forecast": {
     "requested_start": "2028-12-29",
     "requested_end": "2029-01-02",
-    "forecast_horizon_start": "2026-10-09",
-    "forecast_horizon_end": "2026-10-24",
+    "forecast_horizon_start": "2026-10-24",
+    "forecast_horizon_end": "2026-11-08",
     "status": "outside_forecast_horizon",
     "reason": "No operational forecast exists for these dates; historical climatology remains separate."
   },
@@ -92,8 +92,51 @@
   "ranking_basis": "historical_climatology",
   "rain_threshold_mm": 0.1,
   "cloud_threshold_pct": 20,
+  "ml_dataset": {
+    "file": "planning_ml_dataset.csv",
+    "columns": {
+      "identifiers": [
+        "sample_id",
+        "event_id",
+        "event_date",
+        "event_family",
+        "name",
+        "country_code",
+        "candidate_type",
+        "reference_year",
+        "row_role"
+      ],
+      "predictors": [
+        "latitude",
+        "longitude",
+        "elevation_m",
+        "grid_latitude",
+        "grid_longitude",
+        "day_of_year",
+        "local_solar_hour",
+        "body_altitude_deg",
+        "prior_years",
+        "prior_clear_frequency",
+        "prior_rain_frequency",
+        "prior_window_clear_frequency",
+        "prior_mean_cloud_cover_pct",
+        "prior_mean_cloud_cover_low_pct"
+      ],
+      "baseline": [
+        "baseline_clear_probability",
+        "baseline_rain_probability"
+      ],
+      "labels": [
+        "clear_sky_proxy",
+        "rain_proxy"
+      ]
+    },
+    "min_prior_years_for_evaluation": 10,
+    "excluded_from_predictors": "weather variables observed in the same reference year (event hour and days -2..+2)",
+    "validation": "temporal split by reference_year; baseline = prior empirical frequency"
+  },
   "preparation_config": {
-    "version": 2,
+    "version": 3,
     "event_id": "NASA-LE-09715",
     "years": [
       1996,
@@ -136,16 +179,25 @@
     "locations_sha256": null
   },
   "reused_preparation": false,
-  "prepared_at_utc": "2026-10-09T19:53:30.206673+00:00",
+  "prepared_at_utc": "2026-10-24T09:36:38.156729+00:00",
   "output_sha256": {
-    "climate_event_samples.csv": "bec46830f194b1dd5829c0172d3566c907b81dc393609441a6931a8fae2ffc1b",
-    "location_ranking.csv": "c5820d6d0b4aab3cc7307c44bcbbe8e29a0494939e19e65690918d6f8550a6fa",
-    "destination_ranking.csv": "58de960b14811addd8c9d791891bf5c3f73db0f60142e23a45ffe122f773ff65",
-    "astronomical_references.csv": "9de4d84fbe086cb0a600734db3001b8003a8282b4a2713e8c338d36069b1e9e8",
-    "climate_daily_summary.csv": "cf4f0995bbd803a975e9a1660f397fbb29436b03ccfc1b85a01d6cc112bcb9f7",
-    "climate_daily_conditions.csv": "076d4bd0a6981e4a65ec8d514b994c9b8947fc6b1b67838cdf37a30b5133806a",
-    "operational_forecast.csv": "05f84fedf108da01a493d5c7bf2665466c0f53c6c7b1728d0432c9ffe155d402",
-    "forecast_status.json": "d3dea1c99b9fb7010d34b5082d9ed6752efbf9c97f534d3be7122fd70ac2ac4e"
+    "climate_event_samples.csv": "407c8502dad948cbb4c8b3de6e2ec9cf24e9482ff0d5b79b182217b23bef54fa",
+    "planning_ml_dataset.csv": "a65343fb2def974f48b2810d196be5f5996db9ce523d531340f02d6d292ccbb1",
+    "location_ranking.csv": "ccbe1278c09ca617fc40314d45970d376857ba21b376ea66cfec2fa492b211c7",
+    "destination_ranking.csv": "3194fad0b398949096919b82ec1bba79d1e8489b55c15fbd70cb4eaebfb729cb",
+    "astronomical_references.csv": "0bcee4cbb9e7d02173e9af3eaae63b8574f995fab57094efe53d2ef3cf04ea00",
+    "climate_daily_summary.csv": "55846d0e7ef6fc69fd66d9087f6446ba0b2b7fbc2df9b3cd7c75467181bd4e9b",
+    "climate_daily_conditions.csv": "002a612e0e28e851ccdea40d3ccf4f99060157f6b8fe45f313eee8e4b59061ba",
+    "operational_forecast.csv": "f137d9f9453ece613b4934297e55cc79828ad7e2e462ecf0671896d240e12aa7",
+    "forecast_status.json": "7bb128c371baebf93b17bbe3ad9f2660f5f83bb9fb6dd52cb504783863600155"
   },
-  "script_sha256": "6b7089d1c0e41049d37e594025d6e6e8e97bf1a9c5392d46cf8be191d0a80849"
+  "code_sha256": {
+    "eclipse_catalogs.py": "3584398932a2f324bb64695978e1ea4189dc2193cbc1905efb0f4d80b13076d7",
+    "eclipse_example.py": "b05a9bdf47ead58e4f91cb8dd9c8775c594dc35dde156ee8761786082c163e26",
+    "eclipse_geography.py": "f2531c98ba44517a8c98ea71e5a6889561ee4fe80d00d35d5dff5f37387b4e48",
+    "eclipse_locations.py": "353a1c14a874c51654e1140e02806c23843cd059f35fe799925e040553cc43e9",
+    "eclipse_pipeline.py": "496eaf8b9f39ce45118c6c2f685e9b2b9775826989cbfe4957db76ab023a7f59",
+    "eclipse_product.py": "348d21ab7b192de84d0a9a425b3bcf43bde6eda8214994c5a051254521d558aa",
+    "eclipse_sources.py": "686564c556cd1d46c3a8c846ae825fd3052220a6e8b3232b89727be2acdf5e27"
+  }
 }

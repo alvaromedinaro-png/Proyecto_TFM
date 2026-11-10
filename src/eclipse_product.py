@@ -217,8 +217,8 @@ def _prepared_event_output(event, root):
             report = {}
             errors.append("Falta el informe de calidad del evento.")
         if report and not isinstance(report.get("preparation_config"), dict):
-            # Informes de versiones anteriores o de pruebas: no acreditan la configuración usada.
-            base["error"] = ("La preparación guardada procede de una versión anterior del pipeline; "
+            # Sin la configuración registrada no se puede acreditar cómo se obtuvo el resultado.
+            base["error"] = ("La preparación guardada no registra su configuración; "
                              "vuelve a preparar el evento.")
             return base
         failure_path = directory / FAILURE_MARKER
@@ -456,7 +456,7 @@ def export_planner_data(events: pd.DataFrame, planning_start: str, planning_end_
                               ("planner_data.js", "window.ECLIPSE_PLANNER_DATA = " + serialized + ";\n")):
         destination = directory / filename
         temporary = destination.with_suffix(destination.suffix + ".tmp")
-        temporary.write_text(content, encoding="utf-8")
+        temporary.write_text(content, encoding="utf-8", newline="\n")
         temporary.replace(destination)
     return payload
 

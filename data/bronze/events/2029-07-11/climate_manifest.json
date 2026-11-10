@@ -160,123 +160,123 @@
   },
   "inputs": [
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_1997_b05b2f7ced99.json",
+      "file": "data/bronze/events/2029-07-11/climate_1997_b05b2f7ced99.json",
       "sha256": "2f318bbc86ab3f55b7534292763e55416643bea76c840085cb5ed5f5d003ca3b"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_1998_3055bdb40038.json",
+      "file": "data/bronze/events/2029-07-11/climate_1998_3055bdb40038.json",
       "sha256": "68c038bdcd9924c0c16f645e0b87ccf398dc5ab00d8f68001f6f994a19488aea"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_1999_e4ac6a17a460.json",
+      "file": "data/bronze/events/2029-07-11/climate_1999_e4ac6a17a460.json",
       "sha256": "b721a0aa037379a8dc8e96af112a32eb89cc0cbd3eed6cec7787f0300ea162da"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2000_d62b044daadf.json",
+      "file": "data/bronze/events/2029-07-11/climate_2000_d62b044daadf.json",
       "sha256": "1b0d153dc0360e33f805f112a196c614bd6f213acf102d0051e75a35b8271109"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2001_c651a097d755.json",
+      "file": "data/bronze/events/2029-07-11/climate_2001_c651a097d755.json",
       "sha256": "e4f994e83bf44c1aca71a741603ac4147a739e373353cc5d6fa187f65a63ab8e"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2002_d1f107ba95df.json",
+      "file": "data/bronze/events/2029-07-11/climate_2002_d1f107ba95df.json",
       "sha256": "5bddb2da85a897ca30bad46fda66b04ac68887d94f3f6da848e80b6b09469738"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2003_b88a1b7deb76.json",
+      "file": "data/bronze/events/2029-07-11/climate_2003_b88a1b7deb76.json",
       "sha256": "e94d41a6eabd4be73873059a512375edd3b6ce89a7375f00594c9196bab0cef7"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2004_657e5d76fe4e.json",
+      "file": "data/bronze/events/2029-07-11/climate_2004_657e5d76fe4e.json",
       "sha256": "7647f8da153f2b5a514d3e2c53cdf81f5110b6c9b2eb4f29dcc127ccef2362be"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2005_8d65c8f0c913.json",
+      "file": "data/bronze/events/2029-07-11/climate_2005_8d65c8f0c913.json",
       "sha256": "92d697638a48a748ed520b713eba535949a300bcad198450b84b87f9071418aa"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2006_f8ee2ff85fa8.json",
+      "file": "data/bronze/events/2029-07-11/climate_2006_f8ee2ff85fa8.json",
       "sha256": "b515339e5640f62d208b1a87f9ce7e5c9250bcd231c5f21041d7c8cb59abcd25"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2007_cf6e0ee3c890.json",
+      "file": "data/bronze/events/2029-07-11/climate_2007_cf6e0ee3c890.json",
       "sha256": "be729602bd941a5bdc0bb90c047f3777b6d02ba78eca68f9a14de35015006252"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2008_62042737960f.json",
+      "file": "data/bronze/events/2029-07-11/climate_2008_62042737960f.json",
       "sha256": "a3f93894f6159cfaf556d3bcf1fcf6d85ba8d93146eae9d4c60e0bc0b6a851f7"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2009_625e8ca36cb4.json",
+      "file": "data/bronze/events/2029-07-11/climate_2009_625e8ca36cb4.json",
       "sha256": "af41b870af18c1a57930eb07a540f0f588d82a2cbfd20ee3a1a6ef3deb06ed95"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2010_06b782842689.json",
+      "file": "data/bronze/events/2029-07-11/climate_2010_06b782842689.json",
       "sha256": "5a61147783491888147c54eda7992608dc08d2d9b74aada0ccb3c11aee144dd7"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2011_eff56e060763.json",
+      "file": "data/bronze/events/2029-07-11/climate_2011_eff56e060763.json",
       "sha256": "bdbd63cbf435e800adf24fb6420eee600ec0b42c14ca1765bf089bb4f99cfeba"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2012_47a82860085f.json",
+      "file": "data/bronze/events/2029-07-11/climate_2012_47a82860085f.json",
       "sha256": "1c9843a8352af19fe054846790fd759e8dd7aac042572612575509989f8553a0"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2013_199e61f36d5a.json",
+      "file": "data/bronze/events/2029-07-11/climate_2013_199e61f36d5a.json",
       "sha256": "550983c4c8cbfe017d81352d4ceac2a82d0346402c0ab80918eb6ea2f728d83f"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2014_a3c324c5ae08.json",
+      "file": "data/bronze/events/2029-07-11/climate_2014_a3c324c5ae08.json",
       "sha256": "15836f798b0085e56dc3b613ab939a1e506674c54eb45171bd83d32979627f3f"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2015_188dbb40cbad.json",
+      "file": "data/bronze/events/2029-07-11/climate_2015_188dbb40cbad.json",
       "sha256": "4035c0866cb99f08cb5da26d3915c712b98ed716c653bb616658161c50c10b24"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2016_a44685f6d3d6.json",
+      "file": "data/bronze/events/2029-07-11/climate_2016_a44685f6d3d6.json",
       "sha256": "db322198157d72091e4cbe81ba603309a750a7d82bad84f6020d0597e884bd2c"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2017_89ec61a50965.json",
+      "file": "data/bronze/events/2029-07-11/climate_2017_89ec61a50965.json",
       "sha256": "a8b604ebfda03a7b77afb4d9bd6bd5ed0d100d5dc8bc37a6bf8c6d3e1d9da606"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2018_ab0b60f49922.json",
+      "file": "data/bronze/events/2029-07-11/climate_2018_ab0b60f49922.json",
       "sha256": "b89dda6b5cf18b77170552e50d655238a0bca6c5bffbb3acde45614d3896d0ed"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2019_05843af2f2dc.json",
+      "file": "data/bronze/events/2029-07-11/climate_2019_05843af2f2dc.json",
       "sha256": "88585d7ea5f460cc5a71a98bfb452459cec741c1eeb4d980d819dc100a11fa95"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2020_556e31b9f8e2.json",
+      "file": "data/bronze/events/2029-07-11/climate_2020_556e31b9f8e2.json",
       "sha256": "c607d86bd9d4e8fa99c94e0babd03b528e4b82e9d86f140c6eb6b70dd490f488"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2021_07a452dc4976.json",
+      "file": "data/bronze/events/2029-07-11/climate_2021_07a452dc4976.json",
       "sha256": "29198054f988b96441331ca9e7dc1868a647453905194c1ec2f1d5d52d4fca0e"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2022_1a90982a8e01.json",
+      "file": "data/bronze/events/2029-07-11/climate_2022_1a90982a8e01.json",
       "sha256": "821ecc9f35f68a04ba380544a27f3a4f1971719fd204c0448dac7e03b0ec15d1"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2023_b1bbcc1cce60.json",
+      "file": "data/bronze/events/2029-07-11/climate_2023_b1bbcc1cce60.json",
       "sha256": "756561fc23366054fad7d098a6aabc17feedcd6d28fe01a886a2d24e7f549db3"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2024_a8dfa0085b24.json",
+      "file": "data/bronze/events/2029-07-11/climate_2024_a8dfa0085b24.json",
       "sha256": "245aecbbf1bb6f5fff6ff41fb30ee588b5f974e078ed9ad2ec4c046d2dddb3d9"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2025_53af42166f8d.json",
+      "file": "data/bronze/events/2029-07-11/climate_2025_53af42166f8d.json",
       "sha256": "73d4a4f238e37ac6028276ec04df1ead1ca97d1f1288f895d6abc646886dc56f"
     },
     {
-      "file": "data\\bronze\\events\\2029-07-11\\climate_2026_0fe13a307124.json",
+      "file": "data/bronze/events/2029-07-11/climate_2026_0fe13a307124.json",
       "sha256": "1c268c94cfbf02fd1b445e530761417f80445d0ec7c6db82898a504abab3b078"
     }
   ],

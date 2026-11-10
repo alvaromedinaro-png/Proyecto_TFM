@@ -1,0 +1,160 @@
+event_id,event_date,event_family,name,country_code,candidate_type,reference_year,prior_years,baseline_clear_probability,baseline_rain_probability,clear_sky_probability,clear_sky_band,clear_sky_model,rain_probability,rain_band,rain_model
+NASA-SE-09567,2027-02-06,solar,"Abidjan, IVORY COAST",CI,ciudad NASA,2027,30,0.3,0.1,0.3,media,climatology_prior,0.1,baja,climatology_prior
+NASA-SE-09567,2027-02-06,solar,"Accra, GHANA",GH,ciudad NASA,2027,30,0.3,0.0,0.3,media,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09567,2027-02-06,solar,"Cotonou, BENIN",BJ,ciudad NASA,2027,30,0.46667,0.0,0.46667,media,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09567,2027-02-06,solar,"Lagos, NIGERIA",NG,ciudad NASA,2027,30,0.5,0.0,0.5,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09567,2027-02-06,solar,"Lome, TOGO",TG,ciudad NASA,2027,30,0.36667,0.0,0.36667,media,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09567,2027-02-06,solar,"Mar del Plata, ARGENTINA",AR,ciudad NASA,2027,30,0.3,0.1,0.3,media,climatology_prior,0.1,baja,climatology_prior
+NASA-SE-09567,2027-02-06,solar,"Monrovia, LIBERIA",LR,ciudad NASA,2027,30,0.3,0.13333,0.3,media,climatology_prior,0.13333,baja,climatology_prior
+NASA-SE-09567,2027-02-06,solar,"Montevideo, URUGUAY",UY,ciudad NASA,2027,30,0.46667,0.2,0.46667,media,climatology_prior,0.2,baja,climatology_prior
+NASA-SE-09567,2027-02-06,solar,Referencia central NASA 3,,referencia astronómica,2027,30,0.56667,0.03333,0.56667,alta,climatology_prior,0.03333,baja,climatology_prior
+NASA-SE-09567,2027-02-06,solar,Referencia central NASA 4,,referencia astronómica,2027,30,0.46667,0.16667,0.46667,media,climatology_prior,0.16667,baja,climatology_prior
+NASA-SE-09567,2027-02-06,solar,Referencia central NASA 5,,referencia astronómica,2027,30,0.26667,0.13333,0.26667,media,climatology_prior,0.13333,baja,climatology_prior
+NASA-SE-09567,2027-02-06,solar,"Vitoria, BRAZIL",BR,ciudad NASA,2027,30,0.1,0.46667,0.1,baja,climatology_prior,0.46667,media,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,"Bangui, CENTRAL AFRICAN REPUBLIC",CF,ciudad NASA,2027,30,0.1,0.0,0.1,baja,climatology_prior,0.0,baja,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,"Brazzaville, CONGO",CG,ciudad NASA,2027,30,0.0,0.16667,0.0,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,"Kano, NIGERIA",NG,ciudad NASA,2027,30,0.73333,0.0,0.73333,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,"Kinshasa, DEM. REP. OF THE CONGO",CD,ciudad NASA,2027,30,0.0,0.16667,0.0,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,"Libreville, GABON",GA,ciudad NASA,2027,30,0.0,0.33333,0.0,baja,climatology_prior,0.33333,media,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,"Lome, TOGO",TG,ciudad NASA,2027,30,0.13333,0.03333,0.13333,baja,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,"Ndjamena, CHAD",TD,ciudad NASA,2027,30,0.73333,0.0,0.73333,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,"Niamey, NIGER",NE,ciudad NASA,2027,30,0.6,0.03333,0.6,alta,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,"Porto-Novo, BENIN",BJ,ciudad NASA,2027,30,0.16667,0.03333,0.16667,baja,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,Referencia NASA del máximo,,referencia astronómica,2027,30,0.5,0.0,0.5,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,"Sao Tome, SAO TOME & PRINCIPE",ST,ciudad NASA,2027,30,0.0,0.23333,0.0,baja,climatology_prior,0.23333,baja,climatology_prior
+NASA-LE-09710,2027-02-20,lunar,"Yaounde, CAMEROON",CM,ciudad NASA,2027,30,0.0,0.0,0.0,baja,climatology_prior,0.0,baja,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,"Bandar Seri Begawan, BRUNEI",BN,ciudad NASA,2027,30,0.03333,0.1,0.03333,baja,climatology_prior,0.1,baja,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,"Bangkok, THAILAND",TH,ciudad NASA,2027,30,0.03333,0.1,0.03333,baja,climatology_prior,0.1,baja,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,"Davao, PHILIPPINES",PH,ciudad NASA,2027,30,0.0,0.36667,0.0,baja,climatology_prior,0.36667,media,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,"Ho Chi Minh, VIETNAM",VN,ciudad NASA,2027,30,0.03333,0.16667,0.03333,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,"Kuala Lumpur, MALAYSIA",MY,ciudad NASA,2027,30,0.2,0.2,0.2,baja,climatology_prior,0.2,baja,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,"Mataram, INDONESIA",ID,ciudad NASA,2027,30,0.43333,0.06667,0.43333,media,climatology_prior,0.06667,baja,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,"Noumea, NEW CALEDONIA",NC,ciudad NASA,2027,30,0.2,0.16667,0.2,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,"Perth, AUSTRALIA",AU,ciudad NASA,2027,30,0.3,0.16667,0.3,media,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,"Phnum Penh, CAMBODIA",KH,ciudad NASA,2027,30,0.03333,0.06667,0.03333,baja,climatology_prior,0.06667,baja,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,"Port Moresby, PAPUA NEW GUINEA",PG,ciudad NASA,2027,30,0.16667,0.06667,0.16667,baja,climatology_prior,0.06667,baja,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,Referencia NASA del máximo,,referencia astronómica,2027,30,0.83333,0.0,0.83333,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-LE-09711,2027-07-18,lunar,"Singapore, SINGAPORE",SG,ciudad NASA,2027,30,0.13333,0.16667,0.13333,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-SE-09568,2027-08-02,solar,"Al-Mansurah, EGYPT",EG,ciudad NASA,2027,30,0.93333,0.0,0.93333,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09568,2027-08-02,solar,"Banghazi, LIBYA",LY,ciudad NASA,2027,30,0.9,0.0,0.9,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09568,2027-08-02,solar,"Jiddah, SAUDI ARABIA",SA,ciudad NASA,2027,30,0.63333,0.0,0.63333,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09568,2027-08-02,solar,"Oran, ALGERIA",DZ,ciudad NASA,2027,30,0.7,0.03333,0.7,alta,climatology_prior,0.03333,baja,climatology_prior
+NASA-SE-09568,2027-08-02,solar,Referencia central NASA 3,,referencia astronómica,2027,30,0.83333,0.0,0.83333,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09568,2027-08-02,solar,Referencia central NASA 4,,referencia astronómica,2027,30,0.96667,0.0,0.96667,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09568,2027-08-02,solar,Referencia central NASA 5,,referencia astronómica,2027,30,0.66667,0.0,0.66667,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09568,2027-08-02,solar,"Sana, YEMEN",YE,ciudad NASA,2027,30,0.0,0.3,0.0,baja,climatology_prior,0.3,media,climatology_prior
+NASA-SE-09568,2027-08-02,solar,"Sevilla, SPAIN",ES,ciudad NASA,2027,30,0.9,0.0,0.9,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09568,2027-08-02,solar,"Sfax, TUNISIA",TN,ciudad NASA,2027,30,0.9,0.0,0.9,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09568,2027-08-02,solar,"Tangier, MOROCCO",MA,ciudad NASA,2027,30,0.6,0.0,0.6,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09568,2027-08-02,solar,"Valletta, MALTA",MT,ciudad NASA,2027,30,1.0,0.0,1.0,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,"Acapulco, MEXICO",MX,ciudad NASA,2027,30,0.03333,0.43333,0.03333,baja,climatology_prior,0.43333,media,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,"Alajuela, COSTA RICA",CR,ciudad NASA,2027,30,0.03333,0.23333,0.03333,baja,climatology_prior,0.23333,baja,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,"Cali, COLOMBIA",CO,ciudad NASA,2027,30,0.0,0.16667,0.0,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,"Easter Island, CHILE",CL,ciudad NASA,2027,30,0.1,0.3,0.1,baja,climatology_prior,0.3,media,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,"Guatemala, GUATEMALA",GT,ciudad NASA,2027,30,0.03333,0.13333,0.03333,baja,climatology_prior,0.13333,baja,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,"Leon, NICARAGUA",NI,ciudad NASA,2027,30,0.06667,0.33333,0.06667,baja,climatology_prior,0.33333,media,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,"Lima, PERU",PE,ciudad NASA,2027,30,0.1,0.06667,0.1,baja,climatology_prior,0.06667,baja,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,"Pitcairn Island, PITCAIRN",PN,ciudad NASA,2027,30,0.16667,0.16667,0.16667,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,Referencia NASA del máximo,,referencia astronómica,2027,30,0.1,0.03333,0.1,baja,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,"San Salvador, EL SALVADOR",SV,ciudad NASA,2027,30,0.06667,0.43333,0.06667,baja,climatology_prior,0.43333,media,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,"Santa Cruz, Galapagos, ECUADOR",EC,ciudad NASA,2027,30,0.16667,0.06667,0.16667,baja,climatology_prior,0.06667,baja,climatology_prior
+NASA-LE-09712,2027-08-17,lunar,"Tegucigalpa, HONDURAS",HN,ciudad NASA,2027,30,0.03333,0.1,0.03333,baja,climatology_prior,0.1,baja,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,"Bridgetown, BARBADOS",BB,ciudad NASA,2028,30,0.16667,0.33333,0.16667,baja,climatology_prior,0.33333,media,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,"Castries, ST. LUCIA",LC,ciudad NASA,2028,30,0.33333,0.16667,0.33333,media,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,"Charlotte Am., St. Thomas, U.S. VIRGIN IS.",VI,ciudad NASA,2028,30,0.36667,0.3,0.36667,media,climatology_prior,0.3,media,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,"Fort-de-France, MARTINIQUE",MQ,ciudad NASA,2028,30,0.26667,0.36667,0.26667,media,climatology_prior,0.36667,media,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,"Hamilton, BERMUDA",BM,ciudad NASA,2028,30,0.1,0.06667,0.1,baja,climatology_prior,0.06667,baja,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,"Kingstown, ST. VINCENT & GRENADINES",VC,ciudad NASA,2028,30,0.16667,0.5,0.16667,baja,climatology_prior,0.5,alta,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,"Pointe a Pitre, GUADELOUPE",GP,ciudad NASA,2028,30,0.1,0.6,0.1,baja,climatology_prior,0.6,alta,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,Referencia NASA del máximo,,referencia astronómica,2028,30,0.16667,0.2,0.16667,baja,climatology_prior,0.2,baja,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,"Road Town, Tortola, UK VIRGIN IS.",VG,ciudad NASA,2028,30,0.23333,0.23333,0.23333,baja,climatology_prior,0.23333,baja,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,"Saint George's, GRENADA",GD,ciudad NASA,2028,30,0.33333,0.4,0.33333,media,climatology_prior,0.4,media,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,"San Juan, PUERTO RICO",PR,ciudad NASA,2028,30,0.3,0.2,0.3,media,climatology_prior,0.2,baja,climatology_prior
+NASA-LE-09713,2028-01-12,lunar,"Santo Domingo, DOMINICAN REPUBLIC",DO,ciudad NASA,2028,30,0.36667,0.13333,0.36667,media,climatology_prior,0.13333,baja,climatology_prior
+NASA-SE-09569,2028-01-26,solar,"El Aaiun, WESTERN SAHARA",EH,ciudad NASA,2028,30,0.5,0.0,0.5,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09569,2028-01-26,solar,"Lisbon, PORTUGAL",PT,ciudad NASA,2028,30,0.3,0.16667,0.3,media,climatology_prior,0.16667,baja,climatology_prior
+NASA-SE-09569,2028-01-26,solar,"Manaus, BRAZIL",BR,ciudad NASA,2028,30,0.0,0.8,0.0,baja,climatology_prior,0.8,alta,climatology_prior
+NASA-SE-09569,2028-01-26,solar,"Oran, ALGERIA",DZ,ciudad NASA,2028,30,0.36667,0.2,0.36667,media,climatology_prior,0.2,baja,climatology_prior
+NASA-SE-09569,2028-01-26,solar,"Paramaribo, SURINAME",SR,ciudad NASA,2028,30,0.03333,0.53333,0.03333,baja,climatology_prior,0.53333,alta,climatology_prior
+NASA-SE-09569,2028-01-26,solar,Referencia central NASA 3,,referencia astronómica,2028,30,0.0,0.8,0.0,baja,climatology_prior,0.8,alta,climatology_prior
+NASA-SE-09569,2028-01-26,solar,Referencia central NASA 4,,referencia astronómica,2028,30,0.0,0.5,0.0,baja,climatology_prior,0.5,alta,climatology_prior
+NASA-SE-09569,2028-01-26,solar,Referencia central NASA 5,,referencia astronómica,2028,30,0.06667,0.3,0.06667,baja,climatology_prior,0.3,media,climatology_prior
+NASA-SE-09569,2028-01-26,solar,"Santa Cruz, Galapagos, ECUADOR",EC,ciudad NASA,2028,30,0.1,0.1,0.1,baja,climatology_prior,0.1,baja,climatology_prior
+NASA-SE-09569,2028-01-26,solar,"Sevilla, SPAIN",ES,ciudad NASA,2028,30,0.26667,0.13333,0.26667,media,climatology_prior,0.13333,baja,climatology_prior
+NASA-SE-09569,2028-01-26,solar,"Tangier, MOROCCO",MA,ciudad NASA,2028,30,0.23333,0.1,0.23333,baja,climatology_prior,0.1,baja,climatology_prior
+NASA-SE-09569,2028-01-26,solar,"Toulouse, FRANCE",FR,ciudad NASA,2028,30,0.2,0.16667,0.2,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,"Bandar Seri Begawan, BRUNEI",BN,ciudad NASA,2028,30,0.0,0.33333,0.0,baja,climatology_prior,0.33333,media,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,"Bangkok, THAILAND",TH,ciudad NASA,2028,30,0.0,0.4,0.0,baja,climatology_prior,0.4,media,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,"Colombo, SRI LANKA",LK,ciudad NASA,2028,30,0.03333,0.4,0.03333,baja,climatology_prior,0.4,media,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,"Fianarantsoa, MADAGASCAR",MG,ciudad NASA,2028,30,0.1,0.03333,0.1,baja,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,"Ho Chi Minh, VIETNAM",VN,ciudad NASA,2028,30,0.03333,0.23333,0.03333,baja,climatology_prior,0.23333,baja,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,"Kuala Lumpur, MALAYSIA",MY,ciudad NASA,2028,30,0.1,0.16667,0.1,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,"Madras, INDIA",IN,ciudad NASA,2028,30,0.0,0.2,0.0,baja,climatology_prior,0.2,baja,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,"Perth, AUSTRALIA",AU,ciudad NASA,2028,30,0.26667,0.26667,0.26667,media,climatology_prior,0.26667,media,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,"Phnum Penh, CAMBODIA",KH,ciudad NASA,2028,30,0.06667,0.26667,0.06667,baja,climatology_prior,0.26667,media,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,"Pringsewu, INDONESIA",ID,ciudad NASA,2028,30,0.03333,0.1,0.03333,baja,climatology_prior,0.1,baja,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,Referencia NASA del máximo,,referencia astronómica,2028,30,0.1,0.2,0.1,baja,climatology_prior,0.2,baja,climatology_prior
+NASA-LE-09714,2028-07-06,lunar,"Singapore, SINGAPORE",SG,ciudad NASA,2028,30,0.06667,0.23333,0.06667,baja,climatology_prior,0.23333,baja,climatology_prior
+NASA-SE-09570,2028-07-22,solar,"Bandar Seri Begawan, BRUNEI",BN,ciudad NASA,2028,30,0.0,0.2,0.0,baja,climatology_prior,0.2,baja,climatology_prior
+NASA-SE-09570,2028-07-22,solar,"Davao, PHILIPPINES",PH,ciudad NASA,2028,30,0.03333,0.3,0.03333,baja,climatology_prior,0.3,media,climatology_prior
+NASA-SE-09570,2028-07-22,solar,"Denpasar, INDONESIA",ID,ciudad NASA,2028,30,0.1,0.43333,0.1,baja,climatology_prior,0.43333,media,climatology_prior
+NASA-SE-09570,2028-07-22,solar,"Dunedin, NEW ZEALAND",NZ,ciudad NASA,2028,30,0.13333,0.13333,0.13333,baja,climatology_prior,0.13333,baja,climatology_prior
+NASA-SE-09570,2028-07-22,solar,"Kuala Lumpur, MALAYSIA",MY,ciudad NASA,2028,30,0.0,0.43333,0.0,baja,climatology_prior,0.43333,media,climatology_prior
+NASA-SE-09570,2028-07-22,solar,"Noumea, NEW CALEDONIA",NC,ciudad NASA,2028,30,0.0,0.13333,0.0,baja,climatology_prior,0.13333,baja,climatology_prior
+NASA-SE-09570,2028-07-22,solar,"Port Moresby, PAPUA NEW GUINEA",PG,ciudad NASA,2028,30,0.13333,0.23333,0.13333,baja,climatology_prior,0.23333,baja,climatology_prior
+NASA-SE-09570,2028-07-22,solar,Referencia central NASA 3,,referencia astronómica,2028,30,0.13333,0.03333,0.13333,baja,climatology_prior,0.03333,baja,climatology_prior
+NASA-SE-09570,2028-07-22,solar,Referencia central NASA 4,,referencia astronómica,2028,30,0.7,0.0,0.7,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09570,2028-07-22,solar,Referencia central NASA 5,,referencia astronómica,2028,30,0.83333,0.0,0.83333,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09570,2028-07-22,solar,"Singapore, SINGAPORE",SG,ciudad NASA,2028,30,0.0,0.43333,0.0,baja,climatology_prior,0.43333,media,climatology_prior
+NASA-SE-09570,2028-07-22,solar,"Sydney, AUSTRALIA",AU,ciudad NASA,2028,30,0.36667,0.1,0.36667,media,climatology_prior,0.1,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,"Bangkok, THAILAND",TH,ciudad NASA,2028,30,0.36667,0.0,0.36667,media,climatology_prior,0.0,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,"Caloocan, PHILIPPINES",PH,ciudad NASA,2028,30,0.23333,0.16667,0.23333,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,"Chittagong, BANGLADESH",BD,ciudad NASA,2028,30,0.8,0.03333,0.8,alta,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,"Hai Phong, VIETNAM",VN,ciudad NASA,2028,30,0.33333,0.03333,0.33333,media,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,"Macau, MACAU",MO,ciudad NASA,2028,30,0.5,0.03333,0.5,alta,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,"Mandalay, MYANMAR",MM,ciudad NASA,2028,30,0.83333,0.03333,0.83333,alta,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,"Phnum Penh, CAMBODIA",KH,ciudad NASA,2028,30,0.1,0.03333,0.1,baja,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,Referencia NASA del máximo,,referencia astronómica,2028,30,0.26667,0.06667,0.26667,media,climatology_prior,0.06667,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,"Taipei, TAIWAN",TW,ciudad NASA,2028,30,0.03333,0.16667,0.03333,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,"Victoria, HONG KONG",HK,ciudad NASA,2028,30,0.43333,0.0,0.43333,media,climatology_prior,0.0,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,"Vientiane, LAOS",LA,ciudad NASA,2028,30,0.66667,0.03333,0.66667,alta,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09715,2028-12-31,lunar,"Yulin, CHINA",CN,ciudad NASA,2028,30,0.33333,0.06667,0.33333,media,climatology_prior,0.06667,baja,climatology_prior
+NASA-SE-09571,2029-01-14,solar,"Ciudad Juarez, MEXICO",MX,ciudad NASA,2029,30,0.6,0.0,0.6,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09571,2029-01-14,solar,"Godthab, GREENLAND",GL,ciudad NASA,2029,30,0.23333,0.0,0.23333,baja,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09571,2029-01-14,solar,"Guatemala, GUATEMALA",GT,ciudad NASA,2029,30,0.3,0.0,0.3,media,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09571,2029-01-14,solar,"Hamilton, BERMUDA",BM,ciudad NASA,2029,30,0.16667,0.26667,0.16667,baja,climatology_prior,0.26667,media,climatology_prior
+NASA-SE-09571,2029-01-14,solar,"Havana, CUBA",CU,ciudad NASA,2029,30,0.3,0.13333,0.3,media,climatology_prior,0.13333,baja,climatology_prior
+NASA-SE-09571,2029-01-14,solar,"Montego Bay, JAMAICA",JM,ciudad NASA,2029,30,0.33333,0.23333,0.33333,media,climatology_prior,0.23333,baja,climatology_prior
+NASA-SE-09571,2029-01-14,solar,"Nassau, BAHAMAS",BS,ciudad NASA,2029,30,0.3,0.1,0.3,media,climatology_prior,0.1,baja,climatology_prior
+NASA-SE-09571,2029-01-14,solar,Referencia NASA del máximo,,referencia astronómica,2029,30,0.06667,0.0,0.06667,baja,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09571,2029-01-14,solar,"San Pedro Sula, HONDURAS",HN,ciudad NASA,2029,30,0.1,0.73333,0.1,baja,climatology_prior,0.73333,alta,climatology_prior
+NASA-SE-09571,2029-01-14,solar,"Santa Ana, EL SALVADOR",SV,ciudad NASA,2029,30,0.76667,0.0,0.76667,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09571,2029-01-14,solar,"Seattle, WA",US,ciudad NASA,2029,30,0.13333,0.23333,0.13333,baja,climatology_prior,0.23333,baja,climatology_prior
+NASA-SE-09571,2029-01-14,solar,"Yellowknife, NT",CA,ciudad NASA,2029,30,0.13333,0.0,0.13333,baja,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09572,2029-06-12,solar,"Copenhagen, DENMARK",DK,ciudad NASA,2029,30,0.26667,0.1,0.26667,media,climatology_prior,0.1,baja,climatology_prior
+NASA-SE-09572,2029-06-12,solar,"Edinburgh, UK",GB,ciudad NASA,2029,30,0.1,0.23333,0.1,baja,climatology_prior,0.23333,baja,climatology_prior
+NASA-SE-09572,2029-06-12,solar,"Gdansk, POLAND",PL,ciudad NASA,2029,30,0.33333,0.13333,0.33333,media,climatology_prior,0.13333,baja,climatology_prior
+NASA-SE-09572,2029-06-12,solar,"Goteborg, SWEDEN",SE,ciudad NASA,2029,30,0.3,0.06667,0.3,media,climatology_prior,0.06667,baja,climatology_prior
+NASA-SE-09572,2029-06-12,solar,"Hamburg, GERMANY",DE,ciudad NASA,2029,30,0.16667,0.1,0.16667,baja,climatology_prior,0.1,baja,climatology_prior
+NASA-SE-09572,2029-06-12,solar,"Helsinki, FINLAND",FI,ciudad NASA,2029,30,0.2,0.26667,0.2,baja,climatology_prior,0.26667,media,climatology_prior
+NASA-SE-09572,2029-06-12,solar,"Oslo, NORWAY",NO,ciudad NASA,2029,30,0.36667,0.1,0.36667,media,climatology_prior,0.1,baja,climatology_prior
+NASA-SE-09572,2029-06-12,solar,Referencia NASA del máximo,,referencia astronómica,2029,30,0.33333,0.0,0.33333,media,climatology_prior,0.0,baja,climatology_prior
+NASA-SE-09572,2029-06-12,solar,"Resolute, NU",CA,ciudad NASA,2029,30,0.0,0.1,0.0,baja,climatology_prior,0.1,baja,climatology_prior
+NASA-SE-09572,2029-06-12,solar,"Reykjavik, ICELAND",IS,ciudad NASA,2029,30,0.16667,0.1,0.16667,baja,climatology_prior,0.1,baja,climatology_prior
+NASA-SE-09572,2029-06-12,solar,"Riga, LATVIA",LV,ciudad NASA,2029,30,0.16667,0.2,0.16667,baja,climatology_prior,0.2,baja,climatology_prior
+NASA-SE-09572,2029-06-12,solar,"Tallinn, ESTONIA",EE,ciudad NASA,2029,30,0.06667,0.33333,0.06667,baja,climatology_prior,0.33333,media,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,"Arequipa, PERU",PE,ciudad NASA,2029,30,0.73333,0.0,0.73333,alta,climatology_prior,0.0,baja,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,"Asuncion, PARAGUAY",PY,ciudad NASA,2029,30,0.2,0.26667,0.2,baja,climatology_prior,0.26667,media,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,"Curitiba, BRAZIL",BR,ciudad NASA,2029,30,0.16667,0.1,0.16667,baja,climatology_prior,0.1,baja,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,"Georgetown, GUYANA",GY,ciudad NASA,2029,30,0.03333,0.66667,0.03333,baja,climatology_prior,0.66667,alta,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,"Paramaribo, SURINAME",SR,ciudad NASA,2029,30,0.06667,0.13333,0.06667,baja,climatology_prior,0.13333,baja,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,"Port-of-Spain, TRINIDAD & TOBAGO",TT,ciudad NASA,2029,30,0.13333,0.36667,0.13333,baja,climatology_prior,0.36667,media,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,Referencia NASA del máximo,,referencia astronómica,2029,30,0.43333,0.1,0.43333,media,climatology_prior,0.1,baja,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,"Rivera, URUGUAY",UY,ciudad NASA,2029,30,0.33333,0.23333,0.33333,media,climatology_prior,0.23333,baja,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,"Rosario, ARGENTINA",AR,ciudad NASA,2029,30,0.46667,0.03333,0.46667,media,climatology_prior,0.03333,baja,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,"Santa Cruz, BOLIVIA",BO,ciudad NASA,2029,30,0.2,0.2,0.2,baja,climatology_prior,0.2,baja,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,"Santiago, CHILE",CL,ciudad NASA,2029,30,0.5,0.1,0.5,alta,climatology_prior,0.1,baja,climatology_prior
+NASA-LE-09716,2029-06-26,lunar,"Stanley, FALKLAND ISLANDS",FK,ciudad NASA,2029,30,0.2,0.16667,0.2,baja,climatology_prior,0.16667,baja,climatology_prior
+NASA-SE-09573,2029-07-11,solar,"Concepcion, CHILE",CL,ciudad NASA,2029,30,0.3,0.23333,0.3,media,climatology_prior,0.23333,baja,climatology_prior
+NASA-SE-09573,2029-07-11,solar,Referencia NASA del máximo,,referencia astronómica,2029,30,0.0,0.2,0.0,baja,climatology_prior,0.2,baja,climatology_prior
+NASA-SE-09573,2029-07-11,solar,"Stanley, FALKLAND ISLANDS",FK,ciudad NASA,2029,30,0.13333,0.16667,0.13333,baja,climatology_prior,0.16667,baja,climatology_prior

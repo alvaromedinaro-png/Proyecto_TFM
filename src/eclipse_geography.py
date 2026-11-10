@@ -183,5 +183,5 @@ def export_world_map(root=sources.ROOT):
     directory = Path(root) / "app"
     directory.mkdir(parents=True, exist_ok=True)
     serialized = json.dumps(payload, ensure_ascii=True, allow_nan=False, separators=(",", ":")).replace("<", "\\u003c")
-    (directory / "world-map.js").write_text("window.ECLIPSE_WORLD_MAP = " + serialized + ";\n", encoding="utf-8")
+    (directory / "world-map.js").write_text("window.ECLIPSE_WORLD_MAP = " + serialized + ";\n", encoding="utf-8", newline="\n")
     return payload

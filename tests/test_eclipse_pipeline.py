@@ -171,6 +171,24 @@ class WindowTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Horas ausentes"):
             pipeline.parse_hourly(payload, self.candidates, pipeline.HISTORICAL_VARIABLES, "2024-08-01", "2024-08-03")
 
+    def test_missing_values_stay_null_and_invalid_values_are_rejected(self):
+        params = {"start_date": "2024-08-01", "end_date": "2024-08-03"}
+        payload = weather_payload(params, pipeline.HISTORICAL_VARIABLES)
+        payload["hourly"]["rain"][33] = None
+        hourly, _ = pipeline.parse_hourly(payload, self.candidates, pipeline.HISTORICAL_VARIABLES, "2024-08-01", "2024-08-03")
+        self.assertTrue(pd.isna(hourly.rain.iloc[33]), "Un valor ausente no se convierte en cero.")
+        self.assertEqual(hourly.rain.isna().sum(), 1)
+        for change, message in [("units", "Unidades"), ("negative", "negativos"), ("rain", "incoherente")]:
+            broken = weather_payload(params, pipeline.HISTORICAL_VARIABLES)
+            if change == "units":
+                broken["hourly_units"]["rain"] = "inch"
+            elif change == "negative":
+                broken["hourly"]["precipitation"][9] = -1.0
+            else:
+                broken["hourly"]["rain"][9] = 0.5
+            with self.subTest(change=change), self.assertRaisesRegex(ValueError, message):
+                pipeline.parse_hourly(broken, self.candidates, pipeline.HISTORICAL_VARIABLES, "2024-08-01", "2024-08-03")
+
     def test_forecast_updates_order_only_when_candidates_have_comparable_coverage(self):
         ranking = pd.DataFrame([{"name": name, "event_time_utc_approx": "2026-10-08T08:20:00+00:00",
             "phase_priority": 1, "astronomy_score": 0.5, "duration_score": 1, "altitude_score": 0.5,
@@ -216,6 +234,53 @@ class RankingAndShortlistTests(unittest.TestCase):
         references = shortlist.candidate_type.eq("referencia astronómica")
         self.assertEqual(references.sum(), 1)
         self.assertEqual(sorted(shortlist.loc[~references, "country_code"]), ["AA", "BB", "CC"])
+
+
+class PlanningDatasetTests(unittest.TestCase):
+    def setUp(self):
+        self.event = {"event_id": "TEST", "event_date": "2027-08-02", "event_family": "solar"}
+        self.locations = pd.DataFrame([{"name": "Test", "latitude": 36.0, "longitude": -15.0, "elevation_m": 5.0,
+            "country_code": "ES", "candidate_type": "ciudad NASA", "body_altitude_deg": 60.0,
+            "event_time_utc_approx": "2027-08-02T10:30:00+00:00"}])
+        clear = {2021: 1, 2022: 0, 2023: 1}
+        self.samples = pd.DataFrame([{"name": "Test", "reference_year": year, "day_offset": offset,
+            "clear_sky_proxy": clear[year] if offset == 0 else 1, "rain_proxy": 1 - clear[year],
+            "cloud_cover": 100 * (1 - clear[year]), "cloud_cover_low": 0.0, "grid_latitude": 36.0, "grid_longitude": -15.0}
+            for year in clear for offset in range(-2, 3)])
+
+    def test_climatology_uses_only_previous_years(self):
+        dataset = pipeline.planning_dataset(self.event, self.locations, self.samples).set_index("reference_year")
+        self.assertEqual(dataset.prior_years.tolist(), [0, 1, 2, 3])
+        self.assertTrue(pd.isna(dataset.loc[2021, "prior_clear_frequency"]))
+        self.assertEqual(dataset.loc[2022, "prior_clear_frequency"], 1.0)
+        self.assertEqual(dataset.loc[2023, "prior_clear_frequency"], 0.5)
+        # Ventana −2..+2 de 2021 y 2022: 4 + 4 días despejados más el día 0 de 2021.
+        self.assertAlmostEqual(dataset.loc[2023, "prior_window_clear_frequency"], 9 / 10)
+        self.assertEqual(dataset.loc[2023, "baseline_clear_probability"], dataset.loc[2023, "prior_clear_frequency"])
+        self.assertEqual(dataset.loc[2023, "clear_sky_proxy"], 1)
+
+    def test_query_row_has_all_history_and_no_label(self):
+        dataset = pipeline.planning_dataset(self.event, self.locations, self.samples)
+        query = dataset.loc[dataset.row_role.eq("query")].iloc[0]
+        self.assertEqual(query.reference_year, 2027)
+        self.assertEqual(query.prior_years, 3)
+        self.assertAlmostEqual(query.prior_clear_frequency, 2 / 3)
+        self.assertTrue(pd.isna(query.clear_sky_proxy))
+        self.assertAlmostEqual(query.local_solar_hour, 9.5)
+
+    def test_same_year_weather_is_never_a_predictor(self):
+        dataset = pipeline.planning_dataset(self.event, self.locations, self.samples)
+        predictors = set(pipeline.ML_COLUMNS["predictors"])
+        self.assertFalse(predictors & set(pipeline.HISTORICAL_VARIABLES))
+        self.assertFalse(predictors & set(pipeline.ML_COLUMNS["labels"]))
+        self.assertEqual(list(dataset.columns), [column for role in pipeline.ML_COLUMNS.values() for column in role])
+        # Cambiar la observación de un año no altera sus propios predictores.
+        changed = self.samples.copy()
+        changed.loc[changed.reference_year.eq(2023), ["clear_sky_proxy", "cloud_cover"]] = [0, 100]
+        before = dataset.set_index("reference_year").loc[2023, sorted(predictors)]
+        after = pipeline.planning_dataset(self.event, self.locations, changed).set_index("reference_year").loc[2023, sorted(predictors)]
+        pd.testing.assert_series_equal(before, after)
+
 
 if __name__ == "__main__":
     unittest.main()

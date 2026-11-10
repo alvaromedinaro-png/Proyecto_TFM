@@ -72,7 +72,7 @@ Después se abre `app/index.html` en el navegador, sin servidor. La interfaz tom
 
 Cada respuesta se guarda tal como llega, con un `.metadata.json` que registra URL, parámetros, fecha UTC de adquisición, estado HTTP y SHA-256. La configuración forma parte del nombre de las respuestas climáticas (`climate_<año>_<hash>.json`), para no reutilizar por error otra ventana o conjunto de coordenadas. `--offline` solo acepta copias cuyo hash coincide.
 
-El repositorio incluye los originales NASA, la cartografía y **una respuesta climática de muestra** (2027-08-02, año 2025). El resto de respuestas climáticas (unos 58 MB) se regenera con el pipeline y está excluido en `.gitignore`. Los datos de la exploración inicial se conservan aparte, en `data/legacy/`, y no forman parte del producto.
+El repositorio incluye los originales NASA, la cartografía y **las respuestas climáticas de 2022 a 2026 del eclipse de ejemplo** (2027-08-02, unos 1,1 MB), que permiten reconstruirlo sin red (ver *Trazabilidad*). El resto de respuestas climáticas (unos 85 MB) se regenera con el pipeline y está excluido en `.gitignore`.
 
 ### Silver: transformaciones
 
@@ -88,11 +88,22 @@ La nubosidad del máximo usa la hora más cercana. Lluvia y precipitación usan 
 
 ### Gold: el dataset para la fase siguiente
 
-**`data/gold/events/<fecha>/climate_event_samples.csv`** es el dataset de entrada para Machine Learning. Hay uno por cada eclipse de la ventana, y juntos forman el conjunto de entrenamiento.
+**Qué se sabe al planificar.** La consulta se hace meses o años antes del eclipse. En ese momento se conocen la ubicación, la geometría del evento y la meteorología de **años anteriores**, pero no la nubosidad ni la lluvia de la hora del eclipse, que son precisamente lo que se quiere estimar. Las etiquetas `clear_sky_proxy` (nubosidad ≤20 %) y `rain_proxy` (lluvia ≥0,1 mm/h) se calculan con esos valores. Si las 19 variables de esa misma hora se usaran como predictores, un modelo solo aprendería a reproducir los umbrales. Por eso Gold separa dos tablas:
+
+**`data/gold/events/<fecha>/climate_event_samples.csv`**: observaciones históricas, base de las etiquetas y de la climatología.
 
 - **Fila:** un evento × una ubicación × un año histórico × un día relativo (−2 a +2), a la hora del máximo local. Con 12 ubicaciones y 30 años son 1.800 filas por evento; los 14 eclipses de la preparación entregada suman 23.850.
-- **Columnas principales:** `sample_id`, `event_id`, `name`, `reference_year` y `day_offset` como identificadores. Las 19 variables meteorológicas a esa hora como variables explicativas. `grid_latitude` y `grid_longitude` como celda ERA5. `clear_sky_proxy` (1 si la nubosidad es ≤20 %) y `rain_proxy` (1 si la lluvia es ≥0,1 mm/h) como etiquetas.
-- **Uso:** estimar la probabilidad de cielo despejado por ubicación y fecha. La línea base es la frecuencia empírica; un modelo de clasificación se evaluaría con validación temporal por año para no mezclar años de entrenamiento y prueba.
+- **Columnas:** identificadores (`sample_id`, `event_id`, `name`, `reference_year`, `day_offset`), las 19 variables a esa hora, la celda ERA5 (`grid_latitude`, `grid_longitude`) y las dos etiquetas.
+- **Uso:** describir el tiempo de cada año y calcular las frecuencias del ranking. Sus variables meteorológicas **no son predictores**: se observan a la vez que la etiqueta.
+
+**`data/gold/events/<fecha>/planning_ml_dataset.csv`**: el dataset de entrada para Machine Learning. Hay uno por eclipse, y juntos forman el conjunto de entrenamiento.
+
+- **Fila:** un evento × una ubicación × un año (día 0). Las filas `history` son los 30 años con etiqueta conocida. La fila `query` es la del propio eclipse: lleva los mismos predictores, calculados con todo el histórico, y la etiqueta vacía; es exactamente lo que recibe el modelo en una consulta. Son 31 filas por ubicación, 4.929 en los 14 eclipses (4.770 con etiqueta).
+- **Predictores, todos conocidos al planificar:** ubicación (`latitude`, `longitude`, `elevation_m`, celda ERA5), fecha y hora (`day_of_year`, `local_solar_hour`), altura del astro (`body_altitude_deg`) y climatología de **años estrictamente anteriores** a la fila (`prior_years`, `prior_clear_frequency`, `prior_rain_frequency`, `prior_window_clear_frequency` con los días −2 a +2, `prior_mean_cloud_cover_pct` y `prior_mean_cloud_cover_low_pct`). La fila de 2010 solo usa 1997–2009, igual que una consulta hecha en 2010.
+- **Línea base:** `baseline_clear_probability` y `baseline_rain_probability`, la frecuencia histórica previa. Es la referencia que un modelo debe superar.
+- **Etiquetas:** `clear_sky_proxy` y `rain_proxy` del año de la fila.
+- **Uso y validación:** clasificación de cielo despejado y lluvia con validación temporal por `reference_year` (entrenar con años anteriores y probar con posteriores), evaluando solo filas con al menos 10 años previos (3.180). Como referencia, la línea base obtiene un Brier de 0,138 en esas filas, con un 25,7 % de casos despejados. El informe de calidad registra el papel de cada columna (`ml_dataset.columns`).
+- **Fuera del modelo histórico:** el pronóstico operativo solo existe en los 16 días anteriores, y los pronósticos archivados de Open-Meteo (Historical Forecast API) cubren solo los últimos años, muy pocos para entrenar frente a 30 años de ERA5. Se mantiene como capa separada del ranking (ver abajo), no como predictor de entrenamiento.
 
 **`data/gold/events/<fecha>/location_ranking.csv`** resume la información por destino.
 
@@ -107,18 +118,29 @@ La clasificación prioriza la fase astronómica y una cobertura de al menos 15 a
 
 Si todos los candidatos tienen un pronóstico vigente a la hora del evento, se usa con los mismos pesos y `ranking_basis` lo indica. Los pesos son una decisión inicial explicable, pendiente de validación.
 
-Además, por evento se guardan `destination_ranking.csv` (solo destinos terrestres), `astronomical_references.csv`, `climate_daily_summary.csv` (estadísticas a la hora del evento por día relativo), `climate_daily_conditions.csv` (mínimas, máximas y acumulados de 24 horas), `operational_forecast.csv`, `forecast_status.json` y `pipeline_quality_report.json`. Este último registra configuración, fallos, ausencias, pesos y hashes de las salidas.
+Además, por evento se guardan `destination_ranking.csv` (solo destinos terrestres), `astronomical_references.csv`, `climate_daily_summary.csv` (estadísticas a la hora del evento por día relativo), `climate_daily_conditions.csv` (mínimas, máximas y acumulados de 24 horas), `operational_forecast.csv`, `forecast_status.json` y `pipeline_quality_report.json`. Este último registra configuración, fallos, ausencias, pesos, papel de las columnas de ML, el SHA-256 de cada salida y el del código que la generó (`code_sha256`).
 
 **Exportación al selector.** `data/gold/planner_data.js` (y su equivalente `.json`) combina el catálogo astronómico de destinos terrestres de Silver con los resultados Gold, enlazados por **nombre y coordenadas**. Además de la ventana, incluye como pendientes los eclipses de los dos años siguientes. Así la interfaz mantiene «hoy + 3 años» aunque se abra meses después sin ejecutar el pipeline; si la ventana supera esos datos, avisa. Las zonas sin climatología aparecen como «climatología pendiente» y nunca reciben datos de otra ubicación. Para eclipses solares, el selector de país usa la **máxima ocultación entre los puntos evaluados** de cada país y muestra los que alcanzan el **70 %**. El umbral se exporta con los datos y la interfaz lo lee de ahí. En lunares se ordena por la altura de la Luna.
 
 **Estados del selector.** Un evento solo se presenta como preparado si su informe registra la configuración usada, tiene al menos 15 años de histórico y no tiene fallos ni ausencias.
 
-- Las preparaciones de versiones anteriores o de pruebas quedan pendientes.
+- Las preparaciones hechas con otra configuración (ubicaciones, años o ventana meteorológica) quedan pendientes.
 - Las de histórico corto se muestran como parciales.
 - Si una actualización falla, los resultados anteriores se muestran como parciales con un aviso.
 - `data/gold/batch_acquisition_report.json` registra el resultado de cada evento en la última ejecución.
 
-**Verificación.** La batería de tests cubre catálogos, caché verificada, geometría solar y lunar (incluidos híbridos), ventanas meteorológicas con cambio de día y de año, cuotas de la API, reutilización de preparaciones, estados de la exportación y coherencia del umbral entre datos e interfaz. Los tests no escriben en `data/`.
+### Trazabilidad y ejemplo reconstruible
+
+Los datos y los informes entregados proceden de **una misma ejecución y de la misma versión del código**. Todas las salidas se escriben con fin de línea LF, y `.gitattributes` impide que git convierta `data/`. Así, el SHA-256 de cada informe coincide con el archivo de cualquier copia del repositorio o ZIP, también en Windows. El hash del código se calcula con fin de línea normalizado.
+
+```powershell
+python src/eclipse_pipeline.py --verify   # hashes de las salidas Gold, versión del código y respuestas Bronze incluidas
+python src/eclipse_example.py             # reconstruye el ejemplo sin red y compara hashes
+```
+
+**Ejemplo pequeño:** el eclipse total del 2 de agosto de 2027 con **5 años de histórico (2022–2026)**. `eclipse_example.py` copia en una carpeta temporal solo las fuentes versionadas (catálogos y ciudades NASA, Natural Earth, elementos besselianos, trayectoria y las cinco respuestas climáticas), rehace Silver y Gold con el código actual y compara cada archivo con la referencia de `data/example/2027-08-02/`. No usa red ni escribe en `data/`. Solo se excluye de la comparación `forecast_status.json`, porque registra el día de la consulta. Con 5 años la clasificación no alcanza los 15 años validados: el ejemplo sirve para comprobar la preparación, no para elegir destino.
+
+**Verificación.** La batería de tests cubre catálogos, caché verificada, geometría solar y lunar (incluidos híbridos), ventanas meteorológicas con cambio de día y de año, cuotas de la API, reutilización de preparaciones, estados de la exportación, coherencia del umbral entre datos e interfaz, predictores calculados solo con años anteriores, fin de línea de las salidas, detección de archivos alterados y reconstrucción del ejemplo. Los tests no escriben en `data/`.
 
 ## 5. Riesgos y limitaciones
 

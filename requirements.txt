@@ -2,5 +2,7 @@ numpy>=1.24,<3
 pandas>=2,<3
 requests>=2.31,<3
 beautifulsoup4>=4.12,<5
+# Solo para el experimento de Machine Learning de la entrega 3.
+scikit-learn>=1.4,<2
 # Solo para abrir el notebook de la entrega.
 notebook>=7,<8

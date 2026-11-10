@@ -393,7 +393,7 @@ class ProductSnapshotTests(unittest.TestCase):
         self.assertEqual(saved, payload)
 
 
-    def test_legacy_report_without_configuration_is_not_presented_as_prepared(self):
+    def test_report_without_configuration_is_not_presented_as_prepared(self):
         selected = event()
         directory = prepared_event(self.root, selected)
         report_path = directory / "pipeline_quality_report.json"
@@ -403,7 +403,7 @@ class ProductSnapshotTests(unittest.TestCase):
         output = self.build([selected])["events"][0]
         self.assertEqual(output["status"], "pending")
         self.assertEqual(output["locations"], [])
-        self.assertIn("versión anterior", output["error"])
+        self.assertIn("no registra su configuración", output["error"])
 
     def test_short_history_is_exported_as_partial_and_provisional(self):
         selected = event()

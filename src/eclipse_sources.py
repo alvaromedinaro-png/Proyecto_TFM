@@ -1,8 +1,7 @@
-"""Catálogo NASA, selección por fecha y preparación de astronomía y clima por evento."""
+"""Acceso a las fuentes: caché verificada, cuotas de Open-Meteo y lectura de tablas NASA."""
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urljoin
-import argparse
 import hashlib
 import json
 import re
@@ -15,10 +14,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-try:
-    from .prepare_eclipse_data import ROOT, nearest_central_line_point, save_json
-except ImportError:
-    from prepare_eclipse_data import ROOT, nearest_central_line_point, save_json
+ROOT = Path(__file__).resolve().parents[1]
 
 CATALOG_URL = "https://eclipse.gsfc.nasa.gov/SEcat5/SE2001-2100.html"
 WEATHER_URL = "https://archive-api.open-meteo.com/v1/archive"
@@ -30,6 +26,38 @@ TYPES = {"T": "total", "A": "annular", "P": "partial", "H": "hybrid"}
 # variables y de 14 días solicitados.
 HOURLY_CALL_LIMIT = 5000
 _last_network_request = [0.0]
+
+
+def save_json(path, value):
+    def clean(item):
+        if isinstance(item, dict):
+            return {str(key): clean(value) for key, value in item.items()}
+        if isinstance(item, (list, tuple)):
+            return [clean(value) for value in item]
+        if isinstance(item, np.generic):
+            return clean(item.item())
+        if item is pd.NA or item is pd.NaT or isinstance(item, float) and not np.isfinite(item):
+            return None
+        return item
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(clean(value), ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8", newline="\n")
+
+
+def save_csv(frame, path):
+    """Fin de línea LF en cualquier sistema: el hash registrado coincide con el archivo entregado."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    frame.to_csv(path, index=False, lineterminator="\n")
+
+
+def file_sha256(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def code_sha256(folder=None):
+    """Versión del código que genera los datos, independiente del fin de línea del checkout."""
+    folder = Path(folder or Path(__file__).resolve().parent)
+    return {path.name: hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+            for path in sorted(folder.glob("eclipse_*.py"))}
 
 
 class RateLimitExceeded(requests.RequestException):
@@ -180,35 +208,6 @@ def parse_catalog(html, source_url=CATALOG_URL):
     return catalog.sort_values("event_date").reset_index(drop=True)
 
 
-def load_catalog(client=None, refresh=False, offline=False, root=ROOT):
-    client = client or session()
-    raw_file = root / "data/bronze/nasa/solar_catalog_2001_2100.html"
-    html = fetch(CATALOG_URL, raw_file, client, refresh=refresh, offline=offline)
-    catalog = parse_catalog(html)
-    # Flujo anterior (--legacy): sus salidas no se mezclan con las del producto.
-    for layer in ["silver", "gold"]:
-        folder = root / "data/legacy" / layer
-        folder.mkdir(parents=True, exist_ok=True)
-        catalog.to_csv(folder / "eclipse_catalog.csv", index=False)
-    save_json(root / "data/legacy/gold/eclipse_catalog.metadata.json", {
-        "source_url": CATALOG_URL, "coverage": [2001, 2100], "rows": len(catalog),
-        "type_counts": catalog.eclipse_type.value_counts().to_dict(),
-        "raw_sha256": hashlib.sha256(html).hexdigest(),
-        "attribution": "Eclipse Predictions by Fred Espenak, NASA's GSFC",
-        "time_scale": "Catalog time is TD; UT is approximated by subtracting delta_t_s."})
-    return catalog
-
-
-def select_event(catalog, event_date):
-    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", event_date):
-        raise ValueError("La fecha debe tener formato YYYY-MM-DD.")
-    datetime.fromisoformat(event_date)  # comprobar fecha válida antes de crear rutas
-    selected = catalog.loc[catalog.event_date.eq(event_date)]
-    if selected.empty:
-        raise ValueError(f"No existe un eclipse solar catalogado para {event_date} (cobertura 2001–2100).")
-    return selected.iloc[0].to_dict()
-
-
 def parse_path(html):
     """Tabla NASA: límites, línea central, UT, altura solar, anchura y duración."""
     soup = BeautifulSoup(html, "html.parser")
@@ -255,41 +254,6 @@ def parse_path(html):
     return path
 
 
-def build_locations(path, event, locations_file=None):
-    if locations_file:
-        locations = pd.read_csv(locations_file)
-        required = {"name", "latitude", "longitude"}
-        if not required.issubset(locations):
-            raise ValueError(f"El CSV de ubicaciones requiere {sorted(required)}.")
-        locations = locations[list(sorted(required))].copy()
-        locations["candidate_type"] = "destino"
-    else:
-        indices = np.unique(np.linspace(0, len(path) - 1, 5, dtype=int))
-        locations = path.iloc[indices][["latitude", "longitude"]].copy().reset_index(drop=True)
-        locations["name"] = [f"Referencia central {index + 1}" for index in range(len(locations))]
-        locations["candidate_type"] = "linea central"
-    for column in ["latitude", "longitude"]:
-        locations[column] = pd.to_numeric(locations[column], errors="coerce")
-    if (locations.empty or locations["name"].isna().any() or locations["name"].duplicated().any()
-            or not locations.latitude.between(-90, 90).all() or not locations.longitude.between(-180, 180).all()):
-        raise ValueError("Ubicaciones vacías, duplicadas o coordenadas inválidas.")
-    circumstances = pd.DataFrame([nearest_central_line_point(row.latitude, row.longitude, path)
-                                  for row in locations.itertuples()], index=locations.index)
-    locations = pd.concat([locations, circumstances], axis=1)
-    half_width = locations.path_width_km / 2
-    locations["eligible_totality"] = locations.distance_km.lt(half_width)
-    locations["estimated_totality_s"] = locations.duration_center_s * np.sqrt(
-        (1 - (locations.distance_km / half_width) ** 2).clip(lower=0))
-    locations["event_id"] = event["event_id"]
-    locations["event_date"] = event["event_date"]
-    # UT de la tabla se trata como UTC aproximado; no es una hora civil local.
-    locations["event_time_utc_approx"] = [
-        (datetime.fromisoformat(event["event_date"]).replace(tzinfo=timezone.utc)
-         + timedelta(minutes=float(value))).isoformat()
-        for value in locations.time_utc_min]
-    return locations.reset_index(drop=True)
-
-
 def historical_years(event_date, start=None, end=None, as_of=None):
     """Años de referencia; con as_of, la selección no depende del día de ejecución."""
     event = datetime.fromisoformat(event_date)
@@ -334,184 +298,3 @@ def wilson_interval(successes, total):
     center = (p + z * z / (2 * total)) / denominator
     radius = z * np.sqrt(p * (1 - p) / total + z * z / (4 * total * total)) / denominator
     return max(0.0, center - radius), min(1.0, center + radius)
-
-
-def parse_weather(payload, locations, historical_date, event, rain_threshold=0.1):
-    items = payload if isinstance(payload, list) else [payload]
-    if len(items) != len(locations):
-        raise ValueError("La API devolvió un número de ubicaciones distinto del solicitado.")
-    records, missing = [], []
-    for location, item in zip(locations.itertuples(), items):
-        if item.get("utc_offset_seconds") != 0:
-            raise ValueError("La meteorología no está expresada en UTC.")
-        hourly, units = item.get("hourly", {}), item.get("hourly_units", {})
-        for variable, unit in [("cloud_cover", "%"), ("precipitation", "mm"), ("rain", "mm")]:
-            if units.get(variable) != unit or len(hourly.get(variable, [])) != len(hourly.get("time", [])):
-                raise ValueError(f"Unidad o longitud inválida para {variable}.")
-        timestamps = pd.to_datetime(hourly.get("time", []), utc=True)
-        if len(timestamps) != 24 or timestamps.duplicated().any() or not timestamps.is_monotonic_increasing:
-            raise ValueError("La respuesta no contiene 24 horas ordenadas y únicas.")
-        if not all(timestamps[index] - timestamps[index - 1] == pd.Timedelta(1, unit="h")
-                   for index in range(1, len(timestamps))):
-            raise ValueError("La respuesta no tiene granularidad horaria regular.")
-        if not all(stamp.strftime("%Y-%m-%d") == historical_date for stamp in timestamps):
-            raise ValueError("La respuesta meteorológica corresponde a otra fecha.")
-        event_minute = location.time_utc_min % 1440
-        desired = pd.Timestamp(historical_date, tz="UTC") + pd.Timedelta(event_minute, unit="m")
-        cloud_index = int(np.argmin(abs(timestamps - desired)))
-        # precipitación/lluvia son acumulados de la HORA PRECEDENTE: elegir intervalo que contiene el máximo.
-        rain_indices = np.flatnonzero((timestamps - pd.Timedelta(1, unit="h") < desired) & (timestamps >= desired))
-        if len(rain_indices) != 1 or abs(timestamps[cloud_index] - desired) > pd.Timedelta(30, unit="m"):
-            raise ValueError("Falta la hora necesaria para muestrear el evento; ajustar ventana de descarga.")
-        rain_index = int(rain_indices[0])
-        cloud = hourly["cloud_cover"][cloud_index]
-        precipitation, rain = hourly["precipitation"][rain_index], hourly["rain"][rain_index]
-        if cloud is None or precipitation is None or rain is None:
-            missing.append({"name": location.name, "date": historical_date, "reason": "missing_hourly_value"})
-            continue
-        cloud, precipitation, rain = float(cloud), float(precipitation), float(rain)
-        if not (np.isfinite([cloud, precipitation, rain]).all() and 0 <= cloud <= 100
-                and precipitation >= 0 and 0 <= rain <= precipitation + 0.11):
-            raise ValueError("Valores meteorológicos fuera de rango o lluvia superior a precipitación.")
-        if not (-90 <= item["latitude"] <= 90 and -180 <= item["longitude"] <= 180):
-            raise ValueError("Coordenadas efectivas de la rejilla fuera de rango.")
-        records.append({"event_id": event["event_id"], "event_date": event["event_date"],
-            "name": location.name, "year": int(historical_date[:4]),
-            "latitude": location.latitude, "longitude": location.longitude,
-            "grid_latitude": item["latitude"], "grid_longitude": item["longitude"],
-            "grid_elevation_m": item.get("elevation"),
-            "weather_time_utc": timestamps[cloud_index].isoformat(),
-            "rain_interval_end_utc": timestamps[rain_index].isoformat(),
-            "cloud_cover_pct": float(cloud), "precipitation_mm": float(precipitation), "rain_mm": float(rain),
-            "clear_sky_proxy": int(cloud <= 20), "rain_proxy": int(rain >= rain_threshold),
-            "weather_model_requested": "era5"})
-    return records, missing
-
-
-def acquire_event(event, client=None, locations_file=None, start=None, end=None,
-                  rain_threshold=0.1, refresh=False, offline=False, root=ROOT):
-    if not event["geometry_supported"]:
-        raise ValueError(f"Evento {event['event_date']} ({event['eclipse_type']}) catalogado; "
-                         "la geometría implementada admite eclipses solares totales centrales con tabla NASA.")
-    if not np.isfinite(rain_threshold) or rain_threshold <= 0:
-        raise ValueError("El umbral de lluvia debe ser positivo y finito.")
-    client = client or session()
-    day = event["event_date"]
-    bronze = root / "data/bronze/events" / day
-    path_file = bronze / "nasa_path.html"
-    html = fetch(event["path_url"], path_file, client, refresh=refresh, offline=offline)
-    path = parse_path(html)
-    locations = build_locations(path, event, locations_file)
-    if (locations.time_utc_min >= 1440).any() or (locations.time_utc_min < 1).any() or (locations.time_utc_min > 1380).any():
-        raise ValueError("Este evento necesita una ventana meteorológica que incluya días adyacentes.")
-    years = historical_years(day, start, end)
-    all_records, failures, missing, inputs = [], [], [], []
-    for year in years:
-        historical_date = f"{year}-{day[5:]}"
-        params = {"latitude": ",".join(locations.latitude.map(lambda x: f"{x:.6f}")),
-                  "longitude": ",".join(locations.longitude.map(lambda x: f"{x:.6f}")),
-                  "start_date": historical_date, "end_date": historical_date,
-                  "hourly": "cloud_cover,precipitation,rain", "timezone": "GMT", "models": "era5"}
-        raw_file = bronze / f"weather_{year}.json"
-        try:
-            body = fetch(WEATHER_URL, raw_file, client, params, refresh, offline)
-            records, absent = parse_weather(json.loads(body), locations, historical_date, event, rain_threshold)
-            all_records.extend(records)
-            missing.extend(absent)
-            inputs.append({"file": str(raw_file.relative_to(root)), "sha256": hashlib.sha256(body).hexdigest()})
-        except (requests.RequestException, ValueError, KeyError) as error:
-            failures.append({"year": year, "error": str(error)})
-        save_json(bronze / "manifest.json", {"event": event, "locations": locations.to_dict("records"),
-            "requested_years": years, "weather_inputs": inputs, "failures": failures, "missing": missing,
-            "rain_threshold_mm": rain_threshold, "path_sha256": hashlib.sha256(html).hexdigest()})
-        if not offline:
-            time.sleep(0.15)
-    if not all_records:
-        raise ValueError(f"No hay datos meteorológicos válidos. Revisa {bronze / 'manifest.json'}.")
-    weather = pd.DataFrame(all_records).sort_values(["name", "year"]).reset_index(drop=True)
-    if weather.duplicated(["event_id", "name", "year"]).any():
-        raise ValueError("Observaciones duplicadas por evento/ubicación/año.")
-    summary = weather.groupby("name").agg(valid_years=("year", "nunique"),
-        mean_cloud_cover_pct=("cloud_cover_pct", "mean"), clear_probability=("clear_sky_proxy", "mean"),
-        mean_precipitation_mm=("precipitation_mm", "mean"), mean_rain_mm=("rain_mm", "mean"),
-        rain_probability=("rain_proxy", "mean")).reset_index()
-    summary["cloud_probability"] = 1 - summary.clear_probability
-    for metric in ["clear_probability", "cloud_probability", "rain_probability"]:
-        bounds = [wilson_interval(row[metric] * row["valid_years"], row["valid_years"])
-                  for row in summary.to_dict("records")]
-        summary[f"{metric}_lower95"] = [value[0] for value in bounds]
-        summary[f"{metric}_upper95"] = [value[1] for value in bounds]
-    sites = locations.merge(summary, on="name", how="left", validate="one_to_one")
-    sites["rankable_climate"] = sites.valid_years.fillna(0).ge(15) & sites.eligible_totality
-    observations = weather.merge(locations[["name", "candidate_type", "distance_km", "estimated_totality_s",
-        "time_utc_min", "eligible_totality"]], on="name", validate="many_to_one")
-    observations["sample_id"] = observations.event_id + "|" + observations.name + "|" + observations.year.astype(str)
-    for layer in ["silver", "gold"]:
-        folder = root / "data" / layer / "events" / day
-        folder.mkdir(parents=True, exist_ok=True)
-        if layer == "silver":
-            path.to_csv(folder / "eclipse_path.csv", index=False)
-            weather.to_csv(folder / "weather_history.csv", index=False)
-            locations.to_csv(folder / "locations.csv", index=False)
-        else:
-            observations.to_csv(folder / "eclipse_weather_observations.csv", index=False)
-            sites.to_csv(folder / "eclipse_sites.csv", index=False)
-    report = {"event_id": event["event_id"], "event_date": day, "path_rows": len(path),
-        "locations": len(locations), "requested_years": years, "expected_observations": len(locations) * len(years),
-        "observations": len(observations), "missing_observations": len(missing), "failed_years": failures,
-        "coverage_by_site": sites.set_index("name").valid_years.fillna(0).astype(int).to_dict(),
-        "rain_threshold_mm": rain_threshold, "cloud_threshold_pct": 20,
-        "rain_class_counts": weather.rain_proxy.value_counts().to_dict(),
-        "cloud_class_counts": weather.clear_sky_proxy.value_counts().to_dict(),
-        "weather_nulls": weather.isna().sum().to_dict(),
-        "source_manifest": str((bronze / "manifest.json").relative_to(root)),
-        "preparation_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-        "geometry": "approximate central-path interpolation, not precise local circumstances",
-        "time_scale": "NASA path UT treated as approximate UTC; catalogue TD is not local time"}
-    save_json(root / "data/gold/events" / day / "quality_report.json", report)
-    return observations, sites, report
-
-
-def legacy_main(argv=None):
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--event-date", help="Fecha YYYY-MM-DD de un eclipse del catálogo.")
-    parser.add_argument("--locations", type=Path, help="CSV con name,latitude,longitude; sin él se usan referencias centrales.")
-    parser.add_argument("--history-start", type=int)
-    parser.add_argument("--history-end", type=int)
-    parser.add_argument("--rain-threshold", type=float, default=0.1, help="Umbral de lluvia en mm/h (>=, defecto 0.1).")
-    parser.add_argument("--refresh", action="store_true", help="Volver a descargar respuestas aunque estén guardadas.")
-    parser.add_argument("--offline", action="store_true", help="Usar exclusivamente respuestas originales verificadas.")
-    args = parser.parse_args(argv)
-    if args.refresh and args.offline:
-        parser.error("--refresh y --offline son incompatibles.")
-    try:
-        client = session()
-        catalog = load_catalog(client, args.refresh, args.offline)
-        if not args.event_date:
-            print(catalog[["event_date", "eclipse_type", "geometry_supported"]].to_string(index=False))
-            print(f"{len(catalog)} eventos guardados en data/legacy/gold/eclipse_catalog.csv")
-            return 0
-        event = select_event(catalog, args.event_date)
-        _, _, report = acquire_event(event, client, args.locations, args.history_start, args.history_end,
-                                     args.rain_threshold, args.refresh, args.offline)
-        print(json.dumps(report, ensure_ascii=False, indent=2))
-        return 1 if report["failed_years"] else 0
-    except (ValueError, requests.RequestException, OSError, KeyError) as error:
-        parser.exit(1, f"Error de adquisición: {error}\n")
-
-
-def main(argv=None):
-    import sys
-    arguments = list(argv if argv is not None else sys.argv[1:])
-    if "--legacy" in arguments:
-        arguments.remove("--legacy")
-        return legacy_main(arguments)
-    try:
-        from .eclipse_pipeline import main as pipeline_main
-    except ImportError:
-        from eclipse_pipeline import main as pipeline_main
-    return pipeline_main(arguments)
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())

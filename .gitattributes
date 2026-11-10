@@ -1,0 +1,5 @@
+# Fin de línea LF en todo el repositorio (ver .editorconfig), también en checkouts de Windows.
+* text=auto eol=lf
+# Datos con SHA-256 en metadatos e informes: se guardan byte a byte, sin conversión,
+# para que los hashes coincidan en cualquier copia del repositorio o ZIP.
+data/** -text

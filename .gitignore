@@ -55,12 +55,16 @@ coverage/
 data/bronze/events/*/climate_[0-9]*
 data/bronze/events/*/weather_[0-9]*
 data/bronze/events/*/forecast.json*
-# Muestra: la respuesta de 2025 de la configuración vigente del eclipse de ejemplo.
+# Ejemplo reconstruible (python src/eclipse_example.py): respuestas 2022–2026 de la
+# configuración vigente del eclipse de ejemplo, unos 1,1 MB.
+!data/bronze/events/2027-08-02/climate_2022_a78aec38dd29.json*
+!data/bronze/events/2027-08-02/climate_2023_abe383317f88.json*
+!data/bronze/events/2027-08-02/climate_2024_673522621195.json*
 !data/bronze/events/2027-08-02/climate_2025_ae7ec76f2b10.json*
+!data/bronze/events/2027-08-02/climate_2026_72e77dbd7c35.json*
 data/silver/events/*/climate_hourly.csv
 data/silver/all_eclipse_catalog.csv
 data/silver/future_eclipse_catalog.csv
 data/gold/all_eclipse_catalog.csv
 data/gold/future_eclipse_catalog.csv
 data/gold/planner_data.json
-data/legacy/models/

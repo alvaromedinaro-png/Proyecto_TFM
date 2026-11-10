@@ -42,7 +42,7 @@ def load_cities(client, root=sources.ROOT, offline=False, refresh=False):
     cities = pd.DataFrame([enrich_country(row, root) for row in cities.to_dict("records")])
     folder = root / "data/silver"
     folder.mkdir(parents=True, exist_ok=True)
-    cities.to_csv(folder / "nasa_cities.csv", index=False)
+    sources.save_csv(cities, folder / "nasa_cities.csv")
     return cities
 
 
@@ -281,7 +281,7 @@ def prepare_locations(event, client, root=sources.ROOT, locations_file=None, max
     evaluated = evaluated.sort_values(order, ascending=False)
     folder = root / "data/silver/events" / event["event_date"]
     folder.mkdir(parents=True, exist_ok=True)
-    evaluated.to_csv(folder / "all_visible_candidates.csv", index=False)
+    sources.save_csv(evaluated, folder / "all_visible_candidates.csv")
     if not locations_file and max_locations > 1:
         references = evaluated.loc[evaluated.candidate_type.eq("referencia astronómica")]
         cities = evaluated.loc[~evaluated.candidate_type.eq("referencia astronómica")]
@@ -298,7 +298,7 @@ def prepare_locations(event, client, root=sources.ROOT, locations_file=None, max
         shortlist = pd.concat([shortlisted, remaining.head(max_locations - len(shortlisted))]).reset_index(drop=True)
     else:
         shortlist = evaluated.head(max_locations).reset_index(drop=True)
-    shortlist.to_csv(folder / "locations.csv", index=False)
+    sources.save_csv(shortlist, folder / "locations.csv")
     return shortlist, {"evaluated_candidates": len(candidates), "visible_candidates": len(evaluated),
         "climate_shortlist": len(shortlist), "source": "NASA city lists or user CSV",
         "reference_status": reference_status,
