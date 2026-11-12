@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#122c36">
+  <title>Tipos de eclipse · Planificador de eclipses</title>
+  <script src="theme.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="guide-page">
+  <a class="skip-link" href="#guia">Ir a la guía</a>
+  <!-- Degradados compartidos por los iconos de la página. -->
+  <svg class="svg-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="g-corona">
+        <stop offset="45%" stop-color="#fff" stop-opacity=".95"/>
+        <stop offset="62%" stop-color="#dfe9ff" stop-opacity=".45"/>
+        <stop offset="100%" stop-color="#dfe9ff" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="g-blood" cx="40%" cy="38%">
+        <stop offset="0%" stop-color="#d0743f"/>
+        <stop offset="100%" stop-color="#6b2412"/>
+      </radialGradient>
+      <linearGradient id="g-penumbral" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0%" stop-color="#7d817d"/>
+        <stop offset="70%" stop-color="#d9dcd6"/>
+      </linearGradient>
+      <clipPath id="clip-partial-moon"><circle cx="32" cy="32" r="16"/></clipPath>
+    </defs>
+  </svg>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Planificador de eclipses, inicio">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Planificador <strong>de eclipses</strong></span>
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="index.html"><span aria-hidden="true">←</span> Volver al planificador</a>
+        <button type="button" id="theme-toggle" class="theme-toggle" hidden><span class="theme-icon" aria-hidden="true"></span><span class="theme-label">Modo noche</span></button>
+      </div>
+    </header>
+
+    <main id="guia">
+      <section class="intro guide-intro" aria-labelledby="guide-title">
+        <p class="eyebrow">Guía rápida</p>
+        <h1 id="guide-title">Tipos de eclipse,<br><span>qué verás en cada uno.</span></h1>
+        <p class="intro-copy">Un eclipse ocurre cuando el Sol, la Tierra y la Luna quedan alineados y uno de ellos tapa la luz que llega al otro. Según quién se interponga y cuánto, el eclipse es solar o lunar, y total, anular, parcial o penumbral.</p>
+        <nav class="guide-index" aria-label="Tipos de eclipse">
+          <div>
+            <span class="guide-index-label">Solares</span>
+            <a href="#solar-total">Total</a><a href="#solar-anular">Anular</a><a href="#solar-hibrido">Híbrido</a><a href="#solar-parcial">Parcial</a>
+          </div>
+          <div>
+            <span class="guide-index-label">Lunares</span>
+            <a href="#lunar-total">Total</a><a href="#lunar-parcial">Parcial</a><a href="#lunar-penumbral">Penumbral</a>
+          </div>
+        </nav>
+      </section>
+
+      <section class="guide-section" aria-labelledby="geometry-title">
+        <h2 id="geometry-title">Por qué ocurren</h2>
+        <p class="guide-lead">Cualquier cuerpo iluminado por el Sol proyecta dos sombras: la <strong>umbra</strong>, una sombra central donde el Sol queda totalmente tapado, y la <strong>penumbra</strong>, una sombra exterior más tenue donde solo se tapa una parte. No hay eclipses cada mes porque la órbita de la Luna está inclinada unos 5° respecto a la de la Tierra y casi siempre pasa por encima o por debajo de la alineación.</p>
+        <div class="geometry-grid">
+          <figure class="geometry-figure">
+            <svg viewBox="0 0 640 200" role="img" aria-labelledby="solar-geometry-title">
+              <title id="solar-geometry-title">Eclipse solar: la Luna, entre el Sol y la Tierra, proyecta su sombra sobre una zona de la Tierra.</title>
+              <defs><clipPath id="clip-earth-solar"><circle cx="578" cy="100" r="58"/></clipPath></defs>
+              <circle class="dg-sun" cx="46" cy="100" r="46"/>
+              <g id="solar-shadows">
+                <polygon class="dg-penumbra" points="300,89 640,58 640,142 300,111"/>
+                <polygon class="dg-umbra" points="300,89 300,111 527,100"/>
+              </g>
+              <circle class="dg-earth" cx="578" cy="100" r="58"/>
+              <g clip-path="url(#clip-earth-solar)">
+                <polygon class="dg-penumbra" points="300,89 640,58 640,142 300,111"/>
+                <polygon class="dg-umbra" points="300,89 300,111 527,100"/>
+              </g>
+              <circle class="dg-moon" cx="300" cy="100" r="11"/>
+              <text class="dg-label" x="46" y="190" text-anchor="middle">Sol</text>
+              <text class="dg-label" x="300" y="70" text-anchor="middle">Luna</text>
+              <text class="dg-label" x="578" y="190" text-anchor="middle">Tierra</text>
+            </svg>
+            <figcaption>
+              <strong>Eclipse solar.</strong> La Luna se interpone entre el Sol y la Tierra (siempre en luna nueva). Su sombra solo cubre una parte de la Tierra, por eso cada eclipse solar se ve en una región limitada.
+              <span class="geometry-legend"><span><i class="swatch-umbra" aria-hidden="true"></i>Umbra: total</span><span><i class="swatch-penumbra" aria-hidden="true"></i>Penumbra: parcial</span></span>
+            </figcaption>
+          </figure>
+          <figure class="geometry-figure">
+            <svg viewBox="0 0 640 200" role="img" aria-labelledby="lunar-geometry-title">
+              <title id="lunar-geometry-title">Eclipse lunar: la Tierra, entre el Sol y la Luna, proyecta su sombra sobre la Luna. Se muestran tres posiciones de la Luna: dentro de la umbra, en el borde de la umbra y solo en la penumbra.</title>
+              <circle class="dg-sun" cx="46" cy="100" r="46"/>
+              <circle class="dg-earth" cx="250" cy="100" r="34"/>
+              <circle class="dg-moon" cx="470" cy="83" r="7"/>
+              <circle class="dg-moon" cx="470" cy="136" r="7"/>
+              <polygon class="dg-penumbra" points="250,66 620,30 620,170 250,134"/>
+              <polygon class="dg-umbra" points="250,66 250,134 620,100"/>
+              <circle class="dg-moon-red" cx="470" cy="100" r="7"/>
+              <text class="dg-number" x="490" y="105">1</text>
+              <text class="dg-number" x="490" y="86">2</text>
+              <text class="dg-number" x="490" y="141">3</text>
+              <text class="dg-label" x="46" y="190" text-anchor="middle">Sol</text>
+              <text class="dg-label" x="250" y="190" text-anchor="middle">Tierra</text>
+              <text class="dg-label" x="470" y="190" text-anchor="middle">Luna</text>
+            </svg>
+            <figcaption>
+              <strong>Eclipse lunar.</strong> La Tierra se interpone entre el Sol y la Luna (siempre en luna llena). La Luna entra en la sombra terrestre, y el eclipse se ve desde toda la mitad de la Tierra en la que es de noche.
+              <span class="geometry-legend"><span>1 · En la umbra: total</span><span>2 · Parte en la umbra: parcial</span><span>3 · Solo en la penumbra: penumbral</span></span>
+            </figcaption>
+          </figure>
+        </div>
+        <p class="geometry-note">Esquemas sin escala: las distancias reales son mucho mayores que los tamaños.</p>
+      </section>
+
+      <section class="guide-section" aria-labelledby="solar-title">
+        <h2 id="solar-title">Eclipses solares</h2>
+        <p class="guide-lead">La Luna tapa total o parcialmente el Sol. Lo que ves depende de dónde estés: el mismo eclipse puede ser total en una franja estrecha y parcial a miles de kilómetros.</p>
+        <aside class="safety-note" aria-label="Seguridad">
+          <span class="note-icon" aria-hidden="true">!</span>
+          <p><strong>Nunca mires el Sol sin protección.</strong> Usa gafas de eclipse homologadas (norma ISO 12312-2) o un filtro solar específico para prismáticos y telescopios; las gafas de sol no sirven. La única excepción son los minutos de totalidad de un eclipse total, cuando el Sol está completamente tapado.</p>
+        </aside>
+
+        <article class="type-card" id="solar-total">
+          <figure class="type-media">
+            <img src="img/eclipses/solar-total.jpg" width="960" height="640" loading="lazy" alt="El disco negro de la Luna tapa el Sol por completo y alrededor brilla la corona solar, blanca y difusa.">
+            <figcaption>Eclipse total del 21 de agosto de 2017. Foto: <a href="https://commons.wikimedia.org/wiki/File:2017_Total_Solar_Eclipse_(AFRC2017-0233-006).jpg" target="_blank" rel="noopener noreferrer">NASA / Carla Thomas</a>, dominio público.</figcaption>
+          </figure>
+          <div class="type-body">
+            <div class="type-title">
+              <svg class="type-icon" viewBox="0 0 64 64" aria-hidden="true"><rect class="ic-sky" width="64" height="64" rx="12"/><circle cx="32" cy="32" r="27" fill="url(#g-corona)"/><circle class="ic-moon-disc" cx="32" cy="32" r="14"/></svg>
+              <div><p class="type-family">Eclipse solar</p><h3>Total</h3></div>
+            </div>
+            <p>La Luna tapa por completo el disco del Sol. Durante unos minutos el cielo se oscurece como al anochecer, baja la temperatura, aparecen las estrellas más brillantes y se ve la <strong>corona</strong>, la atmósfera exterior del Sol, que normalmente queda oculta por su brillo.</p>
+            <dl class="type-facts">
+              <div><dt>Dónde se ve</dt><dd>En una franja estrecha, normalmente de 100 a 250 km de ancho, por donde pasa la umbra de la Luna. Fuera de ella el eclipse es parcial.</dd></div>
+              <div><dt>Duración</dt><dd>La totalidad dura pocos minutos en cada lugar; como máximo, algo más de 7.</dd></div>
+              <div><dt>Cómo observarlo</dt><dd>Con filtro durante las fases parciales. Solo en la totalidad se puede mirar sin él.</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="type-card" id="solar-anular">
+          <figure class="type-media">
+            <img src="img/eclipses/solar-anular.jpg" width="960" height="768" loading="lazy" alt="Secuencia de fotos en diagonal: el Sol se va convirtiendo en un anillo brillante a medida que la Luna se centra delante de él.">
+            <figcaption>Secuencia alrededor de la fase anular, 14 de octubre de 2023. Foto: <a href="https://commons.wikimedia.org/wiki/File:2023-10-14_eclipse_around_annularity.jpg" target="_blank" rel="noopener noreferrer">G. Edward Johnson</a>, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.</figcaption>
+          </figure>
+          <div class="type-body">
+            <div class="type-title">
+              <svg class="type-icon" viewBox="0 0 64 64" aria-hidden="true"><rect class="ic-sky" width="64" height="64" rx="12"/><circle class="ic-sun" cx="32" cy="32" r="16"/><circle class="ic-moon-disc" cx="32" cy="32" r="12.5"/></svg>
+              <div><p class="type-family">Eclipse solar</p><h3>Anular</h3></div>
+            </div>
+            <p>La Luna pasa por delante del Sol cuando está cerca del punto más lejano de su órbita, así que se ve algo más pequeña que él. No llega a taparlo entero y queda un aro brillante alrededor: el llamado <strong>anillo de fuego</strong>.</p>
+            <dl class="type-facts">
+              <div><dt>Dónde se ve</dt><dd>En la franja donde la Luna queda centrada sobre el Sol. A su alrededor, el eclipse se ve parcial.</dd></div>
+              <div><dt>Duración</dt><dd>La fase anular dura desde unos segundos hasta unos 12 minutos.</dd></div>
+              <div><dt>Cómo observarlo</dt><dd>Siempre con filtro, también durante el anillo: lo que queda del Sol sigue siendo demasiado brillante. El cielo apenas se oscurece.</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="type-card" id="solar-hibrido">
+          <figure class="type-media type-media-diagram">
+            <svg viewBox="0 0 480 300" role="img" aria-labelledby="hybrid-title">
+              <title id="hybrid-title">A lo largo de la trayectoria, el eclipse híbrido empieza anular, pasa a total en la parte central y vuelve a ser anular.</title>
+              <path class="dg-track" d="M30 250 Q240 120 450 250"/>
+              <g transform="translate(55 150)"><rect class="ic-sky" x="-32" y="-32" width="64" height="64" rx="12"/><circle class="ic-sun" r="16"/><circle class="ic-moon-disc" r="13.6"/></g>
+              <g transform="translate(240 95)"><rect class="ic-sky" x="-32" y="-32" width="64" height="64" rx="12"/><circle r="27" fill="url(#g-corona)"/><circle class="ic-moon-disc" r="14"/></g>
+              <g transform="translate(425 150)"><rect class="ic-sky" x="-32" y="-32" width="64" height="64" rx="12"/><circle class="ic-sun" r="16"/><circle class="ic-moon-disc" r="13.6"/></g>
+              <text class="dg-label" x="55" y="210" text-anchor="middle">Anular</text>
+              <text class="dg-label" x="240" y="155" text-anchor="middle">Total</text>
+              <text class="dg-label" x="425" y="210" text-anchor="middle">Anular</text>
+              <text class="dg-caption" x="240" y="285" text-anchor="middle">Trayectoria de la sombra sobre la Tierra</text>
+            </svg>
+            <figcaption>Esquema: cómo cambia lo que se ve a lo largo del recorrido.</figcaption>
+          </figure>
+          <div class="type-body">
+            <div class="type-title">
+              <svg class="type-icon" viewBox="0 0 64 64" aria-hidden="true"><rect class="ic-sky" width="64" height="64" rx="12"/><circle class="ic-sun" cx="20" cy="32" r="10"/><circle class="ic-moon-disc" cx="20" cy="32" r="8.4"/><circle cx="44" cy="32" r="16" fill="url(#g-corona)"/><circle class="ic-moon-disc" cx="44" cy="32" r="8.6"/></svg>
+              <div><p class="type-family">Eclipse solar</p><h3>Híbrido</h3></div>
+            </div>
+            <p>Cambia de tipo a lo largo de su recorrido. La punta de la sombra de la Luna queda casi a la altura de la superficie terrestre, y por la curvatura de la Tierra el eclipse es <strong>total</strong> en unos tramos y <strong>anular</strong> en otros.</p>
+            <dl class="type-facts">
+              <div><dt>Dónde se ve</dt><dd>Normalmente total en la parte central de la trayectoria, donde la superficie está más cerca de la Luna, y anular cerca de los extremos.</dd></div>
+              <div><dt>Frecuencia</dt><dd>Son raros: alrededor del 3–5 % de los eclipses solares. El último fue el del 20 de abril de 2023, visible en Australia, Timor Oriental e Indonesia.</dd></div>
+              <div><dt>Cómo observarlo</dt><dd>Como un eclipse total o como uno anular, según el lugar.</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="type-card" id="solar-parcial">
+          <figure class="type-media">
+            <img src="img/eclipses/solar-parcial.jpg" width="960" height="640" loading="lazy" alt="El Sol, entre nubes, aparece con una muesca oscura en su parte superior: la Luna tapa una parte del disco.">
+            <figcaption>Eclipse parcial visto entre nubes en Tuntorp (Suecia). Foto: <a href="https://commons.wikimedia.org/wiki/File:Partial_solar_eclipse_with_some_clouds_in_Tuntorp_43.jpg" target="_blank" rel="noopener noreferrer">W.carter</a>, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.</figcaption>
+          </figure>
+          <div class="type-body">
+            <div class="type-title">
+              <svg class="type-icon" viewBox="0 0 64 64" aria-hidden="true"><rect class="ic-sky" width="64" height="64" rx="12"/><circle class="ic-sun" cx="32" cy="32" r="16"/><circle class="ic-moon-disc" cx="43" cy="23" r="16"/></svg>
+              <div><p class="type-family">Eclipse solar</p><h3>Parcial</h3></div>
+            </div>
+            <p>La Luna solo cubre una parte del Sol, que parece mordido. Es lo que se ve fuera de la franja de un eclipse total o anular. Algunos eclipses son parciales en todas partes, porque la sombra central de la Luna no llega a tocar la Tierra.</p>
+            <dl class="type-facts">
+              <div><dt>Dónde se ve</dt><dd>En una región muy amplia, la penumbra, que puede abarcar miles de kilómetros.</dd></div>
+              <div><dt>Cuánto se tapa</dt><dd>Varía con el lugar. Por debajo del 90 % aproximadamente apenas se nota que baje la luz.</dd></div>
+              <div><dt>Cómo observarlo</dt><dd>Siempre con filtro, de principio a fin.</dd></div>
+            </dl>
+          </div>
+        </article>
+      </section>
+
+      <section class="guide-section" aria-labelledby="lunar-title">
+        <h2 id="lunar-title">Eclipses lunares</h2>
+        <p class="guide-lead">La Luna atraviesa la sombra de la Tierra. A diferencia de los solares, se ven igual desde cualquier lugar donde la Luna esté sobre el horizonte, y se pueden mirar sin ninguna protección.</p>
+
+        <article class="type-card" id="lunar-total">
+          <figure class="type-media">
+            <img src="img/eclipses/lunar-total.jpg" width="960" height="960" loading="lazy" alt="La Luna llena, de color rojo anaranjado, sobre un fondo de estrellas.">
+            <figcaption>Eclipse lunar total del 15 de abril de 2014. Foto: <a href="https://commons.wikimedia.org/wiki/File:Lunar_eclipse_04-15-2014_by_R_Jay_GaBany.jpg" target="_blank" rel="noopener noreferrer">Robert Jay GaBany</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>.</figcaption>
+          </figure>
+          <div class="type-body">
+            <div class="type-title">
+              <svg class="type-icon" viewBox="0 0 64 64" aria-hidden="true"><rect class="ic-sky" width="64" height="64" rx="12"/><circle cx="32" cy="32" r="16" fill="url(#g-blood)"/></svg>
+              <div><p class="type-family">Eclipse lunar</p><h3>Total</h3></div>
+            </div>
+            <p>La Luna entera entra en la umbra de la Tierra. No desaparece: se vuelve <strong>rojiza o cobriza</strong>, porque la atmósfera terrestre desvía hacia ella la luz roja de todos los amaneceres y atardeceres del planeta. El tono cambia de un eclipse a otro según el polvo y las nubes de la atmósfera.</p>
+            <dl class="type-facts">
+              <div><dt>Dónde se ve</dt><dd>Desde toda la mitad de la Tierra en la que es de noche durante el eclipse.</dd></div>
+              <div><dt>Duración</dt><dd>La totalidad puede superar la hora y media; el eclipse completo, varias horas.</dd></div>
+              <div><dt>Cómo observarlo</dt><dd>A simple vista. Unos prismáticos ayudan a apreciar el color.</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="type-card" id="lunar-parcial">
+          <figure class="type-media">
+            <img src="img/eclipses/lunar-fases.jpg" width="960" height="599" loading="lazy" alt="Quince fotos de la Luna en orden: una sombra oscura y curva la va cubriendo hasta volverla rojiza y luego se retira.">
+            <figcaption>Secuencia del eclipse del 3 de marzo de 2007: las fases parciales abren y cierran la totalidad. Foto: <a href="https://commons.wikimedia.org/wiki/File:Lunar_eclipse_March_2007.jpg" target="_blank" rel="noopener noreferrer">U.S. Navy / Joshua Valcarcel</a>, dominio público.</figcaption>
+          </figure>
+          <div class="type-body">
+            <div class="type-title">
+              <svg class="type-icon" viewBox="0 0 64 64" aria-hidden="true"><rect class="ic-sky" width="64" height="64" rx="12"/><circle class="ic-moon-lit" cx="32" cy="32" r="16"/><circle class="ic-moon-shadow" cx="12" cy="18" r="22" clip-path="url(#clip-partial-moon)"/></svg>
+              <div><p class="type-family">Eclipse lunar</p><h3>Parcial</h3></div>
+            </div>
+            <p>Solo una parte de la Luna entra en la umbra. Se ve una zona oscura y curvada que avanza por el disco y luego se retira. Esa curva es el borde de la sombra de la Tierra, y fue una de las primeras pruebas de que la Tierra es redonda.</p>
+            <dl class="type-facts">
+              <div><dt>Dónde se ve</dt><dd>Igual que un eclipse total: desde cualquier lugar donde la Luna esté sobre el horizonte.</dd></div>
+              <div><dt>Cómo se ve</dt><dd>La parte en sombra se ve muy oscura junto a la zona iluminada; en fotos con más exposición asoma el tono rojizo.</dd></div>
+              <div><dt>Cómo observarlo</dt><dd>A simple vista, sin protección.</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="type-card" id="lunar-penumbral">
+          <figure class="type-media type-media-diagram">
+            <svg viewBox="0 0 480 300" role="img" aria-labelledby="penumbral-title">
+              <title id="penumbral-title">Comparación entre una Luna llena normal y una Luna en eclipse penumbral, algo más apagada por un lado.</title>
+              <circle class="ic-moon-lit" cx="130" cy="135" r="78"/>
+              <circle cx="350" cy="135" r="78" fill="url(#g-penumbral)"/>
+              <text class="dg-label" x="130" y="255" text-anchor="middle">Luna llena</text>
+              <text class="dg-label" x="350" y="255" text-anchor="middle">Eclipse penumbral</text>
+            </svg>
+            <figcaption>Esquema: el oscurecimiento es gradual y se nota más en el borde más cercano a la umbra.</figcaption>
+          </figure>
+          <div class="type-body">
+            <div class="type-title">
+              <svg class="type-icon" viewBox="0 0 64 64" aria-hidden="true"><rect class="ic-sky" width="64" height="64" rx="12"/><circle cx="32" cy="32" r="16" fill="url(#g-penumbral)"/></svg>
+              <div><p class="type-family">Eclipse lunar</p><h3>Penumbral</h3></div>
+            </div>
+            <p>La Luna solo atraviesa la penumbra, la parte exterior y más tenue de la sombra terrestre. Pierde algo de brillo, normalmente más por uno de sus bordes, y el cambio es tan sutil que a menudo pasa desapercibido a simple vista.</p>
+            <dl class="type-facts">
+              <div><dt>Dónde se ve</dt><dd>Desde cualquier lugar donde la Luna esté sobre el horizonte.</dd></div>
+              <div><dt>Cómo se ve</dt><dd>Se aprecia mejor cuanto más se adentra la Luna en la penumbra, o comparando fotos tomadas antes y durante el eclipse.</dd></div>
+              <div><dt>Cómo observarlo</dt><dd>A simple vista, sin protección.</dd></div>
+            </dl>
+          </div>
+        </article>
+      </section>
+
+      <section class="guide-section" aria-labelledby="planner-title">
+        <h2 id="planner-title">Cómo se refleja en el planificador</h2>
+        <dl class="planner-glossary">
+          <div><dt>Tipo del eclipse</dt><dd>El título de cada evento indica el tipo que la NASA asigna al eclipse en su conjunto. Desde cada ubicación puede verse de otra forma.</dd></div>
+          <div><dt>Fase visible</dt><dd>Lo que se ve desde esa ubicación concreta. Un eclipse solar total se ve como parcial fuera de su franja.</dd></div>
+          <div><dt>Disco solar oculto</dt><dd>Porcentaje del disco del Sol tapado por la Luna en el momento de máximo de ese lugar. 100 % indica totalidad.</dd></div>
+          <div><dt>Duración de fase central</dt><dd>Cuánto dura la totalidad o la fase anular en esa ubicación.</dd></div>
+          <div><dt>Altura sobre el horizonte</dt><dd>A qué altura está el Sol o la Luna. Con poca altura, los edificios, las montañas o la bruma pueden taparlo.</dd></div>
+        </dl>
+        <p class="guide-back"><a class="secondary-button" href="index.html">Elegir un eclipse en el planificador</a></p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Fotos de <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a> con sus autores y licencias indicados en cada pie. Esquemas propios, sin escala.</p>
+      <p><a href="index.html">Volver al planificador</a></p>
+    </footer>
+  </div>
+</body>
+</html>

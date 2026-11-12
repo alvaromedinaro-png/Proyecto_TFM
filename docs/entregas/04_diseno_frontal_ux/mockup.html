@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mockup · Planificador de eclipses</title>
+  <!--
+    Mockup de la pantalla principal del MVP (entrega 4).
+    No es la aplicación: es una maqueta estática con datos reales del Gold
+    (eclipse solar total del 2027-08-02, climatología 1997-2026).
+    El mapa reutiliza la cartografía de la app (app/world-map.js) y las zonas
+    pendientes se leen de data/gold/planner_data.js.
+    Los círculos ámbar numerados son anotaciones que explica
+    docs/entregas/04_diseno_frontal_ux.md; con ?limpio se ocultan.
+  -->
+  <style>
+    :root {
+      --ink: #17323e; --muted: #526671; --teal: #176a65; --teal-soft: #e8f3ef;
+      --line: #dce4e6; --paper: #f6f7f4; --white: #fff; --amber: #8b5908;
+      --amber-soft: #fbf0d9; --rain: #325d80; --rain-soft: #e6eef5;
+      --high: #176a65; --mid: #c98026; --low: #8a9aa1; --ann: #e0861d;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Segoe UI", system-ui, sans-serif; line-height: 1.5; }
+    .shell { max-width: 1360px; margin: 0 auto; padding: 0 40px 40px; }
+    .ann { position: absolute; z-index: 5; width: 26px; height: 26px; border-radius: 50%; background: var(--ann); color: #fff; font-size: 13px; font-weight: 700; display: grid; place-items: center; box-shadow: 0 0 0 3px #fff, 0 2px 6px #0003; }
+    .clean .ann { display: none; }
+    .rel { position: relative; }
+
+    header.top { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 12px; font-size: 15px; line-height: 1.25; }
+    .brand strong { display: block; }
+    .mark { width: 32px; height: 32px; border-radius: 50%; background: var(--ink); position: relative; overflow: hidden; box-shadow: 0 0 0 2px #d4b57c; }
+    .mark::after { content: ""; position: absolute; width: 28px; height: 28px; border-radius: 50%; background: var(--paper); left: 11px; top: -6px; }
+    .top-right { display: flex; gap: 22px; align-items: center; font-size: 12px; color: var(--muted); }
+    .offline { color: var(--teal); font-weight: 600; display: inline-flex; gap: 7px; align-items: center; }
+    .offline::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
+
+    .selector { margin-top: 24px; display: grid; grid-template-columns: .7fr 1.3fr .9fr 1.4fr; gap: 18px; padding: 20px 24px; background: var(--white); border: 1px solid var(--line); border-radius: 14px; }
+    .field label { display: block; font-size: 12px; color: var(--muted); font-weight: 650; margin-bottom: 7px; }
+    .select { height: 44px; border: 1px solid #b8c7cc; background: #fafcfb; border-radius: 8px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
+    .select::after { content: "▾"; color: var(--muted); }
+    .select.strong { font-weight: 650; }
+    .segmented { display: flex; height: 44px; border: 1px solid #b8c7cc; border-radius: 8px; overflow: hidden; font-size: 13px; }
+    .segmented span { flex: 1; display: grid; place-items: center; border-right: 1px solid #d3dee0; color: var(--muted); padding: 0 6px; text-align: center; line-height: 1.2; }
+    .segmented span:last-child { border-right: 0; }
+    .segmented .on { background: var(--teal); color: #fff; font-weight: 650; }
+
+    .event { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin: 30px 0 18px; }
+    .eyebrow { margin: 0 0 4px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+    h1 { margin: 0; font-size: 32px; letter-spacing: -.025em; font-weight: 650; line-height: 1.2; }
+    .event p.sub { margin: 6px 0 0; color: var(--muted); font-size: 13px; max-width: 640px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+    .chip { font-size: 12px; font-weight: 650; border-radius: 30px; padding: 6px 12px; background: #edf1f2; color: var(--ink); white-space: nowrap; }
+    .chip.ok { background: var(--teal-soft); color: var(--teal); }
+    .chip.wait { background: var(--amber-soft); color: var(--amber); }
+
+    .grid-main { display: grid; grid-template-columns: 1.32fr 1fr; gap: 22px; align-items: start; }
+    .col { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+    .panel { background: var(--white); border: 1px solid var(--line); border-radius: 12px; }
+    .panel-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 14px; padding: 16px 20px 12px; }
+    .panel-head h2 { margin: 0; font-size: 17px; font-weight: 650; }
+    .panel-head p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+    .small { font-size: 11px; color: var(--muted); }
+
+    .rank-head, .row { display: grid; grid-template-columns: 30px 1.55fr 1fr .95fr 1.75fr .7fr; gap: 12px; align-items: center; padding: 0 20px; }
+    .rank-head { font-size: 11px; color: var(--muted); font-weight: 650; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+    .row { padding-top: 11px; padding-bottom: 11px; border-bottom: 1px solid #edf1f2; font-size: 13px; }
+    .row.selected { background: #f1f8f5; box-shadow: inset 3px 0 0 var(--teal); }
+    .num { width: 26px; height: 26px; border-radius: 50%; background: #edf1f2; color: var(--muted); display: grid; place-items: center; font-size: 12px; font-weight: 700; }
+    .row.selected .num { background: var(--teal); color: #fff; }
+    .place strong { display: block; font-weight: 650; font-size: 14px; }
+    .place span { font-size: 11px; color: var(--muted); }
+    .phase { display: inline-block; font-size: 11px; font-weight: 650; padding: 2px 7px; border-radius: 4px; background: var(--teal-soft); color: var(--teal); }
+    .phase.partial { background: #eef1f2; color: var(--muted); }
+    .phase + small, .time small { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .time { font-weight: 600; }
+
+    .prob { display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; align-items: center; }
+    .prob .val { font-weight: 700; font-size: 15px; color: var(--teal); }
+    .prob .val small { font-weight: 450; font-size: 11px; color: var(--muted); }
+    .band { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; padding: 2px 7px; border-radius: 20px; }
+    .band.alta { background: var(--teal-soft); color: var(--teal); }
+    .band.media { background: var(--amber-soft); color: var(--amber); }
+    .band.baja { background: #eef1f2; color: #5f6f76; }
+    .track { grid-column: 1 / -1; position: relative; height: 8px; background: #eef2f2; border-radius: 4px; }
+    .track .rng { position: absolute; top: 0; bottom: 0; background: #b9d8cc; border-radius: 4px; }
+    .track .dot { position: absolute; top: -3px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--teal); border: 2px solid #fff; box-shadow: 0 0 0 1px var(--teal); }
+    .prob.low .val { color: #5f6f76; } .prob.low .rng { background: #d9e0e2; } .prob.low .dot { background: #8a9aa1; box-shadow: 0 0 0 1px #8a9aa1; }
+    .rain { font-size: 12px; }
+    .rain b { display: block; color: var(--rain); font-size: 13px; }
+    .rain .m { display: none; font-weight: 450; font-size: 11px; color: var(--muted); }
+    .pending-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 13px 20px; font-size: 12px; color: var(--muted); background: #fafbfa; border-radius: 0 0 12px 12px; }
+    .pending-row a { color: var(--teal); font-weight: 650; text-decoration: none; }
+
+    .map-wrap { position: relative; background: #e9f0f2; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    #map { display: block; width: 100%; height: auto; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 12px 20px 4px; font-size: 11px; color: var(--muted); }
+    .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+    .map-note { padding: 2px 20px 14px; margin: 0; font-size: 11px; color: var(--muted); }
+    .map-btns { display: flex; gap: 6px; }
+    .map-btns span { min-width: 30px; height: 30px; padding: 0 9px; border: 1px solid #c6d5d3; border-radius: 6px; display: grid; place-items: center; color: var(--teal); font-weight: 650; font-size: 12px; background: #f7faf8; }
+
+    .detail { padding: 20px 22px 22px; }
+    .detail-top { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+    .detail h2 { margin: 0; font-size: 22px; font-weight: 650; }
+    .detail .country { color: var(--teal); font-size: 12px; font-weight: 650; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn { font-size: 12px; font-weight: 650; border: 1px solid #b8c7cc; border-radius: 7px; padding: 8px 13px; background: #fff; white-space: nowrap; }
+    .btn.primary { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .headline { margin: 16px 0 14px; padding: 14px 16px; border-radius: 10px; background: var(--teal-soft); display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; }
+    .headline .big { font-size: 38px; font-weight: 700; color: var(--teal); letter-spacing: -.03em; line-height: 1; }
+    .headline p { margin: 0; font-size: 14px; }
+    .headline p small { display: block; color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 0 0 16px; }
+    .fact { border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; }
+    .fact dt { font-size: 11px; color: var(--muted); }
+    .fact dd { margin: 3px 0 0; font-weight: 650; font-size: 17px; }
+    .fact dd small { display: block; font-size: 11px; font-weight: 450; color: var(--muted); }
+    .days h3, .side h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 10px; }
+    .bars { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; align-items: end; height: 120px; }
+    .bar { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; font-size: 11px; color: var(--muted); }
+    .bar i { width: 100%; max-width: 62px; background: #b9d8cc; border-radius: 5px 5px 0 0; }
+    .bar.today i { background: var(--teal); }
+    .bar b { color: var(--ink); font-size: 12px; margin-bottom: 4px; }
+    .bar span { margin-top: 6px; }
+    .bar.today span { color: var(--teal); font-weight: 700; }
+    .caveat { margin: 14px 0 0; font-size: 12px; color: var(--muted); border-left: 3px solid #b9d8cc; padding-left: 10px; }
+    .future { margin-top: 16px; border: 1.5px dashed #c3cfd2; border-radius: 10px; padding: 12px 14px; display: flex; justify-content: space-between; gap: 12px; align-items: center; color: var(--muted); font-size: 12px; }
+    .future b { color: var(--ink); display: block; font-size: 13px; }
+    .tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; border: 1px solid #c3cfd2; border-radius: 20px; padding: 3px 8px; white-space: nowrap; }
+
+    .side { padding: 20px 22px; }
+    .state { display: grid; grid-template-columns: auto 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid #edf1f2; font-size: 12px; color: var(--muted); }
+    .state:first-of-type { border-top: 0; padding-top: 0; }
+    .state b { display: block; color: var(--ink); font-size: 13px; }
+    .state .chip { align-self: start; font-size: 11px; padding: 4px 9px; }
+    .read { margin-top: 18px; padding: 14px 16px; background: #edf1ef; border-radius: 10px; font-size: 12px; color: var(--muted); }
+    .read b { color: var(--ink); }
+    .read p { margin: 0 0 6px; } .read p:last-child { margin: 0; }
+
+    footer { display: flex; justify-content: space-between; margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); }
+
+    @media (max-width: 760px) {
+      .shell { padding: 0 16px 30px; }
+      .top-right span:not(.offline) { display: none; }
+      .selector { grid-template-columns: 1fr; padding: 16px; gap: 12px; }
+      .event { flex-direction: column; align-items: flex-start; margin-top: 22px; }
+      .chips { justify-content: flex-start; }
+      h1 { font-size: 25px; }
+      .grid-main { grid-template-columns: 1fr; }
+      .col:last-child { display: contents; }
+      .map-panel { order: -1; }
+      .rank-head { display: none; }
+      .row { grid-template-columns: 30px 1fr auto; grid-template-areas: "n p r" "n ph t" "n pr pr"; row-gap: 6px; }
+      .row > .num { grid-area: n; align-self: start; } .row > .place { grid-area: p; } .row > .rain { grid-area: r; text-align: right; }
+      .row > .phasecell { grid-area: ph; } .row > .time { grid-area: t; text-align: right; } .row > .prob { grid-area: pr; }
+      .rain .m { display: inline; }
+      .detail-top { flex-direction: column; } .actions { justify-content: flex-start; }
+      .facts { grid-template-columns: 1fr 1fr; }
+      .headline .big { font-size: 30px; }
+      footer { flex-direction: column; gap: 6px; }
+      .chips .ann, .actions .ann { left: -14px !important; top: -16px !important; }
+    }
+  </style>
+  <script src="../../../app/world-map.js"></script>
+  <script src="../../../data/gold/planner_data.js"></script>
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <div class="brand"><span class="mark"></span><span>Planificador <strong>de eclipses</strong></span></div>
+    <div class="top-right"><span>14 eclipses · nov 2026 – nov 2029</span><span class="offline">Consulta sin conexión</span></div>
+  </header>
+
+  <!-- 1. Selector -->
+  <section class="selector rel" aria-label="Seleccionar eclipse">
+    <span class="ann" style="left:-12px; top:-12px">1</span>
+    <div class="field"><label>Tipo de eclipse</label><div class="select">Solares y lunares</div></div>
+    <div class="field"><label>Eclipse</label><div class="select strong">02-08-2027 · Eclipse solar total</div></div>
+    <div class="field"><label>País</label><div class="select">Todos los países</div></div>
+    <div class="field"><label>Ordenar destinos por</label>
+      <div class="segmented"><span class="on">Recomendado</span><span>Cielo despejado</span><span>Duración</span></div></div>
+  </section>
+
+  <!-- 2. Evento -->
+  <section class="event rel">
+    <div>
+      <p class="eyebrow">Lunes, 2 de agosto de 2027</p>
+      <h1>Eclipse solar total</h1>
+      <p class="sub">La totalidad cruza el estrecho de Gibraltar, el norte de África y Arabia. Comparamos 14 destinos con 30 años de climatología.</p>
+    </div>
+    <div class="chips rel">
+      <span class="ann" style="left:-34px; top:2px">2</span>
+      <span class="chip ok">✓ Datos preparados · 30 años</span>
+      <span class="chip">Faltan 265 días</span>
+      <span class="chip wait">Pronóstico real a partir del 17 jul 2027</span>
+    </div>
+  </section>
+
+  <div class="grid-main">
+   <div class="col">
+    <!-- 3. Ranking -->
+    <section class="panel rel" aria-label="Ranking de destinos">
+      <span class="ann" style="left:-12px; top:-12px">3</span>
+      <div class="panel-head">
+        <div><h2>Dónde ir</h2><p>Primero las zonas con totalidad; dentro de cada fase, mejor equilibrio entre cielo despejado, altura del Sol y duración.</p></div>
+        <span class="small" style="white-space:nowrap">Hora local y UTC</span>
+      </div>
+      <div class="rank-head"><span>#</span><span>Destino</span><span>Fase</span><span>Máximo</span><span>Cielo despejado (rango 95 %)</span><span>Lluvia</span></div>
+      <div id="rows"></div>
+      <div class="pending-row rel">
+        <span class="ann" style="left:-12px; top:6px">7</span>
+        <span><b style="color:var(--ink)">5 destinos más</b> con climatología (Qandala, El Dibir, Saná, La Valeta y Sevilla) y <b style="color:var(--ink)">258 zonas</b> fuera del orden con climatología de Copernicus, 68 de ellas con totalidad (Tarifa, Cádiz, Luxor…).</span>
+        <a href="#">Ver todas las zonas →</a>
+      </div>
+    </section>
+
+    <!-- 5. Detalle -->
+    <section class="panel detail rel" aria-label="Detalle del destino">
+      <span class="ann" style="left:-12px; top:-12px">5</span>
+      <div class="detail-top">
+        <div><p class="eyebrow" style="margin-bottom:2px">Destino seleccionado · nº 1</p><h2>Al-Mansurah</h2><span class="country">Egipto · 26,5° N, 31,8° E</span></div>
+        <div class="actions rel">
+          <span class="ann" style="left:-34px; top:4px">6</span>
+          <span class="btn primary">Añadir al calendario (.ics)</span><span class="btn">Comparar</span><span class="btn">Descargar resumen</span>
+        </div>
+      </div>
+      <div class="headline">
+        <span class="big">28/30</span>
+        <p><b>En 28 de los últimos 30 años hubo cielo despejado a la hora del eclipse.</b>
+          <small>Probabilidad histórica 93 % · rango plausible 79–98 % · categoría <b>alta</b>. No es un pronóstico del día.</small></p>
+      </div>
+      <dl class="facts">
+        <div class="fact"><dt>Totalidad</dt><dd>6 min 23 s<small>Disco oculto 100 %</small></dd></div>
+        <div class="fact"><dt>Máximo</dt><dd>13:02<small>hora local · 10:02 UTC</small></dd></div>
+        <div class="fact"><dt>Altura del Sol</dt><dd>81°<small>casi en el cénit</small></dd></div>
+        <div class="fact"><dt>A esa hora suele hacer</dt><dd>40 °C<small>nubosidad 2 % · viento 16 km/h</small></dd></div>
+      </dl>
+      <div class="days">
+        <h3>Años despejados en los días cercanos</h3>
+        <div class="bars">
+          <div class="bar"><b>30</b><i style="height:80%"></i><span>31 jul</span></div>
+          <div class="bar"><b>29</b><i style="height:77%"></i><span>1 ago</span></div>
+          <div class="bar today"><b>28</b><i style="height:75%"></i><span>2 ago · eclipse</span></div>
+          <div class="bar"><b>29</b><i style="height:77%"></i><span>3 ago</span></div>
+          <div class="bar"><b>29</b><i style="height:77%"></i><span>4 ago</span></div>
+        </div>
+      </div>
+      <p class="caveat">Calor extremo a mediodía: lleva agua y sombra. El cielo despejado se estima con datos de reanálisis en celdas de unos 25 km y puede diferir de lo que se vea desde un punto concreto.</p>
+      <div class="future rel">
+        <span class="ann" style="left:-12px; top:-12px">8</span>
+        <div><b>Alojamiento y precio orientativo</b>Ocupación y coste por noche cerca del destino.</div>
+        <span class="tag">Mejora futura</span>
+      </div>
+    </section>
+
+   </div>
+   <div class="col">
+    <!-- 4. Mapa -->
+    <section class="panel map-panel rel" aria-label="Mapa">
+      <span class="ann" style="left:-12px; top:-12px">4</span>
+      <div class="panel-head">
+        <div><h2>Mapa de destinos</h2><p>El color indica la probabilidad histórica de cielo despejado.</p></div>
+        <div class="map-btns"><span>+</span><span>−</span><span>Mundo</span></div>
+      </div>
+      <div class="map-wrap"><svg id="map" viewBox="0 0 600 420" role="img" aria-label="Mapa del Mediterráneo, norte de África y Arabia con los destinos numerados"></svg></div>
+      <div class="legend">
+        <span><i style="background:var(--high)"></i>Alta (≥50 %)</span>
+        <span><i style="background:var(--mid)"></i>Media (25–50 %)</span>
+        <span><i style="background:var(--low)"></i>Baja (&lt;25 %)</span>
+        <span><i style="background:#fff; border:1.5px solid #47756b"></i>Climatología pendiente</span>
+      </div>
+      <p class="map-note">Los puntos son ubicaciones analizadas; el mapa no dibuja la franja de totalidad.</p>
+    </section>
+
+    <!-- 7. Estados e incertidumbre -->
+    <aside class="panel side rel" aria-label="Cómo leer los resultados">
+      <span class="ann" style="left:-12px; top:-12px">7</span>
+      <h3>Qué significa cada estado</h3>
+      <div class="state"><span class="chip ok">Preparado</span><div><b>30 años de histórico completos</b>El ranking es definitivo para esta versión de los datos.</div></div>
+      <div class="state"><span class="chip wait">Parcial</span><div><b>Faltan años o falló la última descarga</b>Se muestran los resultados anteriores con este aviso y el rango se ensancha.</div></div>
+      <div class="state"><span class="chip">Pendiente</span><div><b>Climatología sin preparar</b>La fase y la hora sí están calculadas; nunca se rellena con datos de otro lugar.</div></div>
+      <div class="state"><span class="chip wait">Pronóstico</span><div><b>A menos de 16 días del eclipse</b>Aparece el pronóstico real junto a la climatología, sin mezclarlos.</div></div>
+      <div class="read">
+        <p><b>Cómo leer la probabilidad.</b> «93 %» significa que estuvo despejado en 28 de 30 años en esa fecha y hora. El rango indica cuánto podría variar con otra muestra de años.</p>
+        <p><b>0 % no es imposible.</b> En Saná no hubo cielo despejado en 30 años: el rango llega al 11 %.</p>
+        <p><b>Categoría media, con cautela.</b> En la validación, lo observado superó a lo previsto en unos 9 puntos.</p>
+      </div>
+    </aside>
+   </div>
+  </div>
+
+  <footer><span>Fuentes: NASA GSFC · GeoNames (CC BY 4.0) · Open-Meteo / ERA5 (CC BY 4.0) · Natural Earth</span><span>Mockup del MVP · datos exportados el 10/11/2026</span></footer>
+</div>
+
+<script>
+  if (location.search.includes("limpio")) document.body.classList.add("clean");
+
+  // Datos reales: data/gold/events/2027-08-02/location_ranking.csv (intervalo de Wilson al 95 %).
+  const dest = [
+    { n: "Al-Mansurah", c: "Egipto", lat: 26.47, lon: 31.80, phase: "Total", dur: "6 min 23 s", loc: "13:02", utc: "10:02", alt: 81, k: 28, lo: 79, hi: 98, rain: 0, rb: "baja" },
+    { n: "Bengasi", c: "Libia", lat: 32.12, lon: 20.07, phase: "Total", dur: "6 min 9 s", loc: "11:30", utc: "09:30", alt: 68, k: 27, lo: 74, hi: 97, rain: 0, rb: "baja" },
+    { n: "Sfax", c: "Túnez", lat: 34.73, lon: 10.77, phase: "Total", dur: "5 min 40 s", loc: "10:11", utc: "09:11", alt: 56, k: 27, lo: 74, hi: 97, rain: 0, rb: "baja" },
+    { n: "Málaga", c: "España", lat: 36.72, lon: -4.42, phase: "Total", dur: "1 min 51 s", loc: "10:48", utc: "08:48", alt: 39, k: 25, lo: 66, hi: 93, rain: 0, rb: "baja" },
+    { n: "Gibraltar", c: "Gibraltar", lat: 36.14, lon: -5.35, phase: "Total", dur: "4 min 26 s", loc: "10:47", utc: "08:47", alt: 38, k: 23, lo: 59, hi: 88, rain: 0, rb: "baja" },
+    { n: "Yeda", c: "Arabia Saudí", lat: 21.50, lon: 39.20, phase: "Total", dur: "5 min 58 s", loc: "13:25", utc: "10:25", alt: 76, k: 19, lo: 46, hi: 78, rain: 0, rb: "baja" },
+    { n: "Orán", c: "Argelia", lat: 35.72, lon: -0.72, phase: "Total", dur: "5 min 8 s", loc: "09:53", utc: "08:53", alt: 43, k: 21, lo: 52, hi: 83, rain: 3, rb: "baja" },
+    { n: "Tánger", c: "Marruecos", lat: 35.80, lon: -5.75, phase: "Total", dur: "4 min 50 s", loc: "09:47", utc: "08:47", alt: 38, k: 18, lo: 42, hi: 75, rain: 0, rb: "baja" },
+    { n: "Ceuta", c: "España", lat: 35.89, lon: -5.32, phase: "Total", dur: "4 min 48 s", loc: "10:47", utc: "08:47", alt: 38, k: 17, lo: 39, hi: 73, rain: 0, rb: "baja" },
+  ];
+  const band = (p) => (p >= 50 ? "alta" : p >= 25 ? "media" : "baja");
+  const color = { alta: "var(--high)", media: "var(--mid)", baja: "var(--low)" };
+
+  document.getElementById("rows").innerHTML = dest.map((d, i) => {
+    const p = Math.round((d.k / 30) * 100), b = band(p);
+    return `<div class="row${i === 0 ? " selected" : ""}">
+      <span class="num">${i + 1}</span>
+      <div class="place"><strong>${d.n}</strong><span>${d.c}</span></div>
+      <div class="phasecell"><span class="phase${d.phase === "Parcial" ? " partial" : ""}">${d.phase}</span><small>${d.dur}</small></div>
+      <div class="time">${d.loc}<small>${d.utc} UTC</small><small>Sol a ${d.alt}°</small></div>
+      <div class="prob${b === "baja" ? " low" : ""}">
+        <span class="val">${p} % <small>${d.k} de 30 años</small></span><span class="band ${b}">${b}</span>
+        <div class="track"><span class="rng" style="left:${d.lo}%; width:${d.hi - d.lo}%"></span><span class="dot" style="left:${p}%"></span></div>
+      </div>
+      <div class="rain"><b><span class="m">Lluvia </span>${d.rain} %</b><span class="band ${d.rb}">${d.rb}</span></div>
+    </div>`;
+  }).join("");
+
+  // Mapa regional (proyección equirectangular corregida por latitud).
+  const svg = document.getElementById("map");
+  const W = 600, H = 420, lon0 = -12, lon1 = 50, latMid = 28;
+  const kx = W / (lon1 - lon0), ky = kx / Math.cos((latMid * Math.PI) / 180);
+  const lat1 = latMid + H / 2 / ky;
+  const px = (lon, lat) => [((lon - lon0) * kx).toFixed(1), ((lat1 - lat) * ky).toFixed(1)];
+  const ns = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs) => { const e = document.createElementNS(ns, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+  const ring = (r) => r.map(([lo, la], i) => (i ? "L" : "M") + px(lo, la).join(",")).join("") + "Z";
+  const withData = new Set(["EG", "LY", "TN", "SA", "DZ", "MA", "YE", "MT", "ES", "GI", "SO"]);
+  (window.ECLIPSE_WORLD_MAP?.features || []).forEach((f) => {
+    const g = f.geometry, polys = g.type === "Polygon" ? [g.coordinates] : g.coordinates;
+    const d = polys.map((p) => p.map(ring).join("")).join("");
+    svg.append(el("path", { d, fill: withData.has(f.properties.country_code) ? "#d5e6dc" : "#f6f8f5", stroke: "#bfcfcc", "stroke-width": ".7" }));
+  });
+  // Zonas con climatología pendiente del mismo eclipse (desde el Gold exportado).
+  const ev = (window.ECLIPSE_PLANNER_DATA?.events || []).find((e) => e.event_date === "2027-08-02");
+  (ev?.locations || []).filter((l) => l.climate_status !== "ready" && l.obscuration_pct >= 70).forEach((l) => {
+    const [x, y] = px(l.longitude, l.latitude);
+    if (x > 0 && x < W && y > 0 && y < H) svg.append(el("circle", { cx: x, cy: y, r: 2.6, fill: "#fff", stroke: "#47756b", "stroke-width": 1 }));
+  });
+  dest.forEach((d, i) => {
+    const [x, y] = px(d.lon, d.lat), b = band(Math.round((d.k / 30) * 100));
+    if (i === 0) svg.append(el("circle", { cx: x, cy: y, r: 16, fill: "none", stroke: "var(--teal)", "stroke-width": 2 }));
+    svg.append(el("circle", { cx: x, cy: y, r: 11, fill: color[b], stroke: "#fff", "stroke-width": 2 }));
+    const t = el("text", { x, y: +y + 4, "text-anchor": "middle", "font-size": 11, "font-weight": 700, fill: "#fff" });
+    t.textContent = i + 1; svg.append(t);
+  });
+</script>
+</body>
+</html>

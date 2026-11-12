@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#122c36">
   <title>Planificador de eclipses</title>
+  <script src="theme.js"></script>
   <link rel="stylesheet" href="style.css">
   <script src="../data/gold/planner_data.js" defer></script>
   <script src="world-map.js" defer></script>
@@ -18,7 +19,11 @@
         <span class="brand-mark" aria-hidden="true"></span>
         <span>Planificador <strong>de eclipses</strong></span>
       </a>
-      <span class="offline-badge"><span aria-hidden="true"></span> Consulta sin conexión</span>
+      <div class="header-actions">
+        <a class="header-link" href="eclipses.html">Tipos de eclipse</a>
+        <span class="offline-badge"><span aria-hidden="true"></span> Consulta sin conexión</span>
+        <button type="button" id="theme-toggle" class="theme-toggle" hidden><span class="theme-icon" aria-hidden="true"></span><span class="theme-label">Modo noche</span></button>
+      </div>
     </header>
 
     <main>
@@ -57,6 +62,7 @@
           <div>
             <p class="eyebrow" id="event-date"></p>
             <h2 id="event-title"></h2>
+            <a id="event-guide" class="guide-link" href="eclipses.html"></a>
           </div>
           <span id="event-status" class="status-badge"></span>
         </header>
@@ -87,7 +93,7 @@
             <h3 id="locations-title">Ubicaciones para observar</h3>
             <p id="locations-note"></p>
           </div>
-          <span class="small-label">Horarios en UTC</span>
+          <span class="small-label">Hora local del lugar y UTC</span>
         </div>
         <div id="locations" class="locations-grid"></div>
         <div id="locations-empty" class="empty-state" hidden></div>
@@ -106,7 +112,7 @@
     </main>
 
     <footer class="site-footer">
-      <p>Fuentes: <a href="https://eclipse.gsfc.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA GSFC</a> · <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · Mapa: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a></p>
+      <p>Fuentes: <a href="https://eclipse.gsfc.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA GSFC</a> · <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer">GeoNames</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · Mapa: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a></p>
       <p id="prepared-at">Datos preparados para consulta local.</p>
     </footer>
   </div>

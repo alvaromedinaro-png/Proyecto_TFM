@@ -82,6 +82,62 @@
     return date ? `${dateTimeFormatter.format(date)} UTC` : "No disponible";
   }
 
+  const utcTimeFormatter = new Intl.DateTimeFormat("es-ES", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" });
+  const localFormatters = new Map();
+
+  function localFormatter(timeZone) {
+    if (!localFormatters.has(timeZone)) {
+      try {
+        localFormatters.set(timeZone, {
+          time: new Intl.DateTimeFormat("es-ES", { hour: "2-digit", minute: "2-digit", timeZone, timeZoneName: "short" }),
+          day: new Intl.DateTimeFormat("es-ES", { day: "2-digit", month: "2-digit", year: "numeric", timeZone })
+        });
+      } catch (error) {
+        localFormatters.set(timeZone, null);
+      }
+    }
+    return localFormatters.get(timeZone);
+  }
+
+  // Hora local del lugar (zona IANA exportada; el navegador aplica el horario de verano) y UTC.
+  function peakStat(location, event) {
+    const lunar = event.event_family === "lunar";
+    const label = lunar ? "Máximo global" : "Máximo local";
+    const fallbackNote = lunar ? "Hora del máximo global lunar" : "Hora aproximada";
+    const date = dateValue(location.peak_time_utc);
+    const formatter = date && typeof location.timezone === "string" && location.timezone ? localFormatter(location.timezone) : null;
+    if (!formatter) return stat(label, peakTime(location.peak_time_utc), fallbackNote);
+    // La fecha local puede no coincidir con la del eclipse en UTC, así que se indica siempre.
+    return stat(label, formatter.time.format(date), `${formatter.day.format(date)} · ${utcTimeFormatter.format(date)} UTC · hora local${lunar ? " del máximo global" : " aproximada"}`);
+  }
+
+  const bandLabels = { baja: "Baja", media: "Media", alta: "Alta" };
+
+  // Probabilidad con su categoría (entrega 3) y su rango al 95 % (punto = valor, tramo = intervalo).
+  function probabilityStat(label, value, range, band, years, kind, className = "") {
+    const item = stat(label, formatted(value, " %"), sampleLabel(years), className);
+    const content = item.querySelector("dd");
+    const note = content.querySelector("small");
+    if (finite(value) && bandLabels[band]) {
+      const chip = node("span", `band band-${kind}-${band}`, bandLabels[band]);
+      chip.title = kind === "clear" ? "Categoría de cielo despejado: baja < 25 %, media 25-50 %, alta ≥ 50 %" : "Categoría de lluvia: baja < 25 %, media 25-50 %, alta ≥ 50 %";
+      content.insertBefore(chip, note);
+    }
+    if (finite(value) && Array.isArray(range) && range.length === 2 && range.every(finite) && note) {
+      note.textContent = `Rango 95 %: ${number.format(range[0])}-${number.format(range[1])} % · ${sampleLabel(years)}`;
+      const bar = node("span", `range-bar range-${kind}`);
+      bar.setAttribute("aria-hidden", "true");
+      const span = node("span", "range-span");
+      span.style.left = `${Math.max(0, Math.min(100, range[0]))}%`;
+      span.style.width = `${Math.max(0, Math.min(100, range[1]) - Math.max(0, range[0]))}%`;
+      const dot = node("span", "range-dot");
+      dot.style.left = `${Math.max(0, Math.min(100, value))}%`;
+      bar.append(span, dot);
+      content.insertBefore(bar, note);
+    }
+    return item;
+  }
+
   function duration(value) {
     if (!finite(value) || value < 0) return "No disponible";
     const seconds = Math.round(value);
@@ -104,6 +160,20 @@
     const family = event.event_family === "lunar" ? "lunar" : "solar";
     const phase = phaseNames[event.eclipse_type] || event.eclipse_type || "";
     return `Eclipse ${family} ${phase.toLocaleLowerCase("es")}`.trim();
+  }
+
+  // Enlace a la explicación del tipo de eclipse en la guía (eclipses.html).
+  const guideAnchors = {
+    solar: { total: "solar-total", annular: "solar-anular", hybrid: "solar-hibrido", partial: "solar-parcial" },
+    lunar: { total: "lunar-total", partial: "lunar-parcial", penumbral: "lunar-penumbral" }
+  };
+
+  function updateGuideLink(event) {
+    const link = byId("event-guide");
+    const family = event.event_family === "lunar" ? "lunar" : "solar";
+    const anchor = guideAnchors[family][event.eclipse_type];
+    link.href = anchor ? `eclipses.html#${anchor}` : "eclipses.html";
+    link.textContent = anchor ? `¿Qué es un ${eventTitle(event).toLocaleLowerCase("es")}?` : "Tipos de eclipse";
   }
 
   function eventLabel(event) {
@@ -241,7 +311,7 @@
     const durationNote = location.duration_scope === "global_lunar_phase" ? "No garantiza que toda la fase sea visible desde aquí." : location.duration_scope === "local_central" ? "Totalidad o fase anular local" : "Intervalo visible del eclipse";
     const durationOutside = !finite(location.phase_duration_s) && location.duration_complete === false;
     astronomy.append(stat(durationLabel, duration(location.phase_duration_s), durationOutside ? "La fase sale del intervalo de cálculo de los elementos NASA" : durationNote));
-    astronomy.append(stat(event.event_family === "lunar" ? "Máximo global" : "Máximo local", peakTime(location.peak_time_utc), event.event_family === "lunar" ? "Hora del máximo global lunar" : "Hora aproximada"));
+    astronomy.append(peakStat(location, event));
     astronomy.append(stat("Altura sobre el horizonte", formatted(location.body_altitude_deg, "°"), event.event_family === "lunar" ? "Luna en el máximo global" : "Sol en el máximo local"));
     card.append(astronomy);
     if (!hasClimate(location)) {
@@ -252,8 +322,8 @@
     }
     card.append(node("h5", "climate-heading", "Climatología en la hora del eclipse"));
     const climate = node("dl", "climate-stats");
-    climate.append(stat("Cielo despejado", formatted(location.clear_probability_pct, " %"), sampleLabel(location.valid_cloud_years)));
-    climate.append(stat("Frecuencia de lluvia", formatted(location.rain_probability_pct, " %"), sampleLabel(location.valid_rain_years), "rain-stat"));
+    climate.append(probabilityStat("Cielo despejado", location.clear_probability_pct, location.clear_range_pct, location.clear_band, location.valid_cloud_years, "clear"));
+    climate.append(probabilityStat("Frecuencia de lluvia", location.rain_probability_pct, location.rain_range_pct, location.rain_band, location.valid_rain_years, "rain", "rain-stat"));
     card.append(climate);
     const secondary = node("div", "weather-secondary");
     [["Nubosidad", location.mean_cloud_cover_pct, " %"], ["Temperatura", location.mean_temperature_c, " °C"], ["Viento", location.mean_wind_speed_kmh, " km/h"]].forEach(([label, value, unit]) => {
@@ -296,7 +366,9 @@
     showMore.setAttribute("aria-controls", "locations");
     const preparedCount = filtered.filter(hasClimate).length;
     const order = selectedEvent.event_family === "solar" ? "Ordenadas por disco solar oculto." : "Ordenadas por altura de la Luna.";
-    byId("locations-note").textContent = filtered.length ? `${filtered.length} zonas analizadas · ${preparedCount} con climatología. ${order}` : "Los resultados aparecerán cuando estén preparados.";
+    const cdsCount = filtered.filter((location) => location.climate_source === "copernicus_cds_era5").length;
+    const sourceNote = cdsCount ? ` Climatología ERA5; en ${cdsCount} ${cdsCount === 1 ? "zona" : "zonas"} se obtuvo de Copernicus por regiones.` : "";
+    byId("locations-note").textContent = filtered.length ? `${filtered.length} zonas analizadas · ${preparedCount} con climatología. ${order}${sourceNote}` : "Los resultados aparecerán cuando estén preparados.";
   }
 
   function project(longitude, latitude) {
@@ -336,6 +408,7 @@
       entry.dot.setAttribute("stroke-width", strokeWidth / mapZoom);
       entry.focus.setAttribute("stroke-width", 1.7 / mapZoom);
     });
+    byId("map-container").classList.toggle("can-drag", mapZoom > 1);
     byId("map-zoom-in").disabled = mapZoom >= 8;
     byId("map-zoom-out").disabled = mapZoom <= 1;
   }
@@ -402,6 +475,48 @@
       card.focus({ preventScroll: true });
       card.scrollIntoView({ block: "nearest", behavior: "auto" });
     }
+  }
+
+  // Arrastrar con el botón izquierdo (o el dedo) desplaza el mapa ampliado.
+  // Si el puntero se ha movido, se anula el clic siguiente para no seleccionar
+  // el país o el punto donde termina el arrastre.
+  function enableMapDrag(container) {
+    let drag = null;
+    let suppressClick = false;
+    container.addEventListener("pointerdown", (event) => {
+      if (!mapSvg || event.button !== 0 || mapZoom <= 1) return;
+      const matrix = mapSvg.getScreenCTM();
+      if (!matrix || !matrix.a) return;
+      drag = { id: event.pointerId, x: event.clientX, y: event.clientY, center: [...mapCenter], scale: 1 / matrix.a, moved: false };
+    });
+    container.addEventListener("pointermove", (event) => {
+      if (!drag || event.pointerId !== drag.id) return;
+      const dx = event.clientX - drag.x;
+      const dy = event.clientY - drag.y;
+      if (!drag.moved) {
+        if (Math.hypot(dx, dy) < 4) return;
+        drag.moved = true;
+        container.setPointerCapture(drag.id);
+        container.classList.add("dragging");
+      }
+      event.preventDefault();
+      mapCenter = [drag.center[0] - dx * drag.scale, drag.center[1] - dy * drag.scale];
+      updateMapView();
+    });
+    const endDrag = (event) => {
+      if (!drag || event.pointerId !== drag.id) return;
+      suppressClick = drag.moved;
+      drag = null;
+      container.classList.remove("dragging");
+    };
+    container.addEventListener("pointerup", endDrag);
+    container.addEventListener("pointercancel", endDrag);
+    container.addEventListener("click", (event) => {
+      if (!suppressClick) return;
+      suppressClick = false;
+      event.stopPropagation();
+      event.preventDefault();
+    }, true);
   }
 
   function renderMap() {
@@ -487,6 +602,7 @@
     selectedLocation = null;
     byId("event-date").textContent = readableDate(selectedEvent.event_date);
     byId("event-title").textContent = eventTitle(selectedEvent);
+    updateGuideLink(selectedEvent);
     const status = ["ready", "partial", "pending"].includes(selectedEvent.status) ? selectedEvent.status : "pending";
     const badge = byId("event-status");
     badge.className = `status-badge ${status}`;
@@ -569,6 +685,7 @@
       expanded = !expanded;
       renderLocations();
     });
+    enableMapDrag(byId("map-container"));
     byId("map-zoom-in").addEventListener("click", () => { mapZoom = Math.min(8, mapZoom * 1.6); updateMapView(); });
     byId("map-zoom-out").addEventListener("click", () => { mapZoom = Math.max(1, mapZoom / 1.6); updateMapView(); });
     byId("map-reset").addEventListener("click", () => {
