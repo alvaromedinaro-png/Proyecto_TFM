@@ -26,7 +26,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 2
+      "phase_priority": 2,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Referencia central NASA 5",
@@ -52,7 +55,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 2
+      "phase_priority": 2,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Referencia central NASA 3",
@@ -78,7 +84,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 2
+      "phase_priority": 2,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Sevilla, SPAIN",
@@ -104,7 +113,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 2
+      "phase_priority": 2,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Manaus, BRAZIL",
@@ -130,7 +142,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 2
+      "phase_priority": 2,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Santa Cruz, Galapagos, ECUADOR",
@@ -156,7 +171,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 2
+      "phase_priority": 2,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Tangier, MOROCCO",
@@ -182,7 +200,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 2
+      "phase_priority": 2,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Lisbon, PORTUGAL",
@@ -208,7 +229,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 1
+      "phase_priority": 1,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Toulouse, FRANCE",
@@ -234,7 +258,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 1
+      "phase_priority": 1,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Oran, ALGERIA",
@@ -260,7 +287,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 1
+      "phase_priority": 1,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Paramaribo, SURINAME",
@@ -286,7 +316,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 1
+      "phase_priority": 1,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "El Aaiun, WESTERN SAHARA",
@@ -312,7 +345,184 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09569",
       "event_date": "2028-01-26",
-      "phase_priority": 1
+      "phase_priority": 1,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
+    },
+    {
+      "name": "Leticia",
+      "latitude": -4.21079,
+      "longitude": -69.93944,
+      "elevation_m": 84.0,
+      "candidate_type": "ciudad GeoNames",
+      "location_source": "https://download.geonames.org/export/dump/cities15000.zip",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "country_source": "provided_country_code",
+      "elevation_is_assumed": false,
+      "visible": true,
+      "local_phase": "annular",
+      "local_magnitude": 0.9580878540753078,
+      "obscuration_fraction": 0.8424455024513218,
+      "body_altitude_deg": 44.987790807857735,
+      "event_time_utc_approx": "2028-01-26T13:57:35.532792+00:00",
+      "central_duration_s": 571.2303240113063,
+      "visible_eclipse_duration_s": 13236.567287798956,
+      "duration_complete": true,
+      "phase_duration_s": 571.2303240113063,
+      "geometry_method": "besselian_polynomial_approximation",
+      "event_id": "NASA-SE-09569",
+      "event_date": "2028-01-26",
+      "phase_priority": 2,
+      "climate_batch": "geonames_central",
+      "population": 48144.0,
+      "geonames_id": "3676623"
+    },
+    {
+      "name": "San Juan",
+      "latitude": -3.77611,
+      "longitude": -73.28139,
+      "elevation_m": 99.0,
+      "candidate_type": "ciudad GeoNames",
+      "location_source": "https://download.geonames.org/export/dump/cities15000.zip",
+      "country_code": "PE",
+      "country_name": "Perú",
+      "country_source": "provided_country_code",
+      "elevation_is_assumed": false,
+      "visible": true,
+      "local_phase": "annular",
+      "local_magnitude": 0.944644767732827,
+      "obscuration_fraction": 0.8407623111819041,
+      "body_altitude_deg": 39.95807706166074,
+      "event_time_utc_approx": "2028-01-26T13:49:55.504402+00:00",
+      "central_duration_s": 522.1232722532101,
+      "visible_eclipse_duration_s": 12782.142358962434,
+      "duration_complete": true,
+      "phase_duration_s": 522.1232722532101,
+      "geometry_method": "besselian_polynomial_approximation",
+      "event_id": "NASA-SE-09569",
+      "event_date": "2028-01-26",
+      "phase_priority": 2,
+      "climate_batch": "geonames_central",
+      "population": 78153.0,
+      "geonames_id": "3692462"
+    },
+    {
+      "name": "Iquitos",
+      "latitude": -3.74814,
+      "longitude": -73.2529,
+      "elevation_m": 107.0,
+      "candidate_type": "ciudad GeoNames",
+      "location_source": "https://download.geonames.org/export/dump/cities15000.zip",
+      "country_code": "PE",
+      "country_name": "Perú",
+      "country_source": "provided_country_code",
+      "elevation_is_assumed": false,
+      "visible": true,
+      "local_phase": "annular",
+      "local_magnitude": 0.9438989979385142,
+      "obscuration_fraction": 0.8407751339680032,
+      "body_altitude_deg": 39.99543399094085,
+      "event_time_utc_approx": "2028-01-26T13:50:00.954972+00:00",
+      "central_duration_s": 518.7213406339392,
+      "visible_eclipse_duration_s": 12788.056505564587,
+      "duration_complete": true,
+      "phase_duration_s": 518.7213406339392,
+      "geometry_method": "besselian_polynomial_approximation",
+      "event_id": "NASA-SE-09569",
+      "event_date": "2028-01-26",
+      "phase_priority": 2,
+      "climate_batch": "geonames_central",
+      "population": 377609.0,
+      "geonames_id": "3696183"
+    },
+    {
+      "name": "Caniço",
+      "latitude": 32.65078,
+      "longitude": -16.83749,
+      "elevation_m": 216.0,
+      "candidate_type": "ciudad GeoNames",
+      "location_source": "https://download.geonames.org/export/dump/cities15000.zip",
+      "country_code": "PT",
+      "country_name": "Portugal",
+      "country_source": "provided_country_code",
+      "elevation_is_assumed": false,
+      "visible": true,
+      "local_phase": "annular",
+      "local_magnitude": 0.9382217579869353,
+      "obscuration_fraction": 0.8314674795013131,
+      "body_altitude_deg": 18.14096088570131,
+      "event_time_utc_approx": "2028-01-26T16:50:10.770487+00:00",
+      "central_duration_s": 423.62976863422375,
+      "visible_eclipse_duration_s": null,
+      "duration_complete": false,
+      "phase_duration_s": 423.62976863422375,
+      "geometry_method": "besselian_polynomial_approximation",
+      "event_id": "NASA-SE-09569",
+      "event_date": "2028-01-26",
+      "phase_priority": 2,
+      "climate_batch": "geonames_central",
+      "population": 23368.0,
+      "geonames_id": "2270258"
+    },
+    {
+      "name": "Funchal",
+      "latitude": 32.66568,
+      "longitude": -16.92547,
+      "elevation_m": 280.0,
+      "candidate_type": "ciudad GeoNames",
+      "location_source": "https://download.geonames.org/export/dump/cities15000.zip",
+      "country_code": "PT",
+      "country_name": "Portugal",
+      "country_source": "provided_country_code",
+      "elevation_is_assumed": false,
+      "visible": true,
+      "local_phase": "annular",
+      "local_magnitude": 0.9366814477802792,
+      "obscuration_fraction": 0.831493905821413,
+      "body_altitude_deg": 18.201344055908265,
+      "event_time_utc_approx": "2028-01-26T16:50:06.848716+00:00",
+      "central_duration_s": 416.31881527417534,
+      "visible_eclipse_duration_s": null,
+      "duration_complete": false,
+      "phase_duration_s": 416.31881527417534,
+      "geometry_method": "besselian_polynomial_approximation",
+      "event_id": "NASA-SE-09569",
+      "event_date": "2028-01-26",
+      "phase_priority": 2,
+      "climate_batch": "geonames_central",
+      "population": 105795.0,
+      "geonames_id": "2267827"
+    },
+    {
+      "name": "Gibraltar",
+      "latitude": 36.14474,
+      "longitude": -5.35257,
+      "elevation_m": 11.0,
+      "candidate_type": "ciudad GeoNames",
+      "location_source": "https://download.geonames.org/export/dump/cities15000.zip",
+      "country_code": "GI",
+      "country_name": "Gibraltar",
+      "country_source": "provided_country_code",
+      "elevation_is_assumed": false,
+      "visible": true,
+      "local_phase": "annular",
+      "local_magnitude": 0.9172464334237178,
+      "obscuration_fraction": 0.8266296242167762,
+      "body_altitude_deg": 7.254235442694885,
+      "event_time_utc_approx": "2028-01-26T16:56:25.409514+00:00",
+      "central_duration_s": 246.75905770809177,
+      "visible_eclipse_duration_s": 7286.6770926676545,
+      "duration_complete": true,
+      "phase_duration_s": 246.75905770809177,
+      "geometry_method": "besselian_polynomial_approximation",
+      "event_id": "NASA-SE-09569",
+      "event_date": "2028-01-26",
+      "phase_priority": 2,
+      "climate_batch": "geonames_central",
+      "population": 26544.0,
+      "geonames_id": "2411585"
     }
   ],
   "years": [
@@ -398,120 +608,240 @@
       "sha256": "ac4d6ff2173ddfc9cd67c34119470d8070b17834967e89c15e21323c993ad9d5"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_1997_a79dad8531e2.json",
+      "sha256": "732381e394dd3fe025adad494dc3ad711e20d7fefe87fbba8687e28e66c6944e"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_1998_4c1361c52d0c.json",
       "sha256": "7b8b459f5b58da003e5bf1e14351188ed46a94438ffdc5348d8cd669143ae632"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_1998_65c7ce1b52f2.json",
+      "sha256": "d5a3b3a5616bdba8f753193e22c5f8eb2c05f3ebcceba31e210f368ae58b1f08"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_1999_d16f8cac524a.json",
       "sha256": "d9d476e18568228cdcc19a8b8ca1eb7deaf0c49c863219f0e0816d93a1dd1ed7"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_1999_da7751abc7a3.json",
+      "sha256": "7d2f73560095363b95cdca103fc5211a3ce0ae23a61e804d36ece5551a9c9936"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2000_9c0cb64c4770.json",
       "sha256": "eaa82fd72bbfb01e67368f903a3ad921d4123df0b82f31dec6a95c4f23f3f8dd"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2000_d4abeb4e6326.json",
+      "sha256": "ea1b760a901a3cf6d6aa55f840b3db4df3e430137cc25150ee04870e480976e2"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2001_63ddea536ea2.json",
       "sha256": "005286e4b5972b829b0a82f0be2f3cb8e017e2a42b7d6810ae24d719a7e1246a"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2001_db02df987bea.json",
+      "sha256": "b5f1c1fdaa7c035e5a005ac16f462fe175e7641a78f8bdb22bacb22eede09b58"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2002_a205c3c43d40.json",
       "sha256": "5d3230a2dd1165a01bd588283999b28ae4ddb5d402d1d6c68612a2fcfcae94e4"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2002_c2ce1f490657.json",
+      "sha256": "248cac97051c7219a9caa9572fc2c927443b70df580c2951bf04ed10b9bacaf3"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2003_0a18e722d5e9.json",
       "sha256": "52c682955457ca6e4cef6e0b048f24d2942f8c5fa1b5af92a42cb52b5648bb05"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2003_4dab7d768a55.json",
+      "sha256": "97d1a2aa138e65567e4f79a3055a45fe61716f5504a0972f78f8aea556e366a1"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2004_430f9e39db9d.json",
       "sha256": "acd3c218a64dbcb09748bec55bb3e0a4553566036f6987617dc31c42271b168c"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2004_e61eabaf158d.json",
+      "sha256": "b71c04e8130467c7d16a2bb68214c08a75d6fa9c4c19ef838873b0388a81e490"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2005_0e777b70f871.json",
       "sha256": "1a2c971c58b7ea2d9179fbca874aa427ef107bcf391b83bdfb4279f519d1174f"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2005_b8b117cd635b.json",
+      "sha256": "aa2cf35e766338a4a445f432a178ffe2ca5e6f4700a9387d0ea382515ec6f523"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2006_ec27fde72c08.json",
       "sha256": "c0d0fe6fbcda20a88df6b5b48139a8f4a8f58b7aef3ce39f0b6b077a7bc29299"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2006_38b4b1493e7a.json",
+      "sha256": "65175b61291e940f1a47d871e775c9eac8bb98d08f2a0d1ee2d8f3579047c826"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2007_8409eb7e6795.json",
       "sha256": "dfee7f789d25147a1aca20244ed2e987ac27c1ed7cfec4a06f9517b388b7677d"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2007_9cdebd5bd3eb.json",
+      "sha256": "ba330b110fa9de68d06c8718c4d2bd3b0ecd5437d96214dfcb76baddb36c5fbe"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2008_59d36ef3e07d.json",
       "sha256": "314cc3052f8c329cdc6fa47864a943e2000a9a25af99894edde35132e5290fd8"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2008_d64fd363dca7.json",
+      "sha256": "b630646a64cf64e817e9556b5e1871044dfe0bd652342b973bb34278eed4c7c3"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2009_1c8bb6fb9f8c.json",
       "sha256": "c0fc28ded1bef3b869ec544b9ab40ea942fc4477c7cdc2166893486807cd2345"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2009_27758ce1eef8.json",
+      "sha256": "357506488473d21514af0388c01b3216a4c7f175b2a1730cfa54a96ca6fefa04"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2010_7e22c7eb37bf.json",
       "sha256": "ecbdde6753579b090449388556ccddd8f1de99271e6ec4392ed62be747a84208"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2010_2b388411739e.json",
+      "sha256": "0ea9c9f15322081de2d50347f00d27df1b1f93ac9442e3628d1ad8087d885ed8"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2011_e06045c58fdf.json",
       "sha256": "920cc7eead5de1b8b66b0ed5ca141784bd8624e91bec05d010682a534c4ada6c"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2011_407cec045cf6.json",
+      "sha256": "d2b074730da70e6b7f58123c5c5358c7787c035586abc281cf5e4caf90e69335"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2012_74a8b508efbd.json",
       "sha256": "b701acf18b449e6d2a15a5a66c47faa88c6deac57dcef0257e6c76a0b05202c3"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2012_7dda7a35d257.json",
+      "sha256": "0a701576c1cd3cf6981785641d0584a9d29b8968f7d33de209b3dd2be378e4ee"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2013_11eba5721b45.json",
       "sha256": "ceee398aa509734d7f136a82d63f73fc4f984365ace067fd61bb30d455925151"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2013_cea73faa41e4.json",
+      "sha256": "728176e8bd0f44fc70a65844d30ee42398e6ca4277c17679fe7d900cb7c4870d"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2014_620d4941e9cc.json",
       "sha256": "ced4847a00ceb883381bd49a42b22d3f3cb27f6cf8f53dd50eff55cc3c114edf"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2014_31b06fa1ea42.json",
+      "sha256": "928e840b8b5fea80fd65371f86ed04fc08b76356643d7953cd3c13c38aee7612"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2015_d2f33e547cd5.json",
       "sha256": "d25f81d936178abb0a5a05836293a534b7ecdcc5f9b5d122f58e99ea7e5674d5"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2015_4c3750a8cc22.json",
+      "sha256": "c07b9305e79269784f42f17a3cc2fba2de47ccceb8d1c9e0892540ef75c96e46"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2016_2254c6e4987a.json",
       "sha256": "91bd0652a874a2fa1294ce7ea97e35b5ff9b5d582dd1dde4df9abaaa680f9711"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2016_2b3c37075ba8.json",
+      "sha256": "a5fdfe9fdd751adf85a204df801c9b0c194274f9c45b6e4cab9a938399e8009d"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2017_4b7a8b637411.json",
       "sha256": "065f005a8e5a75dbe62f2005f6b18be52422327dcb426316ac0559abfe4c13d5"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2017_7c32f7abcec2.json",
+      "sha256": "2c719b9804bf8e356216a9ef53b97d880e648c84d3bdc669e449ecfd35784652"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2018_1f1169392c65.json",
       "sha256": "663a1c5de3b36e3792a81ccc808bf510a7b2047eba15cbb7c723feaf447ab663"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2018_30be3c35ab10.json",
+      "sha256": "17bba8acb08239fa28ea79fbdd13d026f7bd2474a2a424f3ae2208b5a75054f0"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2019_f9a6c9f6831f.json",
       "sha256": "792287f85f045105a17430bebb4da5d4dbb8b16aed8edb77c1e472fa86b8542a"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2019_e6b559b58731.json",
+      "sha256": "c81a853f7bbd75063d105d30117e581ff0fada1786244e32fb45192fd18de7fd"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2020_e9074b8421e1.json",
       "sha256": "928fc57851c195f7643db26cac3a3872f3315d64115705af04fa22eaf34e47b8"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2020_6f8d5b777fb1.json",
+      "sha256": "bd9c6e5c9510dee008ecc105869e868bcd0731efc55ba2dd5a261ccfddce2ab3"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2021_fbc4ebab4557.json",
       "sha256": "274ccc5dd0ff868607becc733af2c519ad8c9eed5373c868dded77971cda06c3"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2021_9451a5766277.json",
+      "sha256": "daf245b337f1b70d7144b5ae50fa3e06dba70bcda5f083fefd073d516d9e7b0b"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2022_b204acd829e7.json",
       "sha256": "b4ce0dbb9b932e05f7eb2f2b96e90ab66ba86c16704eb8bebb767ee6aa8c9790"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2022_c8eb89395c9a.json",
+      "sha256": "ffc5a915ff9f54f073cdf77849d2ac721e0f9bfa1eb04fde0b82dadd79ceefcb"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2023_81791ac7ad6e.json",
       "sha256": "d7f818762f12606a653eaa7ef855f9b084afe70cef98a399d4de865a25fb82a1"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2023_b8e7b7925841.json",
+      "sha256": "e5a06d5848d9b356917f5506d377336bd1aa0e0e25fafdc38f364bf2ab411da9"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2024_1d2e83eecf61.json",
       "sha256": "f6ee7acf4bd3f8d0971a3a7d64c090c714af25c40b70db0cdbb4a47dff07ce29"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2024_9b0ed82c5d06.json",
+      "sha256": "7fa06b49f7b19ac16bfbcb9a9f4217e5f2a74717bd025768c88e01282aa5f8b9"
     },
     {
       "file": "data/bronze/events/2028-01-26/climate_2025_14240ec6a763.json",
       "sha256": "bab2358518f16f54e3e301ffaaafa8bfacf6f88e5e9c3b038cedd1fa3b533a04"
     },
     {
+      "file": "data/bronze/events/2028-01-26/climate_2025_3ec60ad71f56.json",
+      "sha256": "6951fd11d6ba56aea23cc94837a9bb8b68c0df5f3602b27e61e3168a47a80036"
+    },
+    {
       "file": "data/bronze/events/2028-01-26/climate_2026_0f4f7b4ad7ea.json",
       "sha256": "dfa5b32254a115588549ff53ea43b9a530115bc85a5f3f3674f2c9e791c12fac"
+    },
+    {
+      "file": "data/bronze/events/2028-01-26/climate_2026_c046727df33f.json",
+      "sha256": "630c07619de645ead7a3b861a78495672bd55d471dd44ff6b0e14fa3426baf4c"
     }
   ],
   "failures": [],

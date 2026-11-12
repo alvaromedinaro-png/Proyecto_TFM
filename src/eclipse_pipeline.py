@@ -24,7 +24,7 @@ HISTORICAL_VARIABLES = ["temperature_2m", "relative_humidity_2m", "dew_point_2m"
     "wind_gusts_10m", "shortwave_radiation", "sunshine_duration"]
 FORECAST_VARIABLES = HISTORICAL_VARIABLES + ["precipitation_probability", "visibility", "showers"]
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
-PREPARATION_VERSION = 3
+PREPARATION_VERSION = 6
 # En lunares la duración publicada es global (igual en todos los destinos) y la
 # altura ya es la componente astronómica: no se cuentan dos veces.
 SCORE_WEIGHTS = {
@@ -141,22 +141,27 @@ def climate_window(event, locations, client, years, before=2, after=2, rain_thre
     units = {}
     date_shifts = {row["name"]: (datetime.fromisoformat(row["event_time_utc_approx"]).date()
         - datetime.fromisoformat(event["event_date"]).date()).days for row in locations.to_dict("records")}
-    days_requested = max(date_shifts.values()) - min(date_shifts.values()) + before + after + 3
-    pause = sources.request_interval(len(locations), len(HISTORICAL_VARIABLES), days_requested)
-    for year in years:
+    # Cada lote (ciudades NASA y referencias; localidades GeoNames) se pide por separado: así
+    # añadir localidades no cambia la petición, ni la caché, de las que ya estaban descargadas.
+    batches = ([group for _, group in locations.groupby("climate_batch", sort=False)]
+               if "climate_batch" in locations else [locations])
+    for year, batch in ((year, batch) for year in years for batch in batches):
+        shifts = [date_shifts[name] for name in batch.name]
+        days_requested = max(shifts) - min(shifts) + before + after + 3
+        pause = sources.request_interval(len(batch), len(HISTORICAL_VARIABLES), days_requested)
         reference = datetime.fromisoformat(f"{year}-{event['event_date'][5:]}").replace(tzinfo=timezone.utc)
-        begin = (reference + timedelta(days=min(date_shifts.values()) - before - 1)).date().isoformat()
-        end = (reference + timedelta(days=max(date_shifts.values()) + after + 1)).date().isoformat()
+        begin = (reference + timedelta(days=min(shifts) - before - 1)).date().isoformat()
+        end = (reference + timedelta(days=max(shifts) + after + 1)).date().isoformat()
         available_until = datetime.now(timezone.utc).date() - timedelta(days=5)
         if datetime.fromisoformat(end).date() > available_until or datetime.fromisoformat(begin).year < 1940:
             failures.append({"reference_year": year, "error": "window_not_fully_available"})
             continue
-        params = weather_params(locations, begin, end, HISTORICAL_VARIABLES)
+        params = weather_params(batch, begin, end, HISTORICAL_VARIABLES)
         config_hash = hashlib.sha256(json.dumps(params, sort_keys=True).encode()).hexdigest()[:12]
         raw = bronze / f"climate_{year}_{config_hash}.json"
         try:
             body = sources.fetch(sources.WEATHER_URL, raw, client, params, refresh, offline, min_interval=pause)
-            hourly, units = parse_hourly(json.loads(body), locations, HISTORICAL_VARIABLES, begin, end)
+            hourly, units = parse_hourly(json.loads(body), batch, HISTORICAL_VARIABLES, begin, end)
             year_records, year_missing = [], []
             hourly["reference_year"] = year
             hourly["event_id"] = event["event_id"]
@@ -166,7 +171,7 @@ def climate_window(event, locations, client, years, before=2, after=2, rain_thre
             # Acumulados del día civil: intervalo que COMIENZA en cada hora (la API entrega el que termina).
             hourly["rain_next_hour_mm"] = hourly.groupby("name")["rain"].shift(-1)
             hourly["precipitation_next_hour_mm"] = hourly.groupby("name")["precipitation"].shift(-1)
-            for row in locations.to_dict("records"):
+            for row in batch.to_dict("records"):
                 group = hourly.loc[hourly.name.eq(row["name"])].set_index("time_utc")
                 actual = datetime.fromisoformat(row["event_time_utc_approx"])
                 date_shift = (actual.date() - datetime.fromisoformat(event["event_date"]).date()).days

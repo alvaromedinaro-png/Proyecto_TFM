@@ -1,8 +1,10 @@
-"""Candidatos terrestres NASA y circunstancias locales aproximadas de eclipses."""
+"""Candidatos terrestres (NASA y GeoNames) y circunstancias locales aproximadas de eclipses."""
 import csv
 from datetime import datetime, timedelta, timezone
+import io
 import json
 import re
+import zipfile
 
 from bs4 import BeautifulSoup
 import numpy as np
@@ -17,7 +19,36 @@ except ImportError:
 
 CITY_BASE = "https://eclipse.gsfc.nasa.gov/JSEX/"
 # Cambiarla invalida las preparaciones guardadas con otra selección de candidatos.
-SHORTLIST_POLICY = "references_quarter_country_leaders_v2"
+SHORTLIST_POLICY = "references_quarter_country_leaders_v2+geonames_central_v1"
+
+# Nomenclátor de GeoNames (CC BY 4.0): localidades de más de 15.000 habitantes con país ISO.
+# La lista NASA tiene 688 ciudades y deja fuera zonas dentro de la franja central, como
+# Ceuta, Tarifa o Cádiz en 2027; GeoNames amplía la cobertura astronómica de los solares.
+GAZETTEER_URL = "https://download.geonames.org/export/dump/cities15000.zip"
+GAZETTEER_MEMBER = "cities15000.txt"
+GAZETTEER_TYPE = "ciudad GeoNames"
+GAZETTEER_COLUMNS = ["geonames_id", "name", "asciiname", "alternatenames", "latitude", "longitude",
+    "feature_class", "feature_code", "country_code", "cc2", "admin1", "admin2", "admin3", "admin4",
+    "population", "elevation", "dem", "timezone", "modified"]
+# Cribado en una rejilla de 1,5 minutos: una magnitud de 0,6 queda por debajo del 70 % de
+# ocultación que muestra el selector, así que no se descartan zonas que lo alcancen.
+SCREEN_MIN_MAGNITUDE = 0.6
+GAZETTEER_MIN_OBSCURATION = 0.70
+# En el cribado, una magnitud >= 0,995 indica que la localidad puede estar en la franja central.
+SCREEN_CENTRAL_MAGNITUDE = 0.995
+# Cálculo detallado por país: las de mayor magnitud y las más pobladas de la posible franja central.
+GAZETTEER_SCREEN_PER_COUNTRY = 12
+GAZETTEER_CENTRAL_PER_COUNTRY = 40
+# Se conservan por país las de mayor duración y las más pobladas dentro de la mejor fase:
+# las primeras son las mejores para observar; las segundas, las que el usuario buscará.
+GAZETTEER_LONGEST_PER_COUNTRY = 6
+GAZETTEER_LARGEST_PER_COUNTRY = 6
+# Una localidad a menos de esta distancia de una ciudad NASA del mismo país la duplicaría.
+GAZETTEER_DEDUPE_KM = 10.0
+# Lote climático aparte para las localidades GeoNames: la caché de Open-Meteo depende de todas
+# las ubicaciones de una petición, y mezclarlas obligaría a descargar de nuevo las de NASA.
+CLIMATE_BATCH_BASE = "shortlist"
+CLIMATE_BATCH_GAZETTEER = "geonames_central"
 
 
 def load_cities(client, root=sources.ROOT, offline=False, refresh=False):
@@ -44,6 +75,33 @@ def load_cities(client, root=sources.ROOT, offline=False, refresh=False):
     folder.mkdir(parents=True, exist_ok=True)
     sources.save_csv(cities, folder / "nasa_cities.csv")
     return cities
+
+
+def load_gazetteer(client, root=sources.ROOT, offline=False, refresh=False):
+    """Localidades GeoNames con coordenadas, población, elevación y país ISO declarado."""
+    raw = root / "data/bronze/geonames" / "cities15000.zip"
+    body = sources.fetch(GAZETTEER_URL, raw, client, refresh=refresh, offline=offline)
+    with zipfile.ZipFile(io.BytesIO(body)) as archive:
+        text = archive.read(GAZETTEER_MEMBER)
+    frame = pd.read_csv(io.BytesIO(text), sep="\t", names=GAZETTEER_COLUMNS, quoting=csv.QUOTE_NONE,
+        dtype=str, keep_default_na=False, encoding="utf-8")
+    latitude = pd.to_numeric(frame.latitude, errors="coerce")
+    longitude = pd.to_numeric(frame.longitude, errors="coerce")
+    # «elevation» suele estar vacío; «dem» es el modelo de terreno y usa -9999 si falta.
+    elevation = pd.to_numeric(frame.elevation, errors="coerce")
+    dem = pd.to_numeric(frame.dem, errors="coerce")
+    elevation = elevation.fillna(dem.where(dem > -9999))
+    places = pd.DataFrame({"name": frame.name.str.strip(), "latitude": latitude, "longitude": longitude,
+        "elevation_m": elevation.fillna(0.0), "elevation_is_assumed": elevation.isna(),
+        "country_code": frame.country_code.str.strip().str.upper(),
+        "population": pd.to_numeric(frame.population, errors="coerce").fillna(0).astype(int),
+        "geonames_id": frame.geonames_id, "candidate_type": GAZETTEER_TYPE, "location_source": GAZETTEER_URL})
+    valid = (places.name.ne("") & places.latitude.between(-90, 90) & places.longitude.between(-180, 180)
+             & places.country_code.str.fullmatch(r"[A-Z]{2}"))
+    places = places.loc[valid].reset_index(drop=True)
+    if places.empty:
+        raise ValueError("El nomenclátor GeoNames no contiene localidades válidas.")
+    return places
 
 
 def parse_besselian(html):
@@ -188,6 +246,110 @@ def solar_circumstances(elements, event, latitude, longitude, elevation=0):
         "geometry_method": "besselian_polynomial_approximation"}
 
 
+def screen_solar_magnitude(elements, event, latitudes, longitudes, elevations, chunk=2000):
+    """Magnitud máxima aproximada con el Sol sobre el horizonte, vectorizada para miles de puntos."""
+    grid = np.linspace(-3, 3, 241)[:, None]
+    latitudes, longitudes, elevations = (np.asarray(values, dtype=float) for values in (latitudes, longitudes, elevations))
+    best = np.full(len(latitudes), -np.inf)
+    for start in range(0, len(latitudes), chunk):
+        part = slice(start, start + chunk)
+        _, _, _, magnitude, altitude = solar_state(elements, event, latitudes[part][None, :],
+            longitudes[part][None, :], elevations[part][None, :], grid)
+        best[part] = np.where(altitude > 0, magnitude, -np.inf).max(axis=0)
+    return best
+
+
+def _distance_km(latitude, longitude, latitudes, longitudes):
+    phi1, phi2 = np.radians(latitude), np.radians(np.asarray(latitudes, dtype=float))
+    delta_phi = phi2 - phi1
+    delta_lambda = np.radians(np.asarray(longitudes, dtype=float) - longitude)
+    a = np.sin(delta_phi / 2) ** 2 + np.cos(phi1) * np.cos(phi2) * np.sin(delta_lambda / 2) ** 2
+    return 6371.0 * 2 * np.arcsin(np.sqrt(np.clip(a, 0, 1)))
+
+
+def gazetteer_candidates(elements, event, gazetteer, known_cities, root=sources.ROOT):
+    """Localidades de cada país con al menos un 70 % de disco solar oculto.
+
+    Primero se criba todo el nomenclátor con una rejilla vectorizada; después se calculan
+    con detalle las mejor situadas y las más pobladas de la posible franja central de cada
+    país, y se conservan, dentro de la mejor fase, las de mayor duración y las más pobladas.
+    No se descargan datos meteorológicos para ellas."""
+    if gazetteer.empty:
+        return gazetteer.iloc[0:0]
+    screened = gazetteer.assign(screen_magnitude=screen_solar_magnitude(elements, event,
+        gazetteer.latitude, gazetteer.longitude, gazetteer.elevation_m))
+    screened = screened.loc[screened.screen_magnitude >= SCREEN_MIN_MAGNITUDE]
+    best = (screened.sort_values(["screen_magnitude", "population"], ascending=False, kind="stable")
+            .groupby("country_code", sort=False).head(GAZETTEER_SCREEN_PER_COUNTRY))
+    central = (screened.loc[screened.screen_magnitude >= SCREEN_CENTRAL_MAGNITUDE]
+               .sort_values(["population", "screen_magnitude"], ascending=False, kind="stable")
+               .groupby("country_code", sort=False).head(GAZETTEER_CENTRAL_PER_COUNTRY))
+    screened = pd.concat([best, central]).drop_duplicates("geonames_id")
+    records = []
+    for row in screened.drop(columns="screen_magnitude").to_dict("records"):
+        circumstances = solar_circumstances(elements, event, row["latitude"], row["longitude"], row["elevation_m"])
+        if circumstances and circumstances["obscuration_fraction"] >= GAZETTEER_MIN_OBSCURATION:
+            records.append({**row, **circumstances, "event_id": event["event_id"], "event_date": event["event_date"]})
+    if not records:
+        return gazetteer.iloc[0:0]
+    found = pd.DataFrame(records)
+    found["phase_priority"] = found.local_phase.map({"total": 3, "annular": 2, "partial": 1})
+    longest = (found.sort_values(["phase_priority", "central_duration_s", "obscuration_fraction", "population"],
+                                 ascending=False, kind="stable")
+               .groupby("country_code", sort=False).head(GAZETTEER_LONGEST_PER_COUNTRY))
+    largest = (found.sort_values(["phase_priority", "population", "central_duration_s"], ascending=False, kind="stable")
+               .groupby("country_code", sort=False).head(GAZETTEER_LARGEST_PER_COUNTRY))
+    found = (pd.concat([longest, largest]).drop_duplicates("geonames_id")
+             .sort_values(["phase_priority", "central_duration_s", "obscuration_fraction", "population"],
+                          ascending=False, kind="stable"))
+    # Sin duplicar una ciudad NASA ya evaluada (p. ej. Sevilla) con otro nombre.
+    if not known_cities.empty and "country_code" in known_cities:
+        keep = []
+        for row in found.itertuples():
+            same_country = known_cities.loc[known_cities.country_code.eq(row.country_code)]
+            keep.append(same_country.empty or _distance_km(row.latitude, row.longitude,
+                same_country.latitude, same_country.longitude).min() > GAZETTEER_DEDUPE_KM)
+        found = found.loc[keep]
+    if found.empty:
+        return found
+    found = pd.DataFrame([enrich_country(row, root) for row in found.to_dict("records")])
+    # Nombres únicos: el selector y la climatología identifican zonas por nombre y coordenadas.
+    taken = set(known_cities.name) if "name" in known_cities else set()
+    names = []
+    for row in found.itertuples():
+        name = row.name
+        if name in taken:
+            name = f"{row.name} ({row.country_code})"
+        if name in taken:
+            name = f"{row.name} ({row.latitude:.2f}, {row.longitude:.2f})"
+        taken.add(name)
+        names.append(name)
+    found["name"] = names
+    return found.reset_index(drop=True)
+
+
+def climate_supplement(shortlist, extra):
+    """Localidades GeoNames que merecen climatología: solo donde mejoran la fase de su país.
+
+    Si un país no tiene en la selección ninguna ciudad con fase central (total o anular) y
+    GeoNames sí la encuentra, se añaden la de mayor duración y la más poblada de esa fase.
+    Por ejemplo, Ceuta y Málaga en 2027, cuando la única ciudad española era Sevilla (parcial)."""
+    if extra is None or extra.empty:
+        return pd.DataFrame()
+    cities = shortlist.loc[~shortlist.candidate_type.eq("referencia astronómica")]
+    known = cities.groupby("country_code").phase_priority.max() if "country_code" in cities else pd.Series(dtype=float)
+    chosen = []
+    for code, group in extra.groupby("country_code", sort=False):
+        top = group.phase_priority.max()
+        if top < 2 or top <= known.get(code, 0):
+            continue
+        best = group.loc[group.phase_priority.eq(top)]
+        longest = best.sort_values(["central_duration_s", "population"], ascending=False, kind="stable").head(1)
+        largest = best.sort_values(["population", "central_duration_s"], ascending=False, kind="stable").head(1)
+        chosen.append(pd.concat([longest, largest]).drop_duplicates("geonames_id"))
+    return pd.concat(chosen, ignore_index=True) if chosen else pd.DataFrame()
+
+
 def lunar_circumstances(event, latitude, longitude):
     # El catálogo publica el punto sublunar en el máximo; coseno de distancia angular = seno de altura.
     phi, zenith = np.radians(latitude), np.radians(event["greatest_latitude"])
@@ -281,7 +443,22 @@ def prepare_locations(event, client, root=sources.ROOT, locations_file=None, max
     evaluated = evaluated.sort_values(order, ascending=False)
     folder = root / "data/silver/events" / event["event_date"]
     folder.mkdir(parents=True, exist_ok=True)
-    sources.save_csv(evaluated, folder / "all_visible_candidates.csv")
+    # El nomenclátor solo amplía la cobertura astronómica que ve el selector: la selección
+    # para la climatología sigue saliendo de las ciudades NASA y las referencias, de modo
+    # que las descargas meteorológicas y el Gold de ML no cambian.
+    gazetteer_status = "not_requested_for_user_locations" if locations_file else "lunar_not_needed"
+    extra = None
+    if not locations_file and event["event_family"] == "solar":
+        try:
+            gazetteer = load_gazetteer(client, root, offline, refresh)
+            known = evaluated.loc[~evaluated.candidate_type.eq("referencia astronómica")]
+            extra = gazetteer_candidates(elements, event, gazetteer, known, root)
+            gazetteer_status = "available"
+        except (ValueError, KeyError, OSError, zipfile.BadZipFile, sources.requests.RequestException) as error:
+            gazetteer_status = f"unavailable: {error}"
+    coverage = evaluated if extra is None or extra.empty else \
+        pd.concat([evaluated, extra], ignore_index=True).sort_values(order, ascending=False, kind="stable")
+    sources.save_csv(coverage, folder / "all_visible_candidates.csv")
     if not locations_file and max_locations > 1:
         references = evaluated.loc[evaluated.candidate_type.eq("referencia astronómica")]
         cities = evaluated.loc[~evaluated.candidate_type.eq("referencia astronómica")]
@@ -298,8 +475,13 @@ def prepare_locations(event, client, root=sources.ROOT, locations_file=None, max
         shortlist = pd.concat([shortlisted, remaining.head(max_locations - len(shortlisted))]).reset_index(drop=True)
     else:
         shortlist = evaluated.head(max_locations).reset_index(drop=True)
+    supplement = pd.DataFrame() if locations_file else climate_supplement(shortlist, extra)
+    if not supplement.empty:
+        shortlist = pd.concat([shortlist.assign(climate_batch=CLIMATE_BATCH_BASE),
+                               supplement.assign(climate_batch=CLIMATE_BATCH_GAZETTEER)], ignore_index=True)
     sources.save_csv(shortlist, folder / "locations.csv")
     return shortlist, {"evaluated_candidates": len(candidates), "visible_candidates": len(evaluated),
         "climate_shortlist": len(shortlist), "source": "NASA city lists or user CSV",
-        "reference_status": reference_status,
+        "reference_status": reference_status, "gazetteer_status": gazetteer_status,
+        "gazetteer_candidates": 0 if extra is None else len(extra), "gazetteer_climate_locations": len(supplement),
         "method": "local maximum above geometric horizon; terrain and refraction not included"}

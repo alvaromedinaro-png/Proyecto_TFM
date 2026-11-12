@@ -1,6 +1,6 @@
 {
-  "planning_start": "2026-10-24",
-  "planning_end_exclusive": "2029-10-24",
+  "planning_start": "2026-11-10",
+  "planning_end_exclusive": "2029-11-10",
   "future_years": 3,
   "planning_events": 14,
   "future_catalog_events": 14,
@@ -16,7 +16,7 @@
       "reused_preparation": false,
       "forecast_status": "outside_forecast_horizon",
       "best_evaluated_location": "Referencia central NASA 3",
-      "best_evaluated_destination": "Mar del Plata, ARGENTINA"
+      "best_evaluated_destination": "Maldonado"
     },
     {
       "event_id": "NASA-LE-09710",

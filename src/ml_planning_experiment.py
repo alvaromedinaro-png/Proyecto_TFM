@@ -29,9 +29,11 @@ from sklearn.preprocessing import StandardScaler
 
 try:
     from . import eclipse_sources as sources
+    from .eclipse_locations import GAZETTEER_TYPE
     from .eclipse_pipeline import MIN_PRIOR_YEARS_FOR_EVALUATION
 except ImportError:
     import eclipse_sources as sources
+    from eclipse_locations import GAZETTEER_TYPE
     from eclipse_pipeline import MIN_PRIOR_YEARS_FOR_EVALUATION
 
 OUTPUT = Path("data/gold/ml")
@@ -66,7 +68,10 @@ def load_dataset(root=sources.ROOT):
     paths = sorted((root / "data/gold/events").glob("*/planning_ml_dataset.csv"))
     if not paths:
         raise FileNotFoundError("No hay planning_ml_dataset.csv; ejecutar antes el pipeline.")
-    data = add_features(pd.concat([pd.read_csv(path) for path in paths], ignore_index=True))
+    data = pd.concat([pd.read_csv(path) for path in paths], ignore_index=True)
+    # Población de la entrega 3: ciudades NASA y referencias. Las localidades GeoNames añadidas
+    # después reciben la climatología elegida, que no requiere entrenamiento.
+    data = add_features(data.loc[~data.candidate_type.eq(GAZETTEER_TYPE)].reset_index(drop=True))
     if data.sample_id.duplicated().any():
         raise ValueError("sample_id duplicado en el Gold.")
     history = data.loc[data.row_role.eq("history") & data.prior_years.ge(MIN_PRIOR_YEARS_FOR_EVALUATION)].copy()

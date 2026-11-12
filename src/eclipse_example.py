@@ -27,12 +27,12 @@ DATE_DEPENDENT = {"forecast_status.json"}
 
 
 def example_sources(root=sources.ROOT):
-    """Originales NASA, cartografía y las respuestas climáticas de los años del ejemplo."""
+    """Originales NASA, cartografía, nomenclátor GeoNames y las respuestas climáticas de los años del ejemplo."""
     event = Path("data/bronze/events") / EVENT_DATE
     manifest = json.loads((root / event / "climate_manifest.json").read_text(encoding="utf-8"))
     climate = [Path(item["file"].replace("\\", "/")) for item in manifest["inputs"]
                if YEARS[0] <= int(Path(item["file"].replace("\\", "/")).name.split("_")[1]) <= YEARS[1]]
-    files = [path.relative_to(root) for folder in ("data/bronze/nasa", "data/bronze/geography")
+    files = [path.relative_to(root) for folder in ("data/bronze/nasa", "data/bronze/geography", "data/bronze/geonames")
              for path in sorted((root / folder).iterdir()) if path.is_file()]
     for raw in [event / "besselian.html", event / "nasa_path.html", *climate]:
         files.extend([raw, raw.with_name(raw.name + ".metadata.json")])

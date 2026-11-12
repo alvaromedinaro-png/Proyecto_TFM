@@ -18,7 +18,7 @@ El experimento se reproduce sin red con [ml_planning_experiment.py](../../src/ml
 
 ## 2. Datos de entrada y salida
 
-**Unidad de análisis.** Una fila es un evento × una ubicación × un año histórico. Se usan las filas con al menos 10 años previos: **3.180 filas** de 14 eclipses y 117 ubicaciones. Las 159 filas `query` son las que recibiría el modelo en una consulta real y no tienen etiqueta.
+**Unidad de análisis.** Una fila es un evento × una ubicación × un año histórico. Se usan las filas con al menos 10 años previos: **3.180 filas** de 14 eclipses y 117 ubicaciones. El Gold incluye desde la entrega 4 algunas localidades de GeoNames con climatología (apartado 1 de la entrega 2); el experimento conserva la población original, las ciudades NASA y las referencias, para que estos resultados sigan siendo reproducibles. Esas localidades reciben la estimación elegida, la frecuencia histórica, que no requiere entrenamiento. Las 159 filas `query` son las que recibiría el modelo en una consulta real y no tienen etiqueta.
 
 | Papel | Variables del Gold | Uso |
 |---|---|---|

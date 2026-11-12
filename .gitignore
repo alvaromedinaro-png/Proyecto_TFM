@@ -50,21 +50,32 @@ coverage/
 *.pdf
 
 # Datos regenerables con python src/eclipse_pipeline.py (ver docs/entregas/02_datos_y_preparacion.md).
-# Se versionan los originales NASA, la cartografía, una respuesta climática de muestra,
+# Se versionan los originales NASA, el nomenclátor GeoNames (3,4 MB), la cartografía, una respuesta climática de muestra,
 # las capas Silver/Gold ligeras y la exportación que abre el selector.
+!data/bronze/geonames/cities15000.zip
 data/bronze/events/*/climate_[0-9]*
 data/bronze/events/*/weather_[0-9]*
 data/bronze/events/*/forecast.json*
+# Series ERA5 por celda del Copernicus CDS (python src/eclipse_era5_cds.py); se versiona su resumen en Gold.
+data/bronze/events/*/era5_cds/
 # Ejemplo reconstruible (python src/eclipse_example.py): respuestas 2022–2026 de la
-# configuración vigente del eclipse de ejemplo, unos 1,1 MB.
+# configuración vigente del eclipse de ejemplo (ciudades NASA y lote GeoNames), unos 1,6 MB.
 !data/bronze/events/2027-08-02/climate_2022_a78aec38dd29.json*
 !data/bronze/events/2027-08-02/climate_2023_abe383317f88.json*
 !data/bronze/events/2027-08-02/climate_2024_673522621195.json*
 !data/bronze/events/2027-08-02/climate_2025_ae7ec76f2b10.json*
 !data/bronze/events/2027-08-02/climate_2026_72e77dbd7c35.json*
+!data/bronze/events/2027-08-02/climate_2022_e3d846007c90.json*
+!data/bronze/events/2027-08-02/climate_2023_651f82f3b97c.json*
+!data/bronze/events/2027-08-02/climate_2024_65e1fc2a0a9f.json*
+!data/bronze/events/2027-08-02/climate_2025_1f62e1f03bac.json*
+!data/bronze/events/2027-08-02/climate_2026_e952c7acae24.json*
 data/silver/events/*/climate_hourly.csv
 data/silver/all_eclipse_catalog.csv
 data/silver/future_eclipse_catalog.csv
 data/gold/all_eclipse_catalog.csv
 data/gold/future_eclipse_catalog.csv
 data/gold/planner_data.json
+
+# Credenciales de Copernicus CDS: viven en el perfil del usuario, nunca en el repositorio.
+.cdsapirc

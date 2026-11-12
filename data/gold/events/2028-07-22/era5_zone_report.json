@@ -1,0 +1,391 @@
+{
+  "event_id": "NASA-SE-09570",
+  "event_date": "2028-07-22",
+  "dataset": "reanalysis-era5-single-levels-timeseries",
+  "source": "copernicus_cds_era5",
+  "years": [
+    1997,
+    1998,
+    1999,
+    2000,
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "days_before": 2,
+  "days_after": 2,
+  "rain_threshold_mm": 0.1,
+  "cloud_threshold_pct": 20,
+  "zones": 98,
+  "cells": 80,
+  "zones_without_open_meteo": 94,
+  "rain_variable": "total_precipitation: incluye nieve; Open-Meteo usa rain",
+  "cell_rule": "celda en tierra (máscara ERA5 >= 0.5) más cercana entre las nueve vecinas",
+  "inputs": [
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-046.50_+0168.50.csv",
+      "sha256": "c70810722d2e573e7b14f24a932f498f5e75ea2f62040608bfbe337587ee9a06"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-045.75_+0170.50.csv",
+      "sha256": "a886eec890b3a19e6f3c0177fce3b0fbc3dca5f65e87fb32ee93a0b0fcd72c6e"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-044.25_+0171.25.csv",
+      "sha256": "26df67f7393a4f69844d2a107c6fabdc7492bfb06ffcdc2db0245144cfa86175"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-044.00_+0171.75.csv",
+      "sha256": "d1d85e6a0aaecefd1dd89b4a1ae046037223de7d03af38fb2c248e447e62a956"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-043.50_+0172.50.csv",
+      "sha256": "4426a4fa7c2f7fc4ee053fd3a7512be0a95be7893eb8e137ee45233a65f24d05"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-043.00_+0147.25.csv",
+      "sha256": "fec39cffaeeea61b389fd4c919700ee4f955d94eeed4a6a0624d9ca1cd565cdd"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-041.50_+0174.00.csv",
+      "sha256": "4644eb72a56b42dd4c1a7504a276903e17919b646254ef9a99ca8c64f3e5d972"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-041.25_+0173.50.csv",
+      "sha256": "cfa0cd2e4ab8537c1b41e3f641b4777f5222a8a2a39bc3eab3f53613f4f1e640"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-041.25_+0175.00.csv",
+      "sha256": "b6bd168ec908156419f78210e9deebe861ff1a14e2020b2929bd3e3526aec82b"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-038.25_+0144.25.csv",
+      "sha256": "972128d5ecd98e89ac68b2848efed516da3d18efd65ab94253fe63fa100082d4"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-037.75_+0145.00.csv",
+      "sha256": "bf54243f4fe9f446e0ceebd15e9145854b14b219577f87ba3036abadf7b7a282"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-037.75_+0175.25.csv",
+      "sha256": "90048934c09714ca8f09f9666f188f1d16828a4daf590ef0e3b8e30ab0140448"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-035.25_+0149.25.csv",
+      "sha256": "5558803d7754b5e01e319169ccb3941d715a65a710635ae4178e1a0e83f7fd27"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-035.00_+0138.75.csv",
+      "sha256": "1e662aa80f46c24f887a1c7d8c0fc4e462803ea3f73b7e5efae37ffe2ff7bd29"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-034.50_+0150.75.csv",
+      "sha256": "6816b117198c6e404e9c593c547fe8f99d26e67ee79d74d5735a6f62abdc412e"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-033.75_+0150.25.csv",
+      "sha256": "a404050e1c54173d54e95d170394ec43954c0890d57b6a36755b82ce7ed345df"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-033.75_+0151.00.csv",
+      "sha256": "84436f2c0db6ca838245dc1e0de6a53e879cb1c568cbb1fb0d8cbf7c74d87a13"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-033.50_+0151.25.csv",
+      "sha256": "6e7097d98abfe462140035516d8e1edb5ce301054688e9ee5b2f205e77c126d2"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-032.75_+0151.75.csv",
+      "sha256": "7da22e1bcbd5f97b09932085eb0b32f6a882f5fab288ba94011d0849943071d6"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-032.25_+0148.50.csv",
+      "sha256": "becc896da8eab43db6caaae8afe32425e5afe484e3f65e70ba561be47217cf48"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-028.00_+0153.25.csv",
+      "sha256": "eb60fdb4762543698aa0f765d86ab1cb42894e883b702af743edab4d977708a4"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-027.50_+0153.00.csv",
+      "sha256": "d81b6f9810c43cbb24159bbcd0569b36874f873eba9e52fe268e90371cadf6ce"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-023.75_+0134.00.csv",
+      "sha256": "d174aac733358e580a55369c2b69aee49ebfbd093300259c5d41ef042946eb68"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-023.50_+0150.50.csv",
+      "sha256": "f507e3b19f5b0e2535473e7fc5f1d7f9054b70e184ea34e81d16282c7551887a"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-019.25_+0146.75.csv",
+      "sha256": "7b953ea1641df913fd744db000ea472671d160c7cd22d535f0d09ec1803d59f4"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-012.50_+0130.75.csv",
+      "sha256": "ac04dd77d4ea600360249f77cc9ab445711dad6e1b0114044b8f40ab3e1c2b54"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-012.25_+0096.75.csv",
+      "sha256": "e4face4165d857df2ee4925a7b38ede390036e1df3ed1dd3da3aea0e3b0e0cd2"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-010.50_+0105.75.csv",
+      "sha256": "55d14f995174db503c7e8ff051a836069800fd46e620ad4a05de59b30f924112"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-009.50_+0119.25.csv",
+      "sha256": "f876b7751aa2ae9f66a98d9a5a11c6c06ba8c942fcee1338d45f614d0dc03fcd"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-009.25_+0125.25.csv",
+      "sha256": "6dc3153f23466b1bd9f522fbb22132c12323357c834ebb6c3583cefa0cd29307"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-009.00_+0125.25.csv",
+      "sha256": "7a95f9bf317e92c8097a487ae5d5e9c8cd45ab52d50b9893ab009b4765c2b4d7"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-009.00_+0125.50.csv",
+      "sha256": "9f79873a4bd4b08b4b9a48cfbb218a87d5bf42d170e98958965020e0278e0aa9"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-008.75_+0125.25.csv",
+      "sha256": "4164796e447ba299252ec2185321cde81149bac959a4c2ee47b3b00b393158f8"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-008.75_+0125.50.csv",
+      "sha256": "7b17af925c87d785ef1106b2c317c1891fc7ecf9b64e6b0249ed60048e00e12a"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-008.50_+0114.25.csv",
+      "sha256": "9da3623d52ea4794c98ea44f4ca3f80f987a4d409c3a7a72ab6540bd62b9d9ed"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-008.50_+0115.25.csv",
+      "sha256": "3a0d9beb9b9194a177ee6061a6fa7ef4bc01512fc9ddee44963318b2aa0ba616"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-008.50_+0116.25.csv",
+      "sha256": "9602f762c2e11699b871512f664396b39827127b176c3105b2f821b75a564cd2"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-008.50_+0125.75.csv",
+      "sha256": "4c3c97a20ff177ad57f251dcc53c2eecb21fb860bf71f68afc93a42a6a1b7b70"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-008.50_+0127.00.csv",
+      "sha256": "b0a968950886af90bb1c20e75cbce522d096655de07da316382c41cec4a7efef"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-008.25_+0113.25.csv",
+      "sha256": "11d37fd6eb6bafeaa1cf067f1ab3ee8410914a4e27ffa0af1093df896f987d30"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-008.25_+0113.75.csv",
+      "sha256": "c112c4cbe5ddee10805249cf2529a1818601de528c9b39692057afce9c67e66e"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-008.25_+0114.25.csv",
+      "sha256": "9c1abf8d0a28cd2b1d3d03616c37a3c7d683aa5a6a4c443758f001bd2727667a"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-008.00_+0112.00.csv",
+      "sha256": "a326d6debefa4b53ab6933cd40701c169deca5ca8e49fe0b3e95853c1a83e8b9"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.75_+0109.75.csv",
+      "sha256": "609ba8c8d6ba241aa57551cb01ae9b1210198b619a5c6b926d6f69a65e9f9a00"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.75_+0110.25.csv",
+      "sha256": "3cbebc1db3d2f59a668b867c9c60933870efe913e151f587038411c7bd7ca19c"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.75_+0110.50.csv",
+      "sha256": "12e67c8b8aac7916b8db950572bb91983669ae6e8ce82f165561618dba86d1fa"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.75_+0111.50.csv",
+      "sha256": "d4d9704fc29d13d12e7a103184c86783b7037891d2de1597e8ec6b3d48e79c6e"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.75_+0112.25.csv",
+      "sha256": "8b3173d433614746333d93bdd95593496f386ec0f28f4f74604e25474cd1d497"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.50_+0109.00.csv",
+      "sha256": "ea8e245cd199d9dd588af89f41037bf94d9e85a10a12c837a3b126fedeb5a28b"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.50_+0109.25.csv",
+      "sha256": "bc49640e9baca95968edd911ef1f4774b0f1143d348f895156366625ee4b328e"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.50_+0112.25.csv",
+      "sha256": "89d9d9e9caedfe05a90ab7a7bf2a456ddfca0df2a696dafdf145c6640baf6513"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.50_+0112.75.csv",
+      "sha256": "734e8146704d792229280c8f6656dd5216bdf1960aa17921022dd6a1c04d4ea9"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.25_+0108.00.csv",
+      "sha256": "cd187eafaca24a5119c3b8ece55f0d9d91f02df79c7d516a9630a3d7ef3c35ec"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.25_+0108.25.csv",
+      "sha256": "f32998ef3738e0f65161c2fa43dff9184aaf1834b79f0c0d47da6cf258597c4e"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.25_+0111.75.csv",
+      "sha256": "81b9b5650f26d9beaaac79b0f0077b9d675c10d59113b22805bc8641e2c54f40"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.25_+0112.75.csv",
+      "sha256": "4d78960afa9c2137b7fd62f8a3f5c23b7f32d5aba581cb838c74e1657b161613"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.00_+0107.50.csv",
+      "sha256": "81e2b7696b7c7789258284a589bc19910b34f556f024eff4ebb7cb0426fc2af2"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.00_+0107.75.csv",
+      "sha256": "ccb57ec2d5a87dac1d806d8e4c0f8a75eab5f14ecc1627aa92899c823b263f53"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.00_+0108.75.csv",
+      "sha256": "2e16c0820408c845a63ec857db659247b8ab161b658c5670f3ffb52ae42ba93b"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.00_+0109.00.csv",
+      "sha256": "75c554f62e23bcac64e102c35f043be40db9e1357600c37525cf00959db139e6"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.00_+0109.25.csv",
+      "sha256": "dc317600776e1fa7a2bb37089cfb40c1953160117a79767680184706f173b6c2"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.00_+0110.50.csv",
+      "sha256": "878127e1be3a5f0b93c7ebbfde16d07995e0ec2e9c6c7ec3966990a4ffd0ff7c"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.00_+0112.00.csv",
+      "sha256": "47213e166f61883b9f687b88372e283f3ae7aeaf2be0aa5420cec50ce8a6457f"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-007.00_+0113.75.csv",
+      "sha256": "6873206373682da296b40ea49f8836310f7a76d4c62c1dcdea8633acb4b5c43e"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.75_+0107.25.csv",
+      "sha256": "e7e3a51235ecfcd65c646f16b3813c59d7f9b1ecf97344679f9fa5472df63620"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.75_+0108.50.csv",
+      "sha256": "eac94ab0ba7aa6917d913ab2cbd21a05519c8b1ec37e1b7189a6cc54d54e7a4b"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.75_+0111.00.csv",
+      "sha256": "f91651796585ba212929b66239dcf9af904d449dd64169478a61bbbc809ad986"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.50_+0106.75.csv",
+      "sha256": "9959a4a2b95ae97668b85ffaf2c9300d637df8a2fc185e346b3c0295305eeb4d"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.50_+0107.50.csv",
+      "sha256": "4277161ff08075af0153fad9cdec178a6fdd6d53c79fb4d8a66c21d2ad9a5e65"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.50_+0107.75.csv",
+      "sha256": "9c1e3cdb7425f1bf3b5733ba83332e0f4bb13d7ffc3f9d04bdecd515a0c0c6f6"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.50_+0108.25.csv",
+      "sha256": "1948ae30732f6a487f71d726e9a1379b944833bdad371bf8a22bf9e10cf5b3cd"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.50_+0110.75.csv",
+      "sha256": "f21bdca746b37cc7e9326732f84d8ea5fe9988ebfc1a7dbf51b4128c9de69ce0"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.25_+0106.50.csv",
+      "sha256": "94e8afaa8a89547491201386040227390654cb28decf3021aebf2c05525a88af"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.25_+0106.75.csv",
+      "sha256": "8c34eb554a42dc5476cf9ef6346db779c627441c72194c55588fb9ae9fc1be9f"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.25_+0107.00.csv",
+      "sha256": "69794ce5a897fb29df686ed1d24546f28da6b6b96edc638e3d91b891855ddc98"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.25_+0107.25.csv",
+      "sha256": "77a8b489a393450a534807bb6a5e318d3c5aa0564ddba2523c0362b141c24453"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-006.00_+0106.25.csv",
+      "sha256": "0b8c970982302e085a5f2e0264dd10a4f03618b6dde14675058eecb892188f9c"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-005.50_+0105.00.csv",
+      "sha256": "b202153714b4fab85bfd2db8c1e99b1ec27dd1595babd40157832e2661b6087e"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-005.00_+0119.50.csv",
+      "sha256": "d8a7d70b220db7e6519d927007ce8f297000ce9c5a7b10359a43ca07b053c130"
+    },
+    {
+      "file": "data/bronze/events/2028-07-22/era5_cds/cell_-003.00_+0104.75.csv",
+      "sha256": "c453cc8f8eb6c5643deade349fffbe56696923a42e19563bc08d4d83cfab287c"
+    }
+  ],
+  "validation_against_open_meteo": {
+    "zones": 4,
+    "rows": 20,
+    "clear_probability_mean_abs_diff": 0.0017,
+    "clear_probability_max_abs_diff": 0.0333,
+    "rain_probability_mean_abs_diff": 0.0283,
+    "rain_probability_max_abs_diff": 0.1
+  },
+  "output_sha256": {
+    "era5_zone_climate.csv": "c823fe9796471e88847345fe9eded9d86789d7ea21745a6fbdd6da1429f8dec3"
+  },
+  "code_sha256": {
+    "eclipse_catalogs.py": "3584398932a2f324bb64695978e1ea4189dc2193cbc1905efb0f4d80b13076d7",
+    "eclipse_era5_cds.py": "0564d0107230c3dd2862adb241129377236734dda5483cc4c36fa64d64acccfe",
+    "eclipse_example.py": "cf6bf91982e5ed890826e695a753aa190b4caed8fbc1b524d326e6f43459fa00",
+    "eclipse_geography.py": "f2531c98ba44517a8c98ea71e5a6889561ee4fe80d00d35d5dff5f37387b4e48",
+    "eclipse_locations.py": "eb24797a521e6d1e3f7b853434131ba5705893fd8eceefdf307a2dddef7c998f",
+    "eclipse_pipeline.py": "20c266662980196c6a5762ff7c6186e4a2fc8a82b83d61bf73f7f7ac03a323e7",
+    "eclipse_product.py": "d9a5be86437779ce294f989df6d7a76a2cf725b4af7460eba498235dea22f2c7",
+    "eclipse_sources.py": "686564c556cd1d46c3a8c846ae825fd3052220a6e8b3232b89727be2acdf5e27"
+  },
+  "prepared_at_utc": "2026-11-10T23:14:39.587070+00:00"
+}

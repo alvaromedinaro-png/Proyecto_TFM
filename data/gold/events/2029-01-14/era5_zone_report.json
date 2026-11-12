@@ -1,0 +1,183 @@
+{
+  "event_id": "NASA-SE-09571",
+  "event_date": "2029-01-14",
+  "dataset": "reanalysis-era5-single-levels-timeseries",
+  "source": "copernicus_cds_era5",
+  "years": [
+    1997,
+    1998,
+    1999,
+    2000,
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "days_before": 2,
+  "days_after": 2,
+  "rain_threshold_mm": 0.1,
+  "cloud_threshold_pct": 20,
+  "zones": 28,
+  "cells": 28,
+  "zones_without_open_meteo": 26,
+  "rain_variable": "total_precipitation: incluye nieve; Open-Meteo usa rain",
+  "cell_rule": "celda en tierra (máscara ERA5 >= 0.5) más cercana entre las nueve vecinas",
+  "inputs": [
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+046.75_-0114.00.csv",
+      "sha256": "7a7571b5bd5bfc2ded8c1a09e57faba6239780ba65dbb78c102de0a93c1d1985"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+047.50_-0122.25.csv",
+      "sha256": "07f5455815d19776197b8ac89524758692165c5c5b34b7dbebe659cb5bf264fd"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+047.50_-0111.25.csv",
+      "sha256": "e9ce0aececdf864753d5e4a0ebe6110f4c53880b400300e29461acbd8ab57b90"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+047.75_-0117.50.csv",
+      "sha256": "d4770c890f7e94b8c63f5f7fcf663ac8f6530bcd6b04a7e83f86780dd2e1ab74"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+047.75_-0117.25.csv",
+      "sha256": "a5ec6110acd328b041fba214736d86776b621ca97ef5fd879848eee8a5a97caa"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+047.75_-0117.00.csv",
+      "sha256": "18398d1c03d7833037531c47ac4700999783fee139ef0d4b069b0831545f232f"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+047.75_-0116.75.csv",
+      "sha256": "7c7dc5329cbb807099e8485c7f76fa61bebbd1a71600e253230b7b16b0024b21"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+048.25_-0114.25.csv",
+      "sha256": "d34a793f5a5e9a51150e35667877aa14135d3b231db0e4c40e8718092d8d2997"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+048.25_-0103.50.csv",
+      "sha256": "9786e5a5e4676cd358945ca01fae7d08f0047246254ff26096f7f61de9580470"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+048.25_-0101.25.csv",
+      "sha256": "9c3364dcbd1f31fdd6a73a123c28ad840e54e9a2c7ce303c3501986f82c95853"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+048.50_-0123.50.csv",
+      "sha256": "8594f11e8cf68d27029215b0c28d17c5a189b4cf7af2d934c0a82b901420c1d5"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+048.75_-0122.50.csv",
+      "sha256": "b3cfa2e252f76f3d6ad8983db27b37d8244b1a47346ae47db86afd0c17e18a3d"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+049.25_-0123.00.csv",
+      "sha256": "8c4af89a7def264270f8735da12c74fdcd5585188717556d557df85ce9a9f5d8"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+049.75_-0112.75.csv",
+      "sha256": "bb7f152600bfcfc2fc9be3276fc1a8e3e8f5e9a3dcd1366b8171461497d54b80"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+050.00_-0097.25.csv",
+      "sha256": "451f5a50ac1639340998621df45a6b9cfd9ae84ebed79693004dce4ce663bc92"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+050.50_-0104.75.csv",
+      "sha256": "51e586967ebfdb747ce6b9300bafa38f2448dc52ea42873586f3754ca67c7141"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+051.00_-0114.00.csv",
+      "sha256": "3a682d6db07ced836e17fe0d0a0d4a962cec8d36c9e6f408771e594987bd480c"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+052.00_-0106.75.csv",
+      "sha256": "0a9493760e9ad38e5189fff778545982eb7ac8303d54386c24eea800fb3edbb2"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+053.50_-0114.00.csv",
+      "sha256": "6a2eefb9ea00a4eca4702e302f1a882cd9eaaa008dbdb241626a818037a21692"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+053.50_-0113.50.csv",
+      "sha256": "ee4f05967fedfcc573f152a5be12ceafb630d140a731f33802effe1c63d55af3"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+053.50_-0113.25.csv",
+      "sha256": "1e8483313476fa196e72f5be198bf5f4e7a51b5f44c29fe8a0d8ed8eb893181e"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+053.75_-0113.75.csv",
+      "sha256": "ee94495124aa2bfbe3ed4542f36c4d75ca83777e65a5fb9b76cfd351fe138955"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+054.00_-0122.75.csv",
+      "sha256": "735a43242b0111762a0a816738f1c12a85e4fd4e51e87defb12d73d9b3823a4e"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+055.25_-0118.75.csv",
+      "sha256": "81b15c8af54c4866c6f9fafb02902a00c730579873996f90ce8c49354d9656ab"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+056.25_-0120.75.csv",
+      "sha256": "b2ffd0e05fe0a60c8aea4298ceba176d00682f9dde7c4f2454faef78034e2415"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+056.75_-0111.50.csv",
+      "sha256": "a76dfb599e535e764b9f85ecd72ea171bb696386fdd4cb04516b3a5e2da51ab0"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+058.75_-0094.25.csv",
+      "sha256": "a8f95adc06257535d26dc9e34841b8161292c5ef033a86c745e18337674e84d3"
+    },
+    {
+      "file": "data/bronze/events/2029-01-14/era5_cds/cell_+062.50_-0114.25.csv",
+      "sha256": "45426695bd25987292d91ae7ddef140b65f6092bd324d392a8423d1bc9651439"
+    }
+  ],
+  "validation_against_open_meteo": {
+    "zones": 2,
+    "rows": 10,
+    "clear_probability_mean_abs_diff": 0.0033,
+    "clear_probability_max_abs_diff": 0.0333,
+    "rain_probability_mean_abs_diff": 0.0467,
+    "rain_probability_max_abs_diff": 0.1
+  },
+  "output_sha256": {
+    "era5_zone_climate.csv": "ca60cd1db7f8f80dafc9e65d25e840398655b5e9c0ed4db168424e0b68e46dac"
+  },
+  "code_sha256": {
+    "eclipse_catalogs.py": "3584398932a2f324bb64695978e1ea4189dc2193cbc1905efb0f4d80b13076d7",
+    "eclipse_era5_cds.py": "0564d0107230c3dd2862adb241129377236734dda5483cc4c36fa64d64acccfe",
+    "eclipse_example.py": "cf6bf91982e5ed890826e695a753aa190b4caed8fbc1b524d326e6f43459fa00",
+    "eclipse_geography.py": "f2531c98ba44517a8c98ea71e5a6889561ee4fe80d00d35d5dff5f37387b4e48",
+    "eclipse_locations.py": "eb24797a521e6d1e3f7b853434131ba5705893fd8eceefdf307a2dddef7c998f",
+    "eclipse_pipeline.py": "20c266662980196c6a5762ff7c6186e4a2fc8a82b83d61bf73f7f7ac03a323e7",
+    "eclipse_product.py": "d9a5be86437779ce294f989df6d7a76a2cf725b4af7460eba498235dea22f2c7",
+    "eclipse_sources.py": "686564c556cd1d46c3a8c846ae825fd3052220a6e8b3232b89727be2acdf5e27"
+  },
+  "prepared_at_utc": "2026-11-10T23:40:53.978492+00:00"
+}

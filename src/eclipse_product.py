@@ -6,13 +6,18 @@ es la fracción del disco solar cubierta. La duración lunar sigue siendo global
 """
 import argparse
 from datetime import date, datetime, timezone
+from functools import lru_cache
+import io
 import json
 import math
 from pathlib import Path
 import re
 import unicodedata
+import zipfile
 
+import numpy as np
 import pandas as pd
+from scipy.spatial import cKDTree
 
 try:
     from . import eclipse_sources as sources
@@ -32,6 +37,13 @@ MIN_RANKING_YEARS = 15
 # puede mantener «hoy + 3 años» aunque se abra tiempo después de la exportación.
 CATALOG_MARGIN_YEARS = 2
 FAILURE_MARKER = "preparation_failure.json"
+# Categorías de probabilidad: mismos umbrales que BANDS en ml_planning_experiment.py (entrega 3).
+PROBABILITY_BANDS = {"baja": (0.0, 0.25), "media": (0.25, 0.5), "alta": (0.5, 1.0001)}
+# Zona horaria: la de la localidad GeoNames más cercana del mismo país (Bronze, sin red).
+GAZETTEER_FILE = Path("data/bronze/geonames/cities15000.zip")
+TIMEZONE_NEIGHBOURS = 50
+TIMEZONE_MAX_KM_OTHER_COUNTRY = 300
+EARTH_RADIUS_KM = 6371.0
 TYPE_LABELS = {"total": "total", "partial": "parcial", "annular": "anular",
                "hybrid": "híbrido", "penumbral": "penumbral"}
 
@@ -65,6 +77,63 @@ def _count(value):
     if result < 0 or not result.is_integer():
         raise ValueError("Un recuento de años válidos no es un entero positivo o cero.")
     return int(result)
+
+
+def _band(probability):
+    if probability is None:
+        return None
+    return next(name for name, (low, high) in PROBABILITY_BANDS.items() if low <= probability < high)
+
+
+def _range_pct(row, lower_key, upper_key, probability, years):
+    """Intervalo de Wilson al 95 % del Gold o, si falta (zonas de Copernicus), el mismo cálculo."""
+    lower, upper = _number(row.get(lower_key)), _number(row.get(upper_key))
+    if lower is None or upper is None:
+        if probability is None or not years:
+            return None
+        lower, upper = sources.wilson_interval(round(probability * years), years)
+    if not 0 <= lower <= upper <= 1:
+        raise ValueError("Un intervalo de probabilidad está fuera de [0, 1].")
+    return [round(float(lower) * 100, 1), round(float(upper) * 100, 1)]
+
+
+def _unit_vectors(latitude, longitude):
+    latitude, longitude = np.radians(latitude), np.radians(longitude)
+    return np.column_stack([np.cos(latitude) * np.cos(longitude), np.cos(latitude) * np.sin(longitude), np.sin(latitude)])
+
+
+@lru_cache(maxsize=2)
+def _timezone_index(filename):
+    with zipfile.ZipFile(filename) as archive:
+        member = next(name for name in archive.namelist() if name.endswith(".txt"))
+        text = archive.read(member)
+    frame = pd.read_csv(io.BytesIO(text), sep="\t", header=None, usecols=[4, 5, 8, 17], names=["latitude", "longitude",
+        "country_code", "timezone"], dtype=str, keep_default_na=False, quoting=3, encoding="utf-8")
+    frame["latitude"] = pd.to_numeric(frame.latitude, errors="coerce")
+    frame["longitude"] = pd.to_numeric(frame.longitude, errors="coerce")
+    frame = frame.loc[frame.latitude.notna() & frame.longitude.notna() & frame.timezone.str.contains("/")].reset_index(drop=True)
+    return cKDTree(_unit_vectors(frame.latitude.to_numpy(), frame.longitude.to_numpy())), frame.country_code.to_numpy(), frame.timezone.to_numpy()
+
+
+def _timezone(latitude, longitude, country_code, root):
+    """Zona horaria IANA de la localidad GeoNames más cercana, preferentemente del mismo país.
+
+    Las ciudades NASA y las zonas de cada país no traen zona horaria; la localidad más cercana
+    del mismo país la aproxima bien también en países con varias (EE. UU., Rusia, Brasil).
+    Sin el nomenclátor, la app muestra solo la hora UTC."""
+    path = root / GAZETTEER_FILE
+    if not path.is_file():
+        return None
+    tree, countries, zones = _timezone_index(str(path))
+    distances, indexes = tree.query(_unit_vectors(np.array([latitude]), np.array([longitude]))[0],
+                                    k=min(TIMEZONE_NEIGHBOURS, len(zones)))
+    distances, indexes = np.atleast_1d(distances), np.atleast_1d(indexes)
+    for index in indexes:
+        if countries[index] == country_code:
+            return str(zones[index])
+    # Cuerda en la esfera unidad -> distancia sobre la superficie.
+    nearest_km = 2 * EARTH_RADIUS_KM * np.arcsin(min(1.0, distances[0] / 2))
+    return str(zones[indexes[0]]) if nearest_km <= TIMEZONE_MAX_KM_OTHER_COUNTRY else None
 
 
 def _boolean(value):
@@ -175,12 +244,15 @@ def _location(row, daily, family, rank, root=sources.ROOT):
     enriched = enrich_country(row, root=root)
     has_climate = (cloud_years or 0) > 0 and (rain_years or 0) > 0 and \
         _number(row.get("clear_probability")) is not None and _number(row.get("rain_probability")) is not None
+    clear, rain = _number(row.get("clear_probability")), _number(row.get("rain_probability"))
+    country_code = enriched.get("country_code") or "UNKNOWN"
     return {"rank": rank, "name": name, "latitude": latitude, "longitude": longitude,
-        "country_code": enriched.get("country_code") or "UNKNOWN",
+        "country_code": country_code,
         "country_name": enriched.get("country_name") or "País sin identificar",
         "country_source": enriched.get("country_source"),
         "climate_status": "ready" if has_climate and not group.empty else "partial" if has_climate else "not_prepared",
-        "local_phase": phase, "peak_time_utc": peak, "obscuration_pct": obscuration,
+        "local_phase": phase, "peak_time_utc": peak, "timezone": _timezone(latitude, longitude, country_code, root),
+        "obscuration_pct": obscuration,
         "phase_duration_s": duration, "duration_scope": scope,
         # False: la fase sale de la ventana de validez de los elementos NASA y no se extrapola.
         "duration_complete": _boolean(row.get("duration_complete")),
@@ -188,6 +260,11 @@ def _location(row, daily, family, rank, root=sources.ROOT):
         "clear_probability_pct": _percentage(row.get("clear_probability")),
         "rain_probability_pct": _percentage(row.get("rain_probability")),
         "cloud_probability_pct": _percentage(row.get("cloud_probability")),
+        # Rango al 95 % y categoría baja / media / alta de la entrega 3, como pide el diseño de la entrega 4.
+        "clear_range_pct": _range_pct(row, "clear_lower95", "clear_upper95", clear, cloud_years) if has_climate else None,
+        "rain_range_pct": _range_pct(row, "rain_lower95", "rain_upper95", rain, rain_years) if has_climate else None,
+        "clear_band": _band(clear) if has_climate else None,
+        "rain_band": _band(rain) if has_climate else None,
         "valid_cloud_years": cloud_years, "valid_rain_years": rain_years,
         "ranking_provisional": validated is False or (cloud_years or 0) < 15 or (rain_years or 0) < 15,
         "mean_cloud_cover_pct": _number(climate.get("mean_cloud_cover_pct")),
@@ -344,13 +421,35 @@ def _country_catalog(locations, family):
         country["country_name"]))
 
 
+def _regional_climate(event, root):
+    """Climatología ERA5 de Copernicus por zona (eclipse_era5_cds.py), si se ha preparado."""
+    path = root / "data/gold/events" / event["event_date"] / "era5_zone_climate.csv"
+    if not path.exists():
+        return pd.DataFrame()
+    regional = pd.read_csv(path)
+    _check_identity(regional, event, required=True)
+    if regional.empty:
+        return regional
+    if not {"name", "latitude", "longitude", "day_offset"}.issubset(regional.columns):
+        raise ValueError("La climatología regional no identifica zonas y días.")
+    return regional
+
+
 def _event_output(event, root):
     """Combina la cobertura astronómica con los destinos que ya tienen clima."""
     base = _prepared_event_output(event, root)
     prepared = base["locations"]
+    for location in prepared:
+        if _has_climate_observations(location):
+            location["climate_source"] = "open_meteo_era5"
     locations = list(prepared)
     warnings = []
     catalog_status = "not_prepared"
+    try:
+        regional = _regional_climate(event, root)
+    except (ValueError, KeyError, TypeError, OSError, pd.errors.ParserError) as error:
+        regional = pd.DataFrame()
+        warnings.append(f"No se incorporó la climatología regional de Copernicus: {error}")
     candidate_path = root / "data/silver/events" / event["event_date"] / "all_visible_candidates.csv"
     if candidate_path.exists():
         try:
@@ -364,8 +463,22 @@ def _event_output(event, root):
                 candidates = candidates.loc[candidates.visible.map(_boolean).eq(True)]
             climate_fields = ("clear_probability", "rain_probability", "cloud_probability",
                 "valid_cloud_years", "valid_rain_years", "ranking_validated_coverage")
-            astronomy = [_location({**row, **dict.fromkeys(climate_fields)}, pd.DataFrame(),
-                event["event_family"], 0, root) for row in candidates.to_dict("records")]
+            astronomy = []
+            for row in candidates.to_dict("records"):
+                # Zonas sin Open-Meteo: climatología ERA5 del CDS si está preparada para ese punto.
+                daily = pd.DataFrame()
+                if not regional.empty:
+                    daily = regional.loc[regional.name.eq(row["name"])
+                        & (regional.latitude - float(row["latitude"])).abs().le(1e-5)
+                        & (regional.longitude - float(row["longitude"])).abs().le(1e-5)]
+                day_zero = daily.loc[daily.day_offset.eq(0)] if not daily.empty else daily
+                climate = ({field: day_zero.iloc[0].get(field) for field in climate_fields if field in day_zero}
+                           if not day_zero.empty else {})
+                location = _location({**row, **dict.fromkeys(climate_fields), **climate}, daily,
+                    event["event_family"], 0, root)
+                if _has_climate_observations(location):
+                    location["climate_source"] = "copernicus_cds_era5"
+                astronomy.append(location)
             # Validar toda la tabla antes de incorporar filas evita mezclas parciales
             # si un CSV está dañado. Gold sigue disponible cuando falla Silver.
             for location in astronomy:
@@ -433,6 +546,8 @@ def build_planner_data(events: pd.DataFrame, planning_start: str, planning_end_e
             "solar_obscuration": "Porcentaje del disco solar ocultado, sin ajuste meteorológico.",
             "country_visibility": "Máximo del porcentaje de ocultación solar entre los puntos terrestres evaluados de cada país; no es el porcentaje del territorio ni garantiza el máximo de todo el país. Para eclipses lunares se conserva la altura lunar, sin inventar un porcentaje de ocultación solar.",
             "country_climate_coverage": "El catálogo de zonas incluye puntos con geometría astronómica cuya climatología aún no se ha preparado. La cobertura se indica por zona y país; no se copian datos meteorológicos de otra ubicación.",
+            "climate_source": "open_meteo_era5: Open-Meteo (ERA5), base del ranking y del Gold. copernicus_cds_era5: el mismo ERA5 descargado por regiones del Copernicus Climate Data Store para zonas fuera del ranking; la lluvia usa la precipitación total.",
+            "places": {"name": "GeoNames", "url": "https://www.geonames.org/", "license": "CC BY 4.0"},
             "lunar_duration": "Duración global publicada de la fase lunar; no garantiza que la fase entera sea visible desde el destino.",
             "ranking": "Orden de los destinos evaluados; referencias astronómicas excluidas. Cobertura inferior a 15 años marcada como provisional."}}
 

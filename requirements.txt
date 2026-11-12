@@ -4,5 +4,9 @@ requests>=2.31,<3
 beautifulsoup4>=4.12,<5
 # Solo para el experimento de Machine Learning de la entrega 3.
 scikit-learn>=1.4,<2
+scipy>=1.11,<2
 # Solo para abrir el notebook de la entrega.
 notebook>=7,<8
+# Solo para completar la climatología del selector con Copernicus CDS (src/eclipse_era5_cds.py).
+cdsapi>=0.7.4,<1
+h5py>=3.10,<4

@@ -1,0 +1,27 @@
+{
+  "dataset": "reanalysis-era5-single-levels",
+  "request": {
+    "product_type": [
+      "reanalysis"
+    ],
+    "variable": [
+      "land_sea_mask"
+    ],
+    "year": [
+      "2024"
+    ],
+    "month": [
+      "01"
+    ],
+    "day": [
+      "01"
+    ],
+    "time": [
+      "00:00"
+    ],
+    "data_format": "netcdf",
+    "download_format": "unarchived"
+  },
+  "sha256": "e64b9357863f483823952a70fec8a47dc029b36141738351775fc157682328ee",
+  "acquired_utc": "2026-11-10T16:07:01.832627+00:00"
+}

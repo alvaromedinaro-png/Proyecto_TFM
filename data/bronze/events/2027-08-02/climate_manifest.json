@@ -26,7 +26,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 3
+      "phase_priority": 3,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Referencia central NASA 5",
@@ -52,7 +55,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 3
+      "phase_priority": 3,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Referencia central NASA 3",
@@ -78,7 +84,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 3
+      "phase_priority": 3,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Al-Mansurah, EGYPT",
@@ -104,7 +113,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 3
+      "phase_priority": 3,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Banghazi, LIBYA",
@@ -130,7 +142,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 3
+      "phase_priority": 3,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Jiddah, SAUDI ARABIA",
@@ -156,7 +171,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 3
+      "phase_priority": 3,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Sfax, TUNISIA",
@@ -182,7 +200,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 3
+      "phase_priority": 3,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Oran, ALGERIA",
@@ -208,7 +229,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 3
+      "phase_priority": 3,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Tangier, MOROCCO",
@@ -234,7 +258,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 3
+      "phase_priority": 3,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Sana, YEMEN",
@@ -260,7 +287,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 3
+      "phase_priority": 3,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Sevilla, SPAIN",
@@ -286,7 +316,10 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 1
+      "phase_priority": 1,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
     },
     {
       "name": "Valletta, MALTA",
@@ -312,7 +345,155 @@
       "geometry_method": "besselian_polynomial_approximation",
       "event_id": "NASA-SE-09568",
       "event_date": "2027-08-02",
-      "phase_priority": 1
+      "phase_priority": 1,
+      "climate_batch": "shortlist",
+      "population": null,
+      "geonames_id": null
+    },
+    {
+      "name": "Qandala",
+      "latitude": 11.47197,
+      "longitude": 49.87282,
+      "elevation_m": 8.0,
+      "candidate_type": "ciudad GeoNames",
+      "location_source": "https://download.geonames.org/export/dump/cities15000.zip",
+      "country_code": "SO",
+      "country_name": "Somalia",
+      "country_source": "provided_country_code",
+      "elevation_is_assumed": false,
+      "visible": true,
+      "local_phase": "total",
+      "local_magnitude": 1.0308272831616156,
+      "obscuration_fraction": 1.0,
+      "body_altitude_deg": 57.05355469700376,
+      "event_time_utc_approx": "2027-08-02T11:00:42.813972+00:00",
+      "central_duration_s": 327.0717625022006,
+      "visible_eclipse_duration_s": 9094.233601726582,
+      "duration_complete": true,
+      "phase_duration_s": 327.0717625022006,
+      "geometry_method": "besselian_polynomial_approximation",
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "phase_priority": 3,
+      "climate_batch": "geonames_central",
+      "population": 19300.0,
+      "geonames_id": "53157"
+    },
+    {
+      "name": "El Dibir",
+      "latitude": 11.76667,
+      "longitude": 51.21667,
+      "elevation_m": 48.0,
+      "candidate_type": "ciudad GeoNames",
+      "location_source": "https://download.geonames.org/export/dump/cities15000.zip",
+      "country_code": "SO",
+      "country_name": "Somalia",
+      "country_source": "provided_country_code",
+      "elevation_is_assumed": false,
+      "visible": true,
+      "local_phase": "total",
+      "local_magnitude": 1.009021869696875,
+      "obscuration_fraction": 1.0,
+      "body_altitude_deg": 55.54535316011846,
+      "event_time_utc_approx": "2027-08-02T11:02:01.095146+00:00",
+      "central_duration_s": 212.71950794198116,
+      "visible_eclipse_duration_s": 8999.824045356352,
+      "duration_complete": true,
+      "phase_duration_s": 212.71950794198116,
+      "geometry_method": "besselian_polynomial_approximation",
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "phase_priority": 3,
+      "climate_batch": "geonames_central",
+      "population": 200000.0,
+      "geonames_id": "60149"
+    },
+    {
+      "name": "Ceuta",
+      "latitude": 35.88919,
+      "longitude": -5.32042,
+      "elevation_m": 22.0,
+      "candidate_type": "ciudad GeoNames",
+      "location_source": "https://download.geonames.org/export/dump/cities15000.zip",
+      "country_code": "ES",
+      "country_name": "España",
+      "country_source": "provided_country_code",
+      "elevation_is_assumed": false,
+      "visible": true,
+      "local_phase": "total",
+      "local_magnitude": 1.029859397343839,
+      "obscuration_fraction": 1.0,
+      "body_altitude_deg": 38.42462344985803,
+      "event_time_utc_approx": "2027-08-02T08:47:36.849244+00:00",
+      "central_duration_s": 288.2040139585799,
+      "visible_eclipse_duration_s": 8412.22143240272,
+      "duration_complete": true,
+      "phase_duration_s": 288.2040139585799,
+      "geometry_method": "besselian_polynomial_approximation",
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "phase_priority": 3,
+      "climate_batch": "geonames_central",
+      "population": 83179.0,
+      "geonames_id": "6362987"
+    },
+    {
+      "name": "Málaga",
+      "latitude": 36.72016,
+      "longitude": -4.42034,
+      "elevation_m": 22.0,
+      "candidate_type": "ciudad GeoNames",
+      "location_source": "https://download.geonames.org/export/dump/cities15000.zip",
+      "country_code": "ES",
+      "country_name": "España",
+      "country_source": "provided_country_code",
+      "elevation_is_assumed": false,
+      "visible": true,
+      "local_phase": "total",
+      "local_magnitude": 1.002657681919495,
+      "obscuration_fraction": 1.0,
+      "body_altitude_deg": 39.326309650131435,
+      "event_time_utc_approx": "2027-08-02T08:48:57.253467+00:00",
+      "central_duration_s": 110.7764933276946,
+      "visible_eclipse_duration_s": 8429.65689545496,
+      "duration_complete": true,
+      "phase_duration_s": 110.7764933276946,
+      "geometry_method": "besselian_polynomial_approximation",
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "phase_priority": 3,
+      "climate_batch": "geonames_central",
+      "population": 592346.0,
+      "geonames_id": "2514256"
+    },
+    {
+      "name": "Gibraltar",
+      "latitude": 36.14474,
+      "longitude": -5.35257,
+      "elevation_m": 11.0,
+      "candidate_type": "ciudad GeoNames",
+      "location_source": "https://download.geonames.org/export/dump/cities15000.zip",
+      "country_code": "GI",
+      "country_name": "Gibraltar",
+      "country_source": "provided_country_code",
+      "elevation_is_assumed": false,
+      "visible": true,
+      "local_phase": "total",
+      "local_magnitude": 1.021214228382564,
+      "obscuration_fraction": 1.0,
+      "body_altitude_deg": 38.384532526932745,
+      "event_time_utc_approx": "2027-08-02T08:47:39.828774+00:00",
+      "central_duration_s": 266.28470855579593,
+      "visible_eclipse_duration_s": 8400.240901149798,
+      "duration_complete": true,
+      "phase_duration_s": 266.28470855579593,
+      "geometry_method": "besselian_polynomial_approximation",
+      "event_id": "NASA-SE-09568",
+      "event_date": "2027-08-02",
+      "phase_priority": 3,
+      "climate_batch": "geonames_central",
+      "population": 26544.0,
+      "geonames_id": "2411585"
     }
   ],
   "years": [
@@ -398,120 +579,240 @@
       "sha256": "d920632c664252b7082c71e036d935106de64adb82b162325ab28f3d45ceb8e0"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_1997_f7b78ebd0e78.json",
+      "sha256": "5379a5a26ffac7a0ea41e0710b4533c0ee5c039e88de975b844b5c21e2610ca2"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_1998_8d05fc9b0272.json",
       "sha256": "a7eea37e0a07cc2dd84a12bb6d5c28266b43988c5c98d695151a30ddd3f79347"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_1998_8a86b634f53b.json",
+      "sha256": "db5546efdd4bb76cd24a651136373c63f8bbb6f3ad58b0b0aff15fb8e27a0e27"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_1999_51b13009ac47.json",
       "sha256": "0f16909ea7fb35e57ae1ea1c39611d30a389ba25165f8960a55ebe7eb41d8eac"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_1999_5710dd4c197e.json",
+      "sha256": "7eecf94406f41ccc6fd3e400670f5d317d5cd96864646401231bd2164700d1dc"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2000_9a44034a22f2.json",
       "sha256": "1b0d74e6adb016ce36b69406c46c8c1802569c656a87bc57c034aaffa1837b6a"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2000_f7e9d283d5b3.json",
+      "sha256": "ca81dd4229b1feacc928cd50b3a05b11d2393017eb9ff4d548eec2ecdd65115d"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2001_4258716a42f2.json",
       "sha256": "c20915c4dcccd7cabaced0fbf42be8f6ebfdddd341eb1dda07e4be0ef520faf2"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2001_7a31e29fca04.json",
+      "sha256": "cb1786e831fa6fe41ede24208ae66ea75c5e4bcb595f748dd2a0e465ec74678e"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2002_f91d55823b23.json",
       "sha256": "ca7871d4c2a942610a274d9d0fab9684656ae930973f259bfbb75e069b50d9bf"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2002_75917313083d.json",
+      "sha256": "8f1be1c69f376b1ca7a6fdebea45b85e99eadc085beec68a010b9caeb587d943"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2003_399122bbe2fb.json",
       "sha256": "39759d515118980bdf5832b27c784c0ee679a8bfd83be12c601ec84f0156457e"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2003_eb797fc92fda.json",
+      "sha256": "a2a358e6e11c22f1e5ac1026000ce12002e24f6dd2e770bcb5bbd6f74f9529a4"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2004_dfdd6f420a87.json",
       "sha256": "b60b38b3639cae3321fe10782a8d78cc98d7caa5d7d1199e4d26bbd61c191e23"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2004_4b57ea2b36e9.json",
+      "sha256": "f9f0b08f7e44def7ce93eaf1b18bca11729622424ce6f7a2631147dfeccc3142"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2005_2ac0e26ef429.json",
       "sha256": "e2cf23adcc62c73527790a449196de816f5e4028262b0441742c93c0f42caf58"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2005_1cee3964ca70.json",
+      "sha256": "33315b70600e376ce6fe0b754d7495728f48e1310395f32f3f981ba54031862e"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2006_753590286205.json",
       "sha256": "8094a171aa70dbe09bf929d0520918756a9742b918c0b77be4f8ef2bda9befae"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2006_bb8fafc5b248.json",
+      "sha256": "3a1398920147391b9b9c0f1bf4f45a39a427ecfdf288fa061956dc1c6bd70024"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2007_f660f9aa5398.json",
       "sha256": "d75196d3b4809e1e4bf4043ebe41c0573dc7d8c5df59b2de6c26174d0f631b56"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2007_1b42caa1a569.json",
+      "sha256": "8c372490118b38b95c75cd118a258b8f7d4a92a8c404e7891b670233962d7e5e"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2008_13305c1dd52a.json",
       "sha256": "883a5bd9c4dc1344ccef492a0ccce43a161fed71e838279ba26f0b11bfa6ed17"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2008_eaad01cbbd59.json",
+      "sha256": "2e042c39696ca709d57ad404a7e40d3ce0beb1df28932e5ad89ea9b1f76961f7"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2009_4101a6171b1f.json",
       "sha256": "a96decb59dbadb972cf2a3d1dcd83b1a284f4113f3baf6e9157525b32b70c295"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2009_d1283c435be1.json",
+      "sha256": "6d61b8697a5cf79f384a34ea36e107468a0063a632504c6ec0f587339f05e37d"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2010_e26c42ddd065.json",
       "sha256": "a1b9234fff026507993a9cd1a30d07b0daee3502d0b27f4133f42d7f2064b206"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2010_8c4b13b02458.json",
+      "sha256": "14405eff4da33f976aa486b878a097bd7de712d26ffe008d2d8472921864f103"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2011_aa76e110951f.json",
       "sha256": "6f693cb185994d2e4ed826386781d30cfcf1cf7e996d16c8bea08c428f7ea291"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2011_eaf5b92861a2.json",
+      "sha256": "4d75a3b52d14f7fc3cd7778a335a777a7ae14b8e1740d893b24b48c2caba9ff0"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2012_ff8c497bf0c7.json",
       "sha256": "c25d6a562e8e750014e00293d72a598a5029364f74106b3c30c69c1c22022e4f"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2012_87d58d7f98a3.json",
+      "sha256": "7bc1b6a33253d09cc6f0fd830169c25e036ee82a478431bf699564444ad11dff"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2013_0a517bd0f78c.json",
       "sha256": "96cbdc81407ab5f1fd9c0e93ecf4ca24344a8ca09fe99961a43eb1895e5a8d0b"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2013_bbaa7874c983.json",
+      "sha256": "c2b3a7135514b7e91125a2f68f08243adc58d0f9bd47ddafda0dcbfcf9c5be5a"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2014_3669f8781e99.json",
       "sha256": "517f005e5172850f8bda70db7c44a0f811ee4aba59c6e6b5c42bd82a498083af"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2014_c197c0d5e421.json",
+      "sha256": "004f43d035d290d1e77669f2068d538cdb1e6f801c34c59965a3759f01855a7d"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2015_450fd7d9ed48.json",
       "sha256": "ccae0ed0ae23d922cc83c54bbfad17041cea1fc191ae20681669f914222b4cbe"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2015_d6d0e0375d09.json",
+      "sha256": "17afa5eca20d30b6894c52c7e881a8cdb1ed826f9207af8ca6f36643764b395c"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2016_d7ea4e13ef62.json",
       "sha256": "a002b57eaf4e2ff99d8dd6985d908e6e4f0305aad3d8d1753cab79412b9d39cf"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2016_97c95b54812c.json",
+      "sha256": "07f3056154692c19264950f43956c08f21a3aa9e65e090fdb2f24b604be1795d"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2017_b0d8422b0405.json",
       "sha256": "242690bfe4b92d39e6ed2b90abeb240d96b138f5d05e00877a6c17423a02498d"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2017_d5219142be34.json",
+      "sha256": "650d8a7162e3144248420df889233649c9606e7a7d3a6299ee0b022c298e470b"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2018_f24ca365b110.json",
       "sha256": "b6f385c7aa91deea765b4ac2f8804de15dfa7c52f305a415fbb191a53aa07b6b"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2018_a73dfc29868a.json",
+      "sha256": "1a2fec9c3870aab0bede8091b53ccf9ec69f3514cb60b7358236c3d64bd2df6f"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2019_f75c86b15ed8.json",
       "sha256": "a96ac406b3b5f83e5ce780cba6d87d8c9de43c86d438e607af4ac30f7c22db11"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2019_d67754b6bd0d.json",
+      "sha256": "85f0ece09b05a639f2e0015869d04ea5ad33a124735d6765fc4ab4266146b5f6"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2020_64107a116c8f.json",
       "sha256": "694443db2331672350eabc8885f81370662dcac53dba87523a65dd7126b765ba"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2020_340485a64738.json",
+      "sha256": "ba22476a3f916596aca6addae5a581a11e47a4a095cfd9aeaa7f12a806fe9736"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2021_1064191954b2.json",
       "sha256": "f48f52cdf344abecbcd49ce0204c1e584f92a1534114e41a1c0896cf81bd7938"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2021_eb3caa3d3eb8.json",
+      "sha256": "ba951494be9ba7c2acc1cecbe9d233477931b62e99d64d8e17447b00ae8c31f7"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2022_a78aec38dd29.json",
       "sha256": "64fb9b8c2d2a115ba1c9e5bea6b3740c33cd95ca80891f662aa60a6cd31c3be2"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2022_e3d846007c90.json",
+      "sha256": "7cbe1b275fb52ad92ebfd8b0c97638939701d464f960ffc3702e871cfaeb772f"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2023_abe383317f88.json",
       "sha256": "220f02ae132b89ffa8a76255080583967b2e992ab7a0d753c3528126ab0e5b9d"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2023_651f82f3b97c.json",
+      "sha256": "73a8fba079c591cf6ffbf430a8f522547dace60f0362872c9f6447227ef58227"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2024_673522621195.json",
       "sha256": "b102406bd20868f6985dd4c588d21bbe6a590dd7385dd8e3fd947067fc1f013c"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2024_65e1fc2a0a9f.json",
+      "sha256": "49d120b08f683bc00f7a0572e8ec31e110b3ba81c1ab1aeb68fb3c32a91b6d2c"
     },
     {
       "file": "data/bronze/events/2027-08-02/climate_2025_ae7ec76f2b10.json",
       "sha256": "6252f99355544d051ec522a54d6fbca66890d2dd5cee97a57af23c213aab8ab7"
     },
     {
+      "file": "data/bronze/events/2027-08-02/climate_2025_1f62e1f03bac.json",
+      "sha256": "c0d1c13e46caa4c5ae77cc0602567f5ffb6ac06e13f321dfd7bc858433fd9e85"
+    },
+    {
       "file": "data/bronze/events/2027-08-02/climate_2026_72e77dbd7c35.json",
       "sha256": "77f13a8ce1df26550e06674d066ea0a2aaaa899761f09ceb0f4a7ff3a20e266a"
+    },
+    {
+      "file": "data/bronze/events/2027-08-02/climate_2026_e952c7acae24.json",
+      "sha256": "dc7652115fc7a4cfc3f294838d77778fdb84c8e3b1e75c7b669a7692a3ce11e7"
     }
   ],
   "failures": [],

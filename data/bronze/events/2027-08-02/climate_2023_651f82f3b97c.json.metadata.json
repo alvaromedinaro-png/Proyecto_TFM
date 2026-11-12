@@ -1,0 +1,16 @@
+{
+  "source_url": "https://archive-api.open-meteo.com/v1/archive",
+  "params": {
+    "latitude": "11.471970,11.766670,35.889190,36.720160,36.144740",
+    "longitude": "49.872820,51.216670,-5.320420,-4.420340,-5.352570",
+    "start_date": "2023-07-30",
+    "end_date": "2023-08-05",
+    "hourly": "temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,pressure_msl,surface_pressure,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,precipitation,rain,snowfall,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,shortwave_radiation,sunshine_duration",
+    "timezone": "GMT",
+    "models": "era5"
+  },
+  "resolved_url": "https://archive-api.open-meteo.com/v1/archive?latitude=11.471970%2C11.766670%2C35.889190%2C36.720160%2C36.144740&longitude=49.872820%2C51.216670%2C-5.320420%2C-4.420340%2C-5.352570&start_date=2023-07-30&end_date=2023-08-05&hourly=temperature_2m%2Crelative_humidity_2m%2Cdew_point_2m%2Capparent_temperature%2Cpressure_msl%2Csurface_pressure%2Ccloud_cover%2Ccloud_cover_low%2Ccloud_cover_mid%2Ccloud_cover_high%2Cprecipitation%2Crain%2Csnowfall%2Cweather_code%2Cwind_speed_10m%2Cwind_direction_10m%2Cwind_gusts_10m%2Cshortwave_radiation%2Csunshine_duration&timezone=GMT&models=era5",
+  "acquired_utc": "2026-11-10T15:28:04.852856+00:00",
+  "sha256": "73a8fba079c591cf6ffbf430a8f522547dace60f0362872c9f6447227ef58227",
+  "status_code": 200
+}
