@@ -69,8 +69,8 @@ def load_dataset(root=sources.ROOT):
     if not paths:
         raise FileNotFoundError("No hay planning_ml_dataset.csv; ejecutar antes el pipeline.")
     data = pd.concat([pd.read_csv(path) for path in paths], ignore_index=True)
-    # Población de la entrega 3: ciudades NASA y referencias. Las localidades GeoNames añadidas
-    # después reciben la climatología elegida, que no requiere entrenamiento.
+    # Población del experimento: ciudades NASA y referencias. Las localidades GeoNames
+    # reciben la climatología elegida, que no requiere entrenamiento.
     data = add_features(data.loc[~data.candidate_type.eq(GAZETTEER_TYPE)].reset_index(drop=True))
     if data.sample_id.duplicated().any():
         raise ValueError("sample_id duplicado en el Gold.")
@@ -302,7 +302,7 @@ def differences(saved, fresh):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Experimento de ML de la entrega 3.")
+    parser = argparse.ArgumentParser(description="Experimento de ML: climatología frente a modelos para cielo despejado y lluvia.")
     parser.add_argument("--check", action="store_true", help="recalcula en una carpeta temporal y compara con data/gold/ml")
     args = parser.parse_args(argv)
     if args.check:

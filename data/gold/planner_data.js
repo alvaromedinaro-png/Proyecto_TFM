@@ -1,6 +1,6 @@
 window.ECLIPSE_PLANNER_DATA = {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-10T23:57:31.144249+00:00",
+  "generated_at_utc": "2026-11-15T10:21:06.807254+00:00",
   "planning_start": "2026-11-10",
   "planning_end_exclusive": "2029-11-10",
   "catalog_end_exclusive": "2031-11-10",
@@ -14435,8 +14435,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2027-02-04",
         "requested_end": "2027-02-08",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -30471,8 +30471,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2027-02-18",
         "requested_end": "2027-02-22",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -40178,8 +40178,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2027-07-16",
         "requested_end": "2027-07-20",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -71576,8 +71576,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2027-07-31",
         "requested_end": "2027-08-04",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -80329,8 +80329,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2027-08-15",
         "requested_end": "2027-08-19",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -95647,8 +95647,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2028-01-10",
         "requested_end": "2028-01-14",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -114955,8 +114955,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2028-01-24",
         "requested_end": "2028-01-28",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -127256,8 +127256,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2028-07-04",
         "requested_end": "2028-07-08",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -137855,8 +137855,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2028-07-20",
         "requested_end": "2028-07-24",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -152098,8 +152098,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2028-12-29",
         "requested_end": "2029-01-02",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -159212,8 +159212,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2029-01-12",
         "requested_end": "2029-01-16",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -162146,8 +162146,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2029-06-10",
         "requested_end": "2029-06-14",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -174254,8 +174254,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2029-06-24",
         "requested_end": "2029-06-28",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },
@@ -175378,8 +175378,8 @@ window.ECLIPSE_PLANNER_DATA = {
       "forecast_status": {
         "requested_start": "2029-07-09",
         "requested_end": "2029-07-13",
-        "forecast_horizon_start": "2026-11-10",
-        "forecast_horizon_end": "2026-11-25",
+        "forecast_horizon_start": "2026-11-15",
+        "forecast_horizon_end": "2026-11-30",
         "status": "outside_forecast_horizon",
         "reason": "No operational forecast exists for these dates; historical climatology remains separate."
       },

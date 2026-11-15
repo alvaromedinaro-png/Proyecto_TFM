@@ -113,7 +113,7 @@
 
   const bandLabels = { baja: "Baja", media: "Media", alta: "Alta" };
 
-  // Probabilidad con su categoría (entrega 3) y su rango al 95 % (punto = valor, tramo = intervalo).
+  // Probabilidad con su categoría (experimento de ML) y su rango al 95 % (punto = valor, tramo = intervalo).
   function probabilityStat(label, value, range, band, years, kind, className = "") {
     const item = stat(label, formatted(value, " %"), sampleLabel(years), className);
     const content = item.querySelector("dd");

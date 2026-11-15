@@ -1,8 +1,8 @@
 # Machine Learning — Planificador geoespacial de eclipses
 
-Esta entrega parte del dataset Gold de la [entrega 2](02_datos_y_preparacion.md) (`data/gold/events/<fecha>/planning_ml_dataset.csv`) y comprueba si un modelo de Machine Learning estima mejor que la climatología histórica el tiempo que hará durante un eclipse.
+El experimento parte del dataset Gold descrito en [Datos y preparación](02_datos_y_preparacion.md) (`data/gold/events/<fecha>/planning_ml_dataset.csv`) y comprueba si un modelo de Machine Learning estima mejor que la climatología histórica el tiempo que hará durante un eclipse.
 
-**Conclusión.** Con los datos disponibles, ningún modelo supera a la climatología con suficiente evidencia, así que el MVP mantiene la **frecuencia histórica** como estimación. Esa referencia sí aporta valor: elegir el destino mejor situado según ella acierta con cielo despejado aproximadamente el doble de veces que elegir al azar.
+**Conclusión.** Con los datos disponibles, ningún modelo supera a la climatología con suficiente evidencia, así que el MVP mantiene la **frecuencia histórica** como estimación. Esa referencia sí aporta valor: elegir el destino mejor situado según acierta con cielo despejado aproximadamente el doble de veces que elegir al azar.
 
 El experimento se reproduce sin red con [ml_planning_experiment.py](../../src/ml_planning_experiment.py) y sus resultados están en [`data/gold/ml/`](../../data/gold/ml/).
 
@@ -18,7 +18,7 @@ El experimento se reproduce sin red con [ml_planning_experiment.py](../../src/ml
 
 ## 2. Datos de entrada y salida
 
-**Unidad de análisis.** Una fila es un evento × una ubicación × un año histórico. Se usan las filas con al menos 10 años previos: **3.180 filas** de 14 eclipses y 117 ubicaciones. El Gold incluye desde la entrega 4 algunas localidades de GeoNames con climatología (apartado 1 de la entrega 2); el experimento conserva la población original, las ciudades NASA y las referencias, para que estos resultados sigan siendo reproducibles. Esas localidades reciben la estimación elegida, la frecuencia histórica, que no requiere entrenamiento. Las 159 filas `query` son las que recibiría el modelo en una consulta real y no tienen etiqueta.
+**Unidad de análisis.** Una fila es un evento × una ubicación × un año histórico. Se usan las filas con al menos 10 años previos: **3.180 filas** de 14 eclipses y 117 ubicaciones. El Gold incluye además algunas localidades de GeoNames con climatología (ver [Datos y preparación](02_datos_y_preparacion.md)); el experimento conserva la población original, las ciudades NASA y las referencias, para que estos resultados sigan siendo reproducibles. Esas localidades reciben la estimación elegida, la frecuencia histórica, que no requiere entrenamiento. Las 159 filas `query` son las que recibiría el modelo en una consulta real y no tienen etiqueta.
 
 | Papel | Variables del Gold | Uso |
 |---|---|---|
@@ -132,7 +132,7 @@ La climatología duplica aproximadamente el resultado de elegir al azar. La vent
 
 **Solución elegida: climatología histórica por lugar y fecha** para cielo despejado y lluvia. Cumple la regla fijada, es la opción más simple y fácil de explicar, y evita mantener un modelo sin una mejora demostrada.
 
-**Mejora que ofrece.** Frente a no usar información del lugar, reduce el Brier entre un 19 % y un 28 % y duplica aproximadamente la probabilidad de acertar con el primer destino. Frente a lo que ya usa el producto no añade precisión: el valor de esta entrega es haber comprobado con evidencia que un modelo más complejo todavía no se justifica.
+**Mejora que ofrece.** Frente a no usar información del lugar, reduce el Brier entre un 19 % y un 28 % y duplica aproximadamente la probabilidad de acertar con el primer destino. Frente a lo que ya usa el producto no añade precisión: el valor de este experimento es haber comprobado con evidencia que un modelo más complejo todavía no se justifica.
 
 **¿Es suficiente para el MVP?** Sí para comparar destinos con antelación y comunicar la probabilidad histórica. No sirve como pronóstico del día del eclipse: esa función la cubre la capa de pronóstico operativo en los 16 días anteriores.
 
@@ -160,4 +160,4 @@ Las probabilidades coinciden, salvo redondeo, con `clear_probability` y `rain_pr
 - En la categoría media, lo observado en la reserva superó a lo previsto en unos 9 puntos, así que la cifra debe leerse como orientativa.
 - El cielo despejado se define con datos de reanálisis para una celda de unos 25 km y puede diferir de lo que se vea desde un punto concreto.
 
-**Continuidad.** La entrada es el Gold de la entrega 2 y la salida es el contrato anterior. Conviene repetir el experimento con la regla ya definida cuando haya más años disponibles. La regresión logística es la candidata a revisar, porque mejoró a la climatología en lluvia en 3 de los 4 años de la reserva.
+**Continuidad.** La entrada es el Gold de [Datos y preparación](02_datos_y_preparacion.md) y la salida es el contrato anterior. Conviene repetir el experimento con la regla ya definida cuando haya más años disponibles. La regresión logística es la candidata a revisar, porque mejoró a la climatología en lluvia en 3 de los 4 años de la reserva.

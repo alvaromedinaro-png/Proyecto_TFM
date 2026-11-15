@@ -78,8 +78,8 @@
   "forecast": {
     "requested_start": "2028-07-20",
     "requested_end": "2028-07-24",
-    "forecast_horizon_start": "2026-11-10",
-    "forecast_horizon_end": "2026-11-25",
+    "forecast_horizon_start": "2026-11-15",
+    "forecast_horizon_end": "2026-11-30",
     "status": "outside_forecast_horizon",
     "reason": "No operational forecast exists for these dates; historical climatology remains separate."
   },
@@ -182,7 +182,7 @@
     "locations_sha256": null
   },
   "reused_preparation": false,
-  "prepared_at_utc": "2026-11-10T23:55:43.747766+00:00",
+  "prepared_at_utc": "2026-11-15T10:19:44.414592+00:00",
   "output_sha256": {
     "climate_event_samples.csv": "df76d0e7992a24da12e465890ac226dd76978585fdc5c212594fbbbedd5c292a",
     "planning_ml_dataset.csv": "d801f2e1992069aeaf1689172a1f8749b93ca73c60e7260afaaaefa0a2c438b9",
@@ -192,7 +192,7 @@
     "climate_daily_summary.csv": "45dffdadbbbda247070d592d2c2a7589eb8af37aec61c7053577db87d90a68e7",
     "climate_daily_conditions.csv": "01fade97ade20ae3cefe27a2a7dd839083bc2dc7efe1041ab34965725d63ae2c",
     "operational_forecast.csv": "f137d9f9453ece613b4934297e55cc79828ad7e2e462ecf0671896d240e12aa7",
-    "forecast_status.json": "4759cdba1fdaa0014d38e24df03d8bdc1fee1cbc5dbed8c55f227892e17f01f6"
+    "forecast_status.json": "fd347ca5af9ea13e1e3cd766796af5c64374e4d24edec8f89716639c69a7a888"
   },
   "code_sha256": {
     "eclipse_catalogs.py": "3584398932a2f324bb64695978e1ea4189dc2193cbc1905efb0f4d80b13076d7",
@@ -200,8 +200,8 @@
     "eclipse_example.py": "cf6bf91982e5ed890826e695a753aa190b4caed8fbc1b524d326e6f43459fa00",
     "eclipse_geography.py": "f2531c98ba44517a8c98ea71e5a6889561ee4fe80d00d35d5dff5f37387b4e48",
     "eclipse_locations.py": "eb24797a521e6d1e3f7b853434131ba5705893fd8eceefdf307a2dddef7c998f",
-    "eclipse_pipeline.py": "bd3bffa0f2d9d81587a00bb85eb40696e3fd8343828ec6bb3f74f4a601fa49cb",
-    "eclipse_product.py": "d9a5be86437779ce294f989df6d7a76a2cf725b4af7460eba498235dea22f2c7",
-    "eclipse_sources.py": "686564c556cd1d46c3a8c846ae825fd3052220a6e8b3232b89727be2acdf5e27"
+    "eclipse_pipeline.py": "beb07a885209208a549f17160a1bd24af893bf121d71dd9ea41497378a79eb61",
+    "eclipse_product.py": "0280c2e2a8a9a8cd7576cba65b21adb418305b843e846466f65ffe5eb770783b",
+    "eclipse_sources.py": "6662fca561367756b58b55f0d4bb14c0903164a26c3360b53280bd410c5ba96f"
   }
 }

@@ -1,6 +1,6 @@
 # Diseño del frontal y experiencia de usuario — Planificador geoespacial de eclipses
 
-Esta entrega diseña la pantalla principal del MVP a partir de lo que ya existe: el selector local de `app/`, los datos Gold de la [entrega 2](02_datos_y_preparacion.md) y la decisión de la [entrega 3](03_machine_learning.md) de usar la climatología histórica como estimación, con su categoría y su intervalo.
+Este documento diseña la pantalla principal del MVP a partir de lo que ya existe: el selector local de `app/`, los datos Gold de [Datos y preparación](02_datos_y_preparacion.md) y la decisión de [Machine Learning](03_machine_learning.md) de usar la climatología histórica como estimación, con su categoría y su intervalo.
 
 **Mockup:** [`04_diseno_frontal_ux/mockup.html`](04_diseno_frontal_ux/mockup.html) es una maqueta estática en HTML con datos reales del eclipse solar total del **2 de agosto de 2027** (climatología 1997–2026). Se abre en el navegador sin servidor; con `?limpio` al final de la dirección se ocultan las anotaciones. Las imágenes de este documento son capturas de ese archivo.
 
@@ -54,7 +54,7 @@ Se ha descartado a propósito un formulario inicial («¿desde dónde viajas?»,
 
 ![Mockup de la pantalla principal del MVP en escritorio](04_diseno_frontal_ux/mockup_escritorio.png)
 
-Los números en ámbar señalan las decisiones que se justifican en el apartado 4:
+Los números en ámbar señalan las decisiones que se justifican en «Experiencia de usuario»:
 
 1. **Selector** de tipo, eclipse y país, con un control de **orden** (recomendado, cielo despejado o duración).
 2. **Estado del evento:** datos preparados, días que faltan y desde cuándo habrá pronóstico real.
@@ -106,7 +106,7 @@ Desde la cabecera y desde el título de cada eclipse («¿Qué es un eclipse sol
 | Elemento | Por qué así | Alternativa descartada |
 |---|---|---|
 | **Barra de rango** en cada fila: punto = probabilidad, tramo = intervalo al 95 % | Compara a la vez valor e incertidumbre de nueve destinos en poco espacio | Diagrama de cajas o de violín: exige saber estadística |
-| **Categoría** baja / media / alta junto a la cifra | Es la salida de la entrega 3 y permite una lectura rápida | Semáforo rojo/verde: sugiere que «alta» garantiza buen tiempo |
+| **Categoría** baja / media / alta junto a la cifra | Es la salida del experimento de ML y permite una lectura rápida | Semáforo rojo/verde: sugiere que «alta» garantiza buen tiempo |
 | **Mapa regional** numerado como el ranking | Une lista y geografía sin leyendas extra; centra la vista en la zona del eclipse | Mapamundi fijo, como en la app actual |
 | **Barras de los días cercanos** (−2 a +2) | Muestra si el día del eclipse es representativo o un mal día aislado | Serie de los 30 años: mucho detalle para una decisión de viaje |
 | **Control segmentado** para el orden | Las tres opciones quedan visibles sin abrir un menú | Ordenar pulsando la cabecera de la tabla: no se descubre en el móvil |
@@ -120,7 +120,7 @@ La incertidumbre es parte del resultado y se muestra donde aparece la cifra, no 
 
 - **Rango al 95 % en cada probabilidad (3, 5).** Es el intervalo de Wilson ya calculado en el Gold (`clear_lower95`, `clear_upper95`). Con 30 años, un 93 % puede estar entre el 79 % y el 98 %.
 - **Cifras extremas (7).** Un 0 % no significa imposible: Saná no tuvo cielo despejado en 30 años, pero su rango llega al 11 %. Lo mismo vale para el 100 % de La Valeta (rango 89–100 %).
-- **Cautela con la categoría media (7).** En la validación de la entrega 3, lo observado superó a lo previsto en unos 9 puntos en ese tramo, y el producto lo dice.
+- **Cautela con la categoría media (7).** En la validación del experimento de ML, lo observado superó a lo previsto en unos 9 puntos en ese tramo, y el producto lo dice.
 - **«No es un pronóstico».** Aparece junto a la cifra principal. El chip ámbar del estado del evento (2) indica cuándo existirá un pronóstico real: 16 días antes. A partir de ahí se muestran los dos datos por separado, sin mezclarlos.
 - **Estados de los datos (2, 7).** Preparado, parcial y pendiente, con lo que significa cada uno. Una zona sin climatología muestra igualmente su fase y su hora, y nunca recibe datos de otro lugar.
 - **Resto de zonas agrupadas (7).** Las 258 zonas de este eclipse que quedan fuera del orden de destinos (su climatología viene de Copernicus, no de la base del ranking) se resumen en una línea con enlace que indica cuántas tienen totalidad (68, como Tarifa, Cádiz o Luxor), para que el usuario sepa que existen y pueda consultar su fase, su hora y su clima. Si una zona aún no tiene climatología, la línea lo dice.
@@ -165,12 +165,12 @@ La incertidumbre es parte del resultado y se muestra donde aparece la cifra, no 
 
 ### Cómo se conecta con los datos y el modelo
 
-El frontal no calcula nada por su cuenta: **lee la exportación del pipeline** (`data/gold/planner_data.js`), que se genera a partir del Gold de la entrega 2 y de la decisión de la entrega 3. Así se puede abrir sin servidor y sin red, y la app y los datos siempre corresponden a la misma versión.
+El frontal no calcula nada por su cuenta: **lee la exportación del pipeline** (`data/gold/planner_data.js`), que se genera a partir del Gold y de la decisión del experimento de ML. Así se puede abrir sin servidor y sin red, y la app y los datos siempre corresponden a la misma versión.
 
 ```mermaid
 flowchart LR
     B[Bronze<br/>NASA, Open-Meteo,<br/>GeoNames, Copernicus] --> S[Silver] --> G[Gold<br/>location_ranking.csv<br/>planning_ml_dataset.csv]
-    G --> M[Entrega 3<br/>query_predictions.csv<br/>climatología + categoría]
+    G --> M[Experimento ML<br/>query_predictions.csv<br/>climatología + categoría]
     G --> X[Exportación<br/>planner_data.js]
     M --> X
     X --> F[Frontal<br/>app/index.html]
@@ -178,13 +178,13 @@ flowchart LR
 
 | Elemento del frontal | Campo | Origen | ¿Exportado hoy? |
 |---|---|---|---|
-| Lista de eclipses y estado | `event_date`, `eclipse_type`, `status`, `forecast_status` | Catálogo NASA y pipeline (entrega 2) | Sí |
-| Fase, duración, hora UTC, altura del Sol | `local_phase`, `phase_duration_s`, `peak_time_utc`, `body_altitude_deg` | Circunstancias locales (entrega 2) | Sí |
-| Probabilidad de cielo despejado y lluvia | `clear_probability_pct`, `rain_probability_pct`, `valid_cloud_years` | Climatología 30 años = decisión de la entrega 3 | Sí |
-| Días cercanos | `climate_by_day` | Climatología ±2 días (entrega 2) | Sí |
+| Lista de eclipses y estado | `event_date`, `eclipse_type`, `status`, `forecast_status` | Catálogo NASA y pipeline | Sí |
+| Fase, duración, hora UTC, altura del Sol | `local_phase`, `phase_duration_s`, `peak_time_utc`, `body_altitude_deg` | Circunstancias locales | Sí |
+| Probabilidad de cielo despejado y lluvia | `clear_probability_pct`, `rain_probability_pct`, `valid_cloud_years` | Climatología 30 años = decisión del experimento de ML | Sí |
+| Días cercanos | `climate_by_day` | Climatología ±2 días | Sí |
 | **Rango al 95 %** | `clear_range_pct`, `rain_range_pct` (de `clear_lower95`… o el mismo intervalo de Wilson en zonas de Copernicus) | `location_ranking.csv` | Sí |
-| **Categoría** | `clear_band`, `rain_band` | Mismos umbrales que la entrega 3 (25 % y 50 %), comprobado por un test | Sí |
+| **Categoría** | `clear_band`, `rain_band` | Mismos umbrales que el experimento de ML (25 % y 50 %), comprobado por un test | Sí |
 | **Orden recomendado** | `score` (`rank` ya se exporta) | `location_ranking.csv` | **Solo `rank`** |
 | **Hora local** | `timezone` (IANA) | Localidad GeoNames más cercana del mismo país (Bronze, sin red) | Sí |
 
-La exportación ya incluye rango, categoría y zona horaria, sin nuevas descargas ni modelos nuevos; solo falta `score` para el orden «Recomendado». Tras cada cambio en `src/` se regeneran las salidas sin red y se comprueba con `python src/eclipse_pipeline.py --verify` que datos, informes y código siguen siendo de la misma versión. Si en el futuro un modelo supera a la climatología con la regla de la entrega 3, solo cambiaría el origen de `clear_probability_pct` y `rain_probability_pct`: el frontal seguiría igual.
+La exportación ya incluye rango, categoría y zona horaria, sin nuevas descargas ni modelos nuevos; solo falta `score` para el orden «Recomendado». Tras cada cambio en `src/` se regeneran las salidas sin red y se comprueba con `python src/eclipse_pipeline.py --verify` que datos, informes y código siguen siendo de la misma versión. Si en el futuro un modelo supera a la climatología con la regla de selección del experimento de ML, solo cambiaría el origen de `clear_probability_pct` y `rain_probability_pct`: el frontal seguiría igual.

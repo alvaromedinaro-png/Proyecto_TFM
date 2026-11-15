@@ -37,7 +37,7 @@ MIN_RANKING_YEARS = 15
 # puede mantener «hoy + 3 años» aunque se abra tiempo después de la exportación.
 CATALOG_MARGIN_YEARS = 2
 FAILURE_MARKER = "preparation_failure.json"
-# Categorías de probabilidad: mismos umbrales que BANDS en ml_planning_experiment.py (entrega 3).
+# Categorías de probabilidad: mismos umbrales que BANDS en ml_planning_experiment.py.
 PROBABILITY_BANDS = {"baja": (0.0, 0.25), "media": (0.25, 0.5), "alta": (0.5, 1.0001)}
 # Zona horaria: la de la localidad GeoNames más cercana del mismo país (Bronze, sin red).
 GAZETTEER_FILE = Path("data/bronze/geonames/cities15000.zip")
@@ -260,7 +260,7 @@ def _location(row, daily, family, rank, root=sources.ROOT):
         "clear_probability_pct": _percentage(row.get("clear_probability")),
         "rain_probability_pct": _percentage(row.get("rain_probability")),
         "cloud_probability_pct": _percentage(row.get("cloud_probability")),
-        # Rango al 95 % y categoría baja / media / alta de la entrega 3, como pide el diseño de la entrega 4.
+        # Rango al 95 % y categoría baja / media / alta del experimento de ML, para el diseño del frontal.
         "clear_range_pct": _range_pct(row, "clear_lower95", "clear_upper95", clear, cloud_years) if has_climate else None,
         "rain_range_pct": _range_pct(row, "rain_lower95", "rain_upper95", rain, rain_years) if has_climate else None,
         "clear_band": _band(clear) if has_climate else None,

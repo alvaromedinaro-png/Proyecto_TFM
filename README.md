@@ -92,4 +92,4 @@ Se versionan:
 
 Las respuestas climáticas completas, los ficheros horarios de Silver y los catálogos auxiliares hasta el año 3000 se regeneran con el pipeline y están en `.gitignore`.
 
-Para entregar el proyecto, genera el ZIP desde git tras confirmar los cambios (`git archive -o entrega.zip HEAD`): así contiene exactamente los archivos versionados, sin restos locales, y `python src/eclipse_pipeline.py --verify` coincide en la copia descomprimida.
+Para distribuir el proyecto, genera el ZIP desde git tras confirmar los cambios (`git archive -o entrega.zip HEAD`): así contiene exactamente los archivos versionados, sin restos locales, y `python src/eclipse_pipeline.py --verify` coincide en la copia descomprimida.

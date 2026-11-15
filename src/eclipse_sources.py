@@ -44,7 +44,7 @@ def save_json(path, value):
 
 
 def save_csv(frame, path):
-    """Fin de línea LF en cualquier sistema: el hash registrado coincide con el archivo entregado."""
+    """Fin de línea LF en cualquier sistema: el hash registrado coincide con el archivo versionado."""
     path.parent.mkdir(parents=True, exist_ok=True)
     frame.to_csv(path, index=False, lineterminator="\n")
 

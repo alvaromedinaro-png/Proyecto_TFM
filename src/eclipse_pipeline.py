@@ -472,7 +472,7 @@ def record_failure(event, error, root=None):
 
 
 def verify_outputs(root=sources.ROOT):
-    """Comprueba que cada informe describe los archivos entregados y el código actual.
+    """Comprueba que cada informe describe los archivos versionados y el código actual.
 
     Las respuestas climáticas no versionadas cuentan como no incluidas, no como error."""
     code = sources.code_sha256()

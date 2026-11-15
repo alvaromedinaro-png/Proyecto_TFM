@@ -1,4 +1,4 @@
-"""Campos del MVP (entrega 4): hora local, rango al 95 % y categoría de cada probabilidad."""
+"""Campos del MVP: hora local, rango al 95 % y categoría de cada probabilidad."""
 from pathlib import Path
 import sys
 import tempfile
