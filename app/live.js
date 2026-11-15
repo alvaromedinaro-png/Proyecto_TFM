@@ -36,6 +36,9 @@ window.EclipseLive = (() => {
   let markerLayer = null;
   let markersById = new Map();
   let siteMarker = null;
+  let priceLayer = null;
+  let serverStatus = null;
+  const euro = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
   function node(tag, className, content) {
     const element = document.createElement(tag);
@@ -342,10 +345,12 @@ window.EclipseLive = (() => {
       tileLayer = window.L.layerGroup().addTo(map);
       setTiles();
       markerLayer = window.L.layerGroup().addTo(map);
+      priceLayer = window.L.layerGroup().addTo(map);
       // El mapa sigue el modo día / noche de la página.
       new MutationObserver(setTiles).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
     }
     markerLayer.clearLayers();
+    priceLayer.clearLayers();
     markersById = new Map();
     const site = siteMarker = window.L.circleMarker([location.latitude, location.longitude], { radius: 9, color: "#c98026", weight: 3, fillColor: "#e9a93a", fillOpacity: 0.9 });
     site.bindPopup(node("strong", "", `${location.name || "Zona"}: punto de observación`));
@@ -387,12 +392,14 @@ window.EclipseLive = (() => {
       result = await fetchLodgings(location.latitude, location.longitude);
     } catch (error) {
       if (id !== request) return;
+      renderPrices(location, stay, id, lodgingRadiusM, []);
       status.className = "lodging-status error";
       status.textContent = "No se pudo consultar OpenStreetMap ahora mismo (el servicio público puede estar saturado o no hay conexión). Los enlaces de Google Maps y Booking funcionan igualmente; vuelve a elegir el destino para reintentarlo.";
       return;
     }
     if (id !== request) return;
     const items = result.items;
+    renderPrices(location, stay, id, result.radius, items);
     const named = items.filter((item) => item.name);
     status.className = "lodging-status";
     const partial = result.complete ? "" : " Búsqueda parcial: el servicio principal no respondió y solo se muestran alojamientos con «hotel» en el nombre.";
@@ -419,6 +426,132 @@ window.EclipseLive = (() => {
       row.append(title, node("span", "lodging-meta", lodgingDescription(item)), hotelLinks(item, location, stay));
       list.append(row);
     });
+  }
+
+  // ---------- Precios (solo con la app servida por src/app_server.py) ----------
+
+  function priceServer() {
+    if (!/^https?:$/.test(window.location.protocol)) return Promise.resolve(null);
+    if (!serverStatus) serverStatus = fetchJson("/api/status", {}, 5000).catch(() => null);
+    return serverStatus;
+  }
+
+  // Localidad que se busca en TripAdvisor: el nombre del destino o, si es una referencia NASA
+  // sin nombre de lugar, la localidad más repetida entre los alojamientos de OpenStreetMap.
+  function priceQueryName(location, items) {
+    if (!isReference(location)) return location.name;
+    const counts = new Map();
+    items.forEach((item) => { if (item.city) counts.set(item.city, (counts.get(item.city) || 0) + 1); });
+    return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([city]) => city)[0] || "";
+  }
+
+  function priceNote(box, title, text, className = "live-message") {
+    const message = node("div", className);
+    message.append(node("strong", "", title));
+    if (text) message.append(node("p", "", text));
+    box.replaceChildren(node("h5", "prices-heading", "Precios para tus fechas"), message);
+  }
+
+  async function renderPrices(location, stay, id, radiusM, items) {
+    const box = byId("lodging-prices");
+    if (!box) return;
+    box.replaceChildren();
+    const status = await priceServer();
+    if (id !== request) return;
+    if (!status) {
+      priceNote(box, "Precios dentro de la app", "Abre la app con «python src/app_server.py» para ver aquí el precio por noche de los alojamientos cercanos en tus fechas. Mientras, los enlaces de Google Maps y Booking muestran el precio real.");
+      return;
+    }
+    if (!status.prices) {
+      priceNote(box, "Precios sin activar", "El servidor local no tiene clave de RapidAPI. Créala gratis y guárdala en la variable RAPIDAPI_KEY o en el archivo .rapidapi_key de tu carpeta de usuario (instrucciones en el README).");
+      return;
+    }
+    const name = priceQueryName(location, items);
+    if (!name) {
+      priceNote(box, "Sin localidad para buscar precios", "Este punto no tiene nombre de localidad. Elige una zona cercana con nombre o usa los enlaces de búsqueda.");
+      return;
+    }
+    priceNote(box, "Consultando precios…", "Tarifas de Booking, Agoda y otras agencias para tus fechas; puede tardar unos segundos.", "live-message loading");
+    const params = new URLSearchParams({
+      name, country: location.country_name || "", lat: location.latitude.toFixed(5), lon: location.longitude.toFixed(5),
+      checkin: stay.checkin, checkout: stay.checkout, radius_km: String(Math.min(25, radiusM / 1000))
+    });
+    let body;
+    try {
+      body = await fetchJson(`/api/prices?${params}`, {}, 60000);
+    } catch (error) {
+      if (id !== request) return;
+      priceNote(box, "No se pudieron consultar los precios", "El servicio de tarifas no respondió. Los enlaces de Google Maps y Booking siguen mostrando el precio real.", "live-message error");
+      return;
+    }
+    if (id !== request) return;
+    if (body.status === "no_key") {
+      priceNote(box, "Precios sin activar", "Falta la clave de RapidAPI en el servidor local (instrucciones en el README).");
+      return;
+    }
+    if (body.status === "no_location") {
+      priceNote(box, "Localidad no encontrada", `TripAdvisor no reconoce «${name}». Usa los enlaces de búsqueda.`);
+      return;
+    }
+    if (body.status === "no_hotels") {
+      priceNote(box, "Sin alojamientos con precio cerca", `TripAdvisor no tiene alojamientos de «${body.location && body.location.name || name}» a menos de ${Math.min(25, radiusM / 1000)} km de este punto.`);
+      return;
+    }
+    if (body.status !== "ok") {
+      priceNote(box, "Precios no disponibles", "Los enlaces de Google Maps y Booking siguen mostrando el precio real.", "live-message error");
+      return;
+    }
+    const hasPrice = (hotel) => hotel.price && finite(hotel.price.min);
+    // Orden: tarifas normales de menor a mayor, después las atípicas y al final los que no tienen tarifa.
+    const rank = (hotel) => (!hasPrice(hotel) ? 2 : hotel.price.outlier ? 1 : 0);
+    const hotels = body.hotels.slice().sort((a, b) => rank(a) - rank(b) || (hasPrice(a) ? a.price.min : 0) - (hasPrice(b) ? b.price.min : 0) || a.distance_km - b.distance_km);
+    const priced = hotels.filter((hotel) => hasPrice(hotel) && !hotel.price.outlier);
+    const outliers = hotels.filter((hotel) => hasPrice(hotel) && hotel.price.outlier).length;
+    const heading = node("h5", "prices-heading", "Precios para tus fechas");
+    const summary = node("p", "lodging-status", priced.length
+      ? `Desde ${euro.format(priced[0].price.min)} por noche · ${priced.length} de los ${hotels.length} alojamientos consultados (de ${body.total_nearby} en TripAdvisor a menos de ${Math.min(25, radiusM / 1000)} km) tienen tarifa para el ${stay.checkin.split("-").reverse().join("/")}–${stay.checkout.split("-").reverse().join("/")}${outliers ? `, y ${outliers} más con un precio atípico` : ""}.`
+      : "Ninguno de los alojamientos más cercanos publica todavía una tarifa fiable para esas fechas. Es habitual a más de un año vista: vuelve a consultarlo más adelante.");
+    const far = finite(body.days_ahead) && body.days_ahead > 330
+      ? node("p", "live-message error", `Faltan ${body.days_ahead} días: muchos alojamientos aún no han abierto reservas para esas fechas y algunas agencias devuelven tarifas provisionales o desproporcionadas. Tómalas como orientación y compruébalas en la agencia.`)
+      : null;
+    const list = node("ol", "price-list");
+    const unpriced = hotels.filter((hotel) => !hasPrice(hotel));
+    hotels.filter(hasPrice).forEach((hotel) => {
+      const row = node("li", hotel.price.outlier ? "suspect" : "");
+      const info = node("div", "price-info");
+      const meta = [hotel.type, finite(hotel.rating) && hotel.rating > 0 ? `${number.format(hotel.rating)} ★ (${hotel.reviews || 0})` : "", `${number.format(hotel.distance_km)} km`].filter(Boolean).join(" · ");
+      info.append(node("strong", "", hotel.name), node("span", "lodging-meta", meta));
+      const actions = node("span", "lodging-actions");
+      if (/^https:\/\/www\.tripadvisor\./.test(hotel.url)) actions.append(link("TripAdvisor", hotel.url));
+      const booking = new URLSearchParams({ ss: hotel.name, checkin: stay.checkin, checkout: stay.checkout, group_adults: "2", no_rooms: "1" });
+      actions.append(link("Booking", `https://www.booking.com/searchresults.es.html?${booking}`));
+      info.append(actions);
+      const price = node("div", "price-value");
+      if (hotel.price && finite(hotel.price.min)) {
+        price.append(node("strong", "", euro.format(hotel.price.min)), node("small", "", `/noche · ${hotel.price.provider}`));
+        if (hotel.price.outlier) price.append(node("small", "suspect-note", "Precio atípico: verifícalo"));
+        price.title = hotel.price.offers.map((offer) => `${offer.provider}: ${euro.format(offer.rate)}`).join("\n");
+      } else {
+        price.append(node("small", "", hotel.price && hotel.price.error ? "Error al consultar" : "Sin tarifa aún"));
+      }
+      row.append(info, price);
+      list.append(row);
+      if (map && priceLayer && hasPrice(hotel) && !hotel.price.outlier) {
+        const pin = window.L.marker([hotel.lat, hotel.lon], { icon: window.L.divIcon({ className: "price-pin-anchor", html: "", iconSize: [0, 0] }) });
+        pin.on("add", () => {
+          const element = pin.getElement();
+          if (element && !element.firstChild) element.append(node("span", "price-pin", euro.format(hotel.price.min)));
+        });
+        const popup = node("div", "lodging-popup");
+        popup.append(node("strong", "", hotel.name), node("span", "", `${euro.format(hotel.price.min)} por noche · ${hotel.price.provider}`), node("span", "", meta));
+        pin.bindPopup(popup);
+        priceLayer.addLayer(pin);
+      }
+    });
+    const note = node("p", "live-note", `Tarifa más baja por noche para 2 adultos entre las agencias que recoge Xotelo a partir de TripAdvisor, consultada ahora (${new Date(body.retrieved_utc).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}). Puede no incluir impuestos y cambiar al reservar.`);
+    // Los que no publican tarifa se resumen en una línea para no alargar la lista.
+    const rest = unpriced.length ? node("p", "lodging-meta unpriced", `Sin tarifa publicada todavía: ${unpriced.slice(0, 8).map((hotel) => hotel.name).join(", ")}${unpriced.length > 8 ? ` y ${unpriced.length - 8} más` : ""}.`) : null;
+    box.replaceChildren(...[heading, summary, far, list.children.length ? list : null, rest, note].filter(Boolean));
   }
 
   // ---------- Panel ----------

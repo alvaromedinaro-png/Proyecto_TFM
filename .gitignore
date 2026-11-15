@@ -81,3 +81,6 @@ data/gold/planner_data.json
 
 # Credenciales de Copernicus CDS: viven en el perfil del usuario, nunca en el repositorio.
 .cdsapirc
+
+# Caché local del servidor de la app (localidades de TripAdvisor); se regenera sola.
+.cache/

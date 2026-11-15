@@ -101,7 +101,7 @@ Al pulsar «Elegir como destino» en una tarjeta, o un punto del mapa, se abre d
 
 Por qué así y no con una API de Google o un asistente con IA:
 
-- **El precio real lo tienen los buscadores.** Las APIs de precios exigen un acuerdo comercial, y la de Google Places, una clave de pago que quedaría expuesta en una página estática; además, sus condiciones prohíben guardar los resultados. El enlace con las fechas lleva al usuario al precio real sin esos problemas.
+- **Precio por noche dentro de la app, con un servidor local.** Las APIs oficiales de precios exigen un acuerdo comercial, y la de Google Places, una clave de pago que quedaría expuesta en una página estática. Por eso `src/app_server.py` consulta [Xotelo](https://xotelo.com/), que reúne las tarifas de Booking, Agoda y otras agencias a partir de TripAdvisor: muestra la tarifa más baja por noche de los alojamientos cercanos para las fechas del eclipse, ordenadas de menor a mayor, y las marca en el mapa. La clave gratuita que necesita para localizar el destino se guarda en el servidor, no en la página. Sin servidor o sin clave quedan los enlaces a Google Maps y Booking, que llevan al precio real con las fechas ya puestas.
 - **Los alojamientos son datos estructurados y geográficos.** «Qué hay a menos de 8 km» se resuelve con una consulta espacial; un RAG o un modelo de lenguaje añadiría coste y el riesgo de inventar alojamientos sin mejorar la decisión.
 - **Solo esto se consulta en directo.** La climatología necesita 30 años de datos horarios por lugar y alimenta el experimento de ML, así que sigue preparada en el pipeline con su trazabilidad. Los alojamientos y el pronóstico cambian con el tiempo y son consultas pequeñas.
 
@@ -147,7 +147,7 @@ La incertidumbre es parte del resultado y se muestra donde aparece la cifra, no 
 - **Errores de carga.** Se mantienen los mensajes de la app actual: datos no encontrados, evento todavía sin preparar o país sin zonas que alcancen el 70 % de ocultación.
 - **Servicios en directo que fallan.** Las instancias públicas de OpenStreetMap se saturan a menudo: la app consulta tres a la vez y usa la primera que responde; si fallan todas, recurre a una búsqueda más rápida pero parcial (solo alojamientos con «hotel» en el nombre) y lo dice. Sin conexión, cada bloque lo indica sin afectar al resto de la página, y los enlaces a Google Maps y Booking siguen disponibles.
 - **Cobertura desigual de los datos abiertos.** El número de alojamientos se presenta como un mínimo: OpenStreetMap es muy completo en Europa y escaso en zonas como el Alto Egipto o Libia. Si no hay ninguno, el panel lo dice y remite a los buscadores.
-- **Fechas lejanas.** Para eclipses a más de un año, muchos alojamientos aún no aceptan reservas; el panel lo advierte junto a los enlaces.
+- **Fechas lejanas y tarifas atípicas.** Para eclipses lejanos muchas agencias aún no publican tarifas o devuelven importes provisionales: en Málaga, para agosto de 2027, la mayoría de hoteles rondan los 750 € por noche (la demanda del eclipse es real), pero alguno aparece a casi 8.000 €. Las tarifas de más de 4 veces la más barata de la zona y más de 500 € se tachan y se marcan como «Precio atípico: verifícalo», al final de la lista y fuera del mapa; los alojamientos sin tarifa se resumen en una línea. A más de 11 meses vista se añade un aviso.
 
 ### Facilidad de uso
 
@@ -182,6 +182,7 @@ La incertidumbre es parte del resultado y se muestra donde aparece la cifra, no 
 | Comparar dos o tres destinos lado a lado (6) | Mejora futura | — |
 | Descargar el resumen del destino (6) | Mejora futura | — |
 | Alojamiento cercano con mapa y enlaces a precio real (8) | ✔ | Ya implementado: OpenStreetMap en directo, enlaces a Google Maps y Booking con las fechas del eclipse (`app/live.js`) |
+| Precio por noche para las fechas del eclipse (8) | ✔ | Ya implementado con el servidor local (`src/app_server.py`) y Xotelo; requiere una clave gratuita de RapidAPI |
 | Pronóstico real del destino cuando faltan 16 días o menos | ✔ | Ya implementado: Open-Meteo en directo en el panel del destino |
 | Pronóstico operativo integrado en el ranking | Mejora futura | El pipeline ya guarda el estado del pronóstico (`forecast_status.json`) |
 | Capacidad de alojamiento como criterio del ranking | Mejora futura | Exigiría guardar los alojamientos en el pipeline para que el orden sea reproducible |

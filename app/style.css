@@ -341,6 +341,20 @@ summary { color: var(--teal); cursor: pointer; font-size: 11px; font-weight: 650
 .lodging-popup { display: flex; flex-direction: column; gap: 4px; font-family: inherit; }
 .lodging-popup strong { font-size: 13px; }
 .lodging-popup .lodging-actions { margin-top: 4px; }
+.prices-heading { margin: 16px 0 6px; font-size: 13px; font-weight: 650; }
+.lodging-prices:empty { display: none; }
+.price-list { list-style: none; margin: 0; padding: 0; }
+.price-list li { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.unpriced { margin: 8px 0 0; }
+.price-list li.suspect .price-value strong { color: var(--amber); text-decoration: line-through; text-decoration-thickness: 1px; }
+.suspect-note { color: var(--amber) !important; font-weight: 650; }
+.price-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.price-info strong { font-size: 13px; overflow-wrap: anywhere; }
+.price-value { text-align: right; flex-shrink: 0; display: flex; flex-direction: column; }
+.price-value strong { font-size: 17px; color: var(--teal); }
+.price-value small { font-size: 10px; color: var(--muted); }
+.price-pin-anchor { background: none; border: 0; }
+.price-pin { position: absolute; transform: translate(-50%, -50%); background: var(--white); color: var(--ink); border: 1.5px solid var(--accent); border-radius: 12px; padding: 1px 7px; font-size: 11px; font-weight: 700; white-space: nowrap; box-shadow: 0 1px 3px #0003; cursor: pointer; }
 .site-footer { display: flex; justify-content: space-between; gap: 18px; padding: 22px 0 28px; margin-top: 45px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; }
 .site-footer p { margin: 0; }
 .noscript-note { margin: 20px; padding: 18px; border: 1px solid var(--line); background: var(--white); }

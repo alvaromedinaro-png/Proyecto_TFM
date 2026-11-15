@@ -70,9 +70,26 @@ Open-Meteo limita el uso gratuito a 600 llamadas por minuto, 5.000 por hora y 10
 
 - **Pronóstico** de [Open-Meteo](https://open-meteo.com/) a la hora del máximo, cuando faltan 16 días o menos. Antes indica desde qué fecha estará disponible.
 - **Alojamientos** de [OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL) a menos de 8 km, o de 25 km si apenas hay, mediante la API Overpass. Se consultan tres instancias públicas a la vez y, si fallan, [Photon](https://photon.komoot.io/) como búsqueda parcial. El mapa usa teselas de Esri y [Leaflet](https://leafletjs.com/) desde cdnjs, con verificación de integridad.
-- **Precio real:** enlaces a Google Maps y Booking con las dos noches del eclipse ya rellenadas.
+- **Precio por noche para tus fechas** de los alojamientos cercanos, si la app se abre con el servidor local (ver abajo). Siempre hay además enlaces a Google Maps y Booking con las dos noches del eclipse ya rellenadas.
 
 Solo se envían las coordenadas del destino. Sin conexión, el panel lo indica y el resto de la app funciona igual.
+
+## Precios de alojamiento (servidor local)
+
+El navegador no puede pedir los precios directamente, así que se sirven desde un pequeño servidor local:
+
+```powershell
+python src/app_server.py        # abre http://127.0.0.1:8000/app/index.html
+```
+
+Para cada destino, [`src/app_server.py`](src/app_server.py) busca su localidad en TripAdvisor (una vez; queda en `.cache/`), obtiene los alojamientos cercanos y consulta la tarifa más baja por noche, en euros y para 2 adultos, que publican Booking, Agoda y otras agencias para las fechas del eclipse. Usa [Xotelo](https://xotelo.com/), una API gratuita no oficial: puede cambiar o fallar, y entonces quedan los enlaces de búsqueda. Las tarifas desproporcionadas (más de 4 veces la más barata de la zona y más de 500 €) se marcan como atípicas.
+
+La búsqueda de localidad necesita una clave gratuita de RapidAPI:
+
+1. Crea una cuenta en [RapidAPI](https://rapidapi.com/) y suscríbete al plan gratuito de [Xotelo Hotel Prices](https://rapidapi.com/anastue-pGK7lGUO-Wo/api/xotelo-hotel-prices).
+2. Guarda la clave en la variable de entorno `RAPIDAPI_KEY` o en el archivo `%USERPROFILE%\.rapidapi_key` (una sola línea), **nunca dentro del repositorio**.
+
+Sin clave, el servidor funciona igual y el panel muestra solo los enlaces. El servidor escucha solo en `127.0.0.1` y sirve únicamente la app y su exportación.
 
 ## Cómo leer el selector
 
