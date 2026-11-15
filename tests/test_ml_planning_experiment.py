@@ -87,6 +87,66 @@ class ProductMetricTests(unittest.TestCase):
         self.assertEqual(ml.bootstrap_interval([0.01] * 6), (0.01, 0.01))
 
 
+def ranked(rows):
+    """Filas de ranking_frame mínimas: un evento solar, un año, varias ciudades."""
+    base = {"phase": "holdout", "event_id": "E", "reference_year": 2024, "rain": 0, "utility": 0.0}
+    return pd.DataFrame([{**base, "name": str(index), **row} for index, row in enumerate(rows)])
+
+
+class FullRankingTests(unittest.TestCase):
+    def predictions(self, family="solar"):
+        rows = []
+        for name, clear, rain, y_clear, y_rain in [("A", 0.8, 0.1, 1, 0), ("B", 0.2, 0.5, 0, 1)]:
+            for target, probability, y in (("clear_sky_proxy", clear, y_clear), ("rain_proxy", rain, y_rain)):
+                rows.append({"sample_id": f"E|{name}|2024", "phase": "holdout", "event_id": "E", "event_family": family, "name": name,
+                             "reference_year": 2024, "target": target, "model": "climatology_prior", "probability": probability, "y": y})
+        return pd.DataFrame(rows)
+
+    def geometry(self):
+        return pd.DataFrame({"event_id": ["E", "E"], "name": ["A", "B"], "phase_priority": [2, 2],
+                             "astronomy_score": [0.5, 1.0], "duration_score": [0.2, 1.0], "altitude_score": [0.3, 0.9]})
+
+    def test_full_score_is_the_product_formula(self):
+        models = {target: "climatology_prior" for target in ml.TARGETS}
+        with patch.object(ml, "MIN_CANDIDATES_FOR_RANKING", 2):
+            frame = ml.ranking_frame(self.predictions(), self.geometry(), models).set_index("name")
+        weights = pipeline.SCORE_WEIGHTS["solar"]
+        row = self.geometry().set_index("name").loc["A"]
+        self.assertAlmostEqual(frame.loc["A", "completo"], pipeline.weighted_score(weights, 0.8, 0.9, row))
+        self.assertAlmostEqual(frame.loc["A", "utility"], pipeline.weighted_score(weights, 1, 1, row))
+        self.assertAlmostEqual(frame.loc["B", "utility"], pipeline.weighted_score(weights, 0, 0, self.geometry().set_index("name").loc["B"]))
+        self.assertAlmostEqual(frame.loc["A", "completo"], frame.loc["A", "solo_geometria"] + frame.loc["A", "solo_tiempo"])
+
+    def test_small_events_are_left_out(self):
+        models = {target: "climatology_prior" for target in ml.TARGETS}
+        self.assertTrue(ml.ranking_frame(self.predictions(), self.geometry(), models).empty)
+
+    def test_choice_respects_phase_priority_and_averages_ties(self):
+        group = ranked([{"phase_priority": 1, "completo": 0.9, "clear": 1, "utility": 0.9},
+                        {"phase_priority": 2, "completo": 0.4, "clear": 1, "utility": 0.6},
+                        {"phase_priority": 2, "completo": 0.4, "clear": 0, "utility": 0.2}])
+        outcome = ml.choice_outcome(group, "completo")
+        self.assertEqual(outcome["clear"], 0.5)
+        self.assertAlmostEqual(outcome["best_utility"], 0.6)
+
+    def test_pairs_compare_only_destinations_with_the_same_phase(self):
+        frame = ranked([{"phase_priority": 2, "clear": 1}, {"phase_priority": 2, "clear": 0}, {"phase_priority": 1, "clear": 0}])
+        frame[ml.STRATEGIES[1:]] = 0.0
+        self.assertEqual(len(ml.pair_table(frame)), 1)
+
+    def test_pairwise_accuracy_of_random_perfect_and_wrong_strategies(self):
+        rows = [{"phase_priority": 1, "clear": clear, "utility": float(clear), "solo_geometria": -clear, "solo_tiempo": clear,
+                 "completo": 0.0} for clear in (1, 0, 1, 0)]
+        result = ml.pairwise_choice(ranked(rows)).query("phase == 'holdout' and outcome == 'despejado'").set_index("strategy").accuracy
+        self.assertEqual((result["azar"], result["solo_tiempo"], result["solo_geometria"], result["completo"]), (0.5, 1.0, 0.0, 0.5))
+
+    def test_pairs_with_the_same_weather_do_not_count_for_utility(self):
+        rows = [{"phase_priority": 1, "clear": 1, "utility": 0.9, "solo_geometria": 0.5, "solo_tiempo": 0.4, "completo": 0.9},
+                {"phase_priority": 1, "clear": 1, "utility": 0.7, "solo_geometria": 0.3, "solo_tiempo": 0.4, "completo": 0.7}]
+        result = ml.pairwise_choice(ranked(rows)).query("phase == 'holdout' and outcome == 'utilidad'")
+        self.assertTrue(result.pairs.eq(0).all())
+
+
 @unittest.skipUnless((sources.ROOT / ml.OUTPUT / "experiment_report.json").is_file(), "Experimento no generado.")
 class SavedResultsTests(unittest.TestCase):
     def test_reported_selection_follows_from_saved_metrics(self):

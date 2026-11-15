@@ -119,9 +119,10 @@ Desde la cabecera y desde el título de cada eclipse («¿Qué es un eclipse sol
 ### Claridad de la información
 
 - **La decisión primero.** El bloque principal se titula «Dónde ir» y responde a la pregunta del usuario. La geometría del eclipse, los datos meteorológicos secundarios y las notas metodológicas quedan en segundo plano.
+- **Climatología, no pronóstico.** Cada porcentaje se presenta como lo habitual en ese lugar y época. Las cifras se titulan «Años con cielo despejado» y «Años con lluvia». Debajo aparece «Lo habitual en este lugar y época: en cuántos de los últimos 30 años estuvo despejado o llovió a esa hora. No es el pronóstico del día del eclipse». La lista de zonas dice «despejado el 47 % de los años». El pronóstico real solo aparece en el panel del destino y con su propia etiqueta.
 - **Recuentos en vez de porcentajes sueltos (5).** «En 28 de los últimos 30 años hubo cielo despejado a la hora del eclipse» es más fácil de entender que «93 %» y deja claro de dónde sale la cifra. El porcentaje sigue visible para comparar filas.
 - **Hora local y UTC (3, 5).** Al viajero le importa la hora del lugar («13:02 en Al-Mansurah»). La UTC se mantiene para coordinar grupos en varios países y para la fotografía.
-- **Orden «Recomendado» explicado en una línea (1, 3).** Primero van las zonas con totalidad o anularidad y, dentro de cada fase, el mejor equilibrio entre cielo despejado, altura del Sol y duración. Es la puntuación del Gold (`rank` y `score` de `location_ranking.csv`), en la que la meteorología pesa un 55 % en los solares y un 65 % en los lunares. El usuario puede cambiar a «Cielo despejado» o «Duración» si su prioridad es otra.
+- **Orden «Recomendado» explicado en una línea (1, 3).** Primero van las zonas con totalidad o anularidad y, dentro de cada fase, el mejor equilibrio entre cielo despejado, altura del Sol y duración. Es la puntuación del Gold (`rank` y `score` de `location_ranking.csv`), en la que la meteorología pesa un 55 % en los solares y un 65 % en los lunares. La validación del ranking completo ([Machine Learning](03_machine_learning.md#ranking-completo-tiempo-y-geometría-juntos)) respalda este orden: entre dos destinos de la misma fase elige el que estuvo despejado un 73 % de las veces, frente a un 57 % con la geometría sola. El usuario puede cambiar a «Cielo despejado» o «Duración» si su prioridad es otra.
 
 ### Gráficos y controles elegidos
 
@@ -177,6 +178,7 @@ La incertidumbre es parte del resultado y se muestra donde aparece la cifra, no 
 | Hora local además de UTC (3, 5) | ✔ | Ya implementado: zona horaria IANA de la localidad GeoNames más cercana del mismo país; el navegador aplica el horario de verano («10:47 CEST · 08:47 UTC» en Ceuta) |
 | Añadir al calendario (.ics) (6) | ✔ | Nuevo; se genera en el navegador |
 | Estados, zonas pendientes y textos de incertidumbre (7) | ✔ | Ya existen en parte |
+| Porcentajes presentados como lo habitual del lugar y la época, no como pronóstico | ✔ | Ya implementado en las tarjetas, la ficha del mapa, la lista de zonas y la nota «Cómo leer la climatología» |
 | Modo noche con botón en la cabecera | ✔ | Ya implementado |
 | Zonas de Copernicus agrupadas en una línea fuera del ranking (7) | ✔ | Ahora aparecen en la lista; la cabecera indica cuántas usan esa fuente |
 | Desplazar el mapa ampliado arrastrando | ✔ | Ya implementado |

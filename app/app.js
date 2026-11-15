@@ -143,6 +143,12 @@
     return item;
   }
 
+  // Los porcentajes son climatología: se dice junto a la cifra para que no se lean como pronóstico.
+  function climateMeaning(location) {
+    const years = finite(location.valid_cloud_years) && location.valid_cloud_years > 0 ? `los últimos ${number.format(location.valid_cloud_years)} años` : "los años disponibles";
+    return node("p", "climate-meaning", `Lo habitual en este lugar y época: en cuántos de ${years} estuvo despejado o llovió a esa hora. No es el pronóstico del día del eclipse.`);
+  }
+
   function duration(value) {
     if (!finite(value) || value < 0) return "No disponible";
     const seconds = Math.round(value);
@@ -325,11 +331,11 @@
       card.append(pending);
       return card;
     }
-    card.append(node("h5", "climate-heading", "Climatología en la hora del eclipse"));
+    card.append(node("h5", "climate-heading", "Lo habitual a la hora del eclipse"));
     const climate = node("dl", "climate-stats");
-    climate.append(probabilityStat("Cielo despejado", location.clear_probability_pct, location.clear_range_pct, location.clear_band, location.valid_cloud_years, "clear"));
-    climate.append(probabilityStat("Frecuencia de lluvia", location.rain_probability_pct, location.rain_range_pct, location.rain_band, location.valid_rain_years, "rain", "rain-stat"));
-    card.append(climate);
+    climate.append(probabilityStat("Años con cielo despejado", location.clear_probability_pct, location.clear_range_pct, location.clear_band, location.valid_cloud_years, "clear"));
+    climate.append(probabilityStat("Años con lluvia", location.rain_probability_pct, location.rain_range_pct, location.rain_band, location.valid_rain_years, "rain", "rain-stat"));
+    card.append(climate, climateMeaning(location));
     const secondary = node("div", "weather-secondary");
     [["Nubosidad", location.mean_cloud_cover_pct, " %"], ["Temperatura", location.mean_temperature_c, " °C"], ["Viento", location.mean_wind_speed_kmh, " km/h"]].forEach(([label, value, unit]) => {
       const item = node("span", "", `${label}: `);
@@ -567,9 +573,9 @@
     detail.replaceChildren(head, astronomy);
     if (hasClimate(location)) {
       const climate = node("dl", "map-detail-stats climate");
-      climate.append(probabilityStat("Cielo despejado", location.clear_probability_pct, location.clear_range_pct, location.clear_band, location.valid_cloud_years, "clear"));
-      climate.append(probabilityStat("Lluvia", location.rain_probability_pct, location.rain_range_pct, location.rain_band, location.valid_rain_years, "rain", "rain-stat"));
-      detail.append(climate);
+      climate.append(probabilityStat("Años despejados", location.clear_probability_pct, location.clear_range_pct, location.clear_band, location.valid_cloud_years, "clear"));
+      climate.append(probabilityStat("Años con lluvia", location.rain_probability_pct, location.rain_range_pct, location.rain_band, location.valid_rain_years, "rain", "rain-stat"));
+      detail.append(climate, climateMeaning(location));
     } else {
       detail.append(node("p", "climate-pending", "Climatología pendiente para esta zona."));
     }
@@ -612,7 +618,7 @@
       const entry = node("li");
       const button = node("button", "cluster-item");
       button.type = "button";
-      button.append(node("strong", "", item.name || "Zona"), node("span", "", `${locationCountry(item)} · ${metricText(item)}${hasClimate(item) && finite(item.clear_probability_pct) ? ` · ${formatted(item.clear_probability_pct, " %")} despejado` : ""}`));
+      button.append(node("strong", "", item.name || "Zona"), node("span", "", `${locationCountry(item)} · ${metricText(item)}${hasClimate(item) && finite(item.clear_probability_pct) ? ` · despejado el ${formatted(item.clear_probability_pct, " %")} de los años` : ""}`));
       button.addEventListener("click", () => chooseLocation(item));
       entry.append(button);
       list.append(entry);

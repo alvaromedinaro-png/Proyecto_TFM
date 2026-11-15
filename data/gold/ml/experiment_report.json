@@ -13,9 +13,23 @@
     "data/gold/events/2029-01-14/planning_ml_dataset.csv": "5b7255714b75a356665059fb766561f1173737e33b0c56b65c206e21b49f996c",
     "data/gold/events/2029-06-12/planning_ml_dataset.csv": "dcc28c2f91dbd749d57910c53cebeb21cb90ee4db7878b64a30963f490f3aef9",
     "data/gold/events/2029-06-26/planning_ml_dataset.csv": "27cad34ef4ff1b2a98f5ab32f33b808a1653f29e1d36326060cebf81f7cc7c66",
-    "data/gold/events/2029-07-11/planning_ml_dataset.csv": "2d2ab2ff5a4a2887a0a96f8f3ecd4709bfaac56e7f397342c9966956c86d2c11"
+    "data/gold/events/2029-07-11/planning_ml_dataset.csv": "2d2ab2ff5a4a2887a0a96f8f3ecd4709bfaac56e7f397342c9966956c86d2c11",
+    "data/gold/events/2027-02-06/location_ranking.csv": "46de4485d69c74dcb6cf28e74bb79228546ea4b51e18e889cf8462e4717510e9",
+    "data/gold/events/2027-02-20/location_ranking.csv": "fa24519eb68db217ed8f9586dc586ad812a2188443c886a0851aae0c5a541a20",
+    "data/gold/events/2027-07-18/location_ranking.csv": "ec20dfa5fbb216ff75df87d1eb99caab84bd1d92fac2491ec7ebb49c6bc764be",
+    "data/gold/events/2027-08-02/location_ranking.csv": "8709c25976283a3b77893725382aa5bf3a5908197f70a2eb373febf707469c8a",
+    "data/gold/events/2027-08-17/location_ranking.csv": "dba041e3bf619d4039970a61a8c4cb68f660073d19df21e224a5a21695f80cf2",
+    "data/gold/events/2028-01-12/location_ranking.csv": "d64f9c6f01d84dbbe24beb86d7e5cdb2970fca2fce335757e16e2d12b38d17b3",
+    "data/gold/events/2028-01-26/location_ranking.csv": "6e1873e7846518e41f9c858cb0d355fea91eb331c893c437d476faf6eb7b706e",
+    "data/gold/events/2028-07-06/location_ranking.csv": "539d885b0b43a52fea9cac7c67e9309f01bf669245c4e6f12764ace49cfbe472",
+    "data/gold/events/2028-07-22/location_ranking.csv": "059596bacafc29ca1987af5d624f64b709edf9408fd940c26a3f7de9e97d948b",
+    "data/gold/events/2028-12-31/location_ranking.csv": "ccbe1278c09ca617fc40314d45970d376857ba21b376ea66cfec2fa492b211c7",
+    "data/gold/events/2029-01-14/location_ranking.csv": "3ff5c5714c05ac41ca4a6042a199adc390ecc65e50e957b7567d62f6ef84e11b",
+    "data/gold/events/2029-06-12/location_ranking.csv": "319b5780f1b34ad121c5053f72b6f9376cfe2b6967d18b76b1b0e10ef8a5231f",
+    "data/gold/events/2029-06-26/location_ranking.csv": "bd36db9205cc6f83fbdf4b7a5510a223ba8717bd7aab5713aa747b89ceb50039",
+    "data/gold/events/2029-07-11/location_ranking.csv": "6a89caa5ad37de94f3e6f6d8fe753eac549c1df002be2888ecc7df4413168f35"
   },
-  "script_sha256": "0c5828c8be6aa015f58044e899424fc9924b550ecd985a314d20ca15fb665f43",
+  "script_sha256": "3d2dc17fce6e9b5d9dc05f3bcc2480578c503b8d314d99e296a7ce4f596e9522",
   "scikit_learn_version": "1.9.1",
   "seed": 20260,
   "evaluable_rows": 3180,
@@ -50,6 +64,28 @@
     "clear_sky_proxy": "climatology_prior",
     "rain_proxy": "climatology_prior"
   },
+  "ranking_weights": {
+    "solar": {
+      "clear_probability": 0.4,
+      "no_rain_probability": 0.15,
+      "astronomy": 0.2,
+      "duration": 0.15,
+      "altitude": 0.1
+    },
+    "lunar": {
+      "clear_probability": 0.45,
+      "no_rain_probability": 0.2,
+      "astronomy": 0.35,
+      "duration": 0.0,
+      "altitude": 0.0
+    }
+  },
+  "ranking_strategies": [
+    "azar",
+    "solo_geometria",
+    "solo_tiempo",
+    "completo"
+  ],
   "band_reliability": {
     "clear_sky_proxy": {
       "baja": {
@@ -94,6 +130,8 @@
     "error_segments.csv",
     "worst_locations.csv",
     "out_of_time_predictions.csv",
-    "query_predictions.csv"
+    "query_predictions.csv",
+    "full_ranking_value.csv",
+    "pairwise_choice.csv"
   ]
 }

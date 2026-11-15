@@ -30,11 +30,11 @@ from sklearn.preprocessing import StandardScaler
 try:
     from . import eclipse_sources as sources
     from .eclipse_locations import GAZETTEER_TYPE
-    from .eclipse_pipeline import MIN_PRIOR_YEARS_FOR_EVALUATION
+    from .eclipse_pipeline import MIN_PRIOR_YEARS_FOR_EVALUATION, SCORE_WEIGHTS, weighted_score
 except ImportError:
     import eclipse_sources as sources
     from eclipse_locations import GAZETTEER_TYPE
-    from eclipse_pipeline import MIN_PRIOR_YEARS_FOR_EVALUATION
+    from eclipse_pipeline import MIN_PRIOR_YEARS_FOR_EVALUATION, SCORE_WEIGHTS, weighted_score
 
 OUTPUT = Path("data/gold/ml")
 SEED = 20260
@@ -59,8 +59,14 @@ PARSIMONY_MARGIN = 0.005
 BOOTSTRAP_RESAMPLES = 5000
 MIN_CANDIDATES_FOR_RANKING = 6
 BANDS = {"baja": (0.0, 0.25), "media": (0.25, 0.5), "alta": (0.5, 1.0001)}
+REFERENCE_TYPE = "referencia astronómica"
+# Ranking completo del producto: prioridad de fase y, dentro de ella, la puntuación ponderada de
+# la Entrega 2. Las estrategias se comparan sobre los mismos destinos y años.
+GEOMETRY_SCORES = ["astronomy_score", "duration_score", "altitude_score"]
+STRATEGIES = ["azar", "solo_geometria", "solo_tiempo", "completo"]
 OUTPUT_FILES = ("metrics_summary.csv", "metrics_by_year.csv", "ranking_value.csv", "calibration.csv",
-                "error_segments.csv", "worst_locations.csv", "out_of_time_predictions.csv", "query_predictions.csv")
+                "error_segments.csv", "worst_locations.csv", "out_of_time_predictions.csv", "query_predictions.csv",
+                "full_ranking_value.csv", "pairwise_choice.csv")
 
 
 def load_dataset(root=sources.ROOT):
@@ -197,6 +203,125 @@ def ranking_value(predictions):
             .join(table.groupby(["phase", "model"]).size().rename("event_years")).reset_index())
 
 
+def load_geometry(root=sources.ROOT):
+    """Geometría de cada destino tal como la puntúa el producto; se conoce antes del eclipse."""
+    paths = sorted((root / "data/gold/events").glob("*/location_ranking.csv"))
+    columns = ["event_id", "name", "candidate_type", "phase_priority", *GEOMETRY_SCORES]
+    geometry = pd.concat([pd.read_csv(path, usecols=columns) for path in paths], ignore_index=True)
+    geometry = geometry.loc[~geometry.candidate_type.eq(REFERENCE_TYPE)].drop(columns="candidate_type")
+    if geometry.duplicated(["event_id", "name"]).any():
+        raise ValueError("Destino duplicado en location_ranking.csv.")
+    return geometry, {path.relative_to(root).as_posix(): sources.file_sha256(path) for path in paths}
+
+
+def ranking_frame(predictions, geometry, models):
+    """Una fila por evento × destino × año: puntuaciones previstas de cada estrategia y utilidad observada."""
+    chosen = pd.concat([predictions.loc[predictions.target.eq(target) & predictions.model.eq(model)] for target, model in models.items()])
+    wide = chosen.pivot(index=["sample_id", "phase", "event_id", "event_family", "name", "reference_year"],
+                        columns="target", values=["probability", "y"])
+    wide.columns = [f"{kind}_{target}" for kind, target in wide.columns]
+    frame = wide.reset_index().merge(geometry, on=["event_id", "name"], how="inner", validate="many_to_one")
+    weights = frame.event_family.map(SCORE_WEIGHTS)
+    clear_weight, rain_weight = weights.str["clear_probability"], weights.str["no_rain_probability"]
+    frame["solo_geometria"] = [weighted_score(weight, 0.0, 0.0, row) for weight, row in zip(weights, frame[GEOMETRY_SCORES].to_dict("records"))]
+    frame["solo_tiempo"] = clear_weight * frame.probability_clear_sky_proxy + rain_weight * (1 - frame.probability_rain_proxy)
+    frame["completo"] = frame.solo_geometria + frame.solo_tiempo
+    frame["azar"] = 0.0
+    # Misma fórmula con lo que pasó: 1 si estuvo despejado o no llovió, 0 si no.
+    frame["utility"] = frame.solo_geometria + clear_weight * frame.y_clear_sky_proxy + rain_weight * (1 - frame.y_rain_proxy)
+    frame = frame.rename(columns={"y_clear_sky_proxy": "clear", "y_rain_proxy": "rain"})
+    sizes = frame.groupby(["phase", "event_id", "reference_year"]).sample_id.transform("size")
+    return frame.loc[sizes.ge(MIN_CANDIDATES_FOR_RANKING)].reset_index(drop=True)
+
+
+def choice_outcome(group, strategy):
+    """Primer destino según la estrategia: máxima prioridad de fase y, dentro, máxima puntuación; los empates se promedian."""
+    top = group.loc[group.phase_priority.eq(group.phase_priority.max())]
+    picked = top.loc[np.isclose(top[strategy], top[strategy].max())]
+    return {"utility": picked.utility.mean(), "clear": picked.clear.mean(), "rain": picked.rain.mean(),
+            "best_utility": top.utility.max(), "any_clear": top.clear.max()}
+
+
+def phases(table):
+    """Selección, reserva y todos los años: aquí no se ajusta nada, así que los diez años son fuera de muestra."""
+    parts = [("selection", table.loc[table.phase.eq("selection")]), ("holdout", table.loc[table.phase.eq("holdout")]), ("todos", table)]
+    return [(name, part) for name, part in parts if not part.empty]
+
+
+def full_ranking_value(frame):
+    """Resultado de seguir cada estrategia: utilidad, despejado y pérdida frente al mejor destino de ese año."""
+    rows = [{"phase": phase, "event_id": event_id, "reference_year": year, "strategy": strategy, **choice_outcome(group, strategy)}
+            for phase, group_frame in phases(frame) for (event_id, year), group in group_frame.groupby(["event_id", "reference_year"])
+            for strategy in STRATEGIES]
+    table = pd.DataFrame(rows).assign(regret=lambda data: data.best_utility - data.utility)
+    result = []
+    for (phase, strategy), group in table.groupby(["phase", "strategy"], sort=False):
+        reference = table.query("phase == @phase and strategy == 'solo_geometria'").set_index(["event_id", "reference_year"])
+        indexed = group.set_index(["event_id", "reference_year"])
+        yearly = (indexed.utility - reference.utility).groupby(level="reference_year").mean()
+        yearly_clear = (indexed.clear - reference.clear).groupby(level="reference_year").mean()
+        low, high = bootstrap_interval(yearly)
+        clear_low, clear_high = bootstrap_interval(yearly_clear)
+        result.append({"phase": phase, "strategy": strategy, "event_years": len(group), "utility": group.utility.mean(),
+                       "top_choice_clear": group.clear.mean(), "top_choice_rain": group.rain.mean(), "regret": group.regret.mean(),
+                       "best_possible_utility": group.best_utility.mean(), "any_candidate_clear": group.any_clear.mean(),
+                       "utility_diff_vs_geometry": yearly.mean(), "diff_ci_low": low, "diff_ci_high": high,
+                       "clear_diff_vs_geometry": yearly_clear.mean(), "clear_diff_ci_low": clear_low, "clear_diff_ci_high": clear_high})
+    return pd.DataFrame(result)
+
+
+def pair_table(frame):
+    """Todos los pares de destinos con la misma prioridad de fase en un mismo evento y año."""
+    pairs = []
+    for (phase, event_id, year, priority), group in frame.groupby(["phase", "event_id", "reference_year", "phase_priority"]):
+        left, right = np.triu_indices(len(group), k=1)
+        columns = ["clear", "rain", "utility", *STRATEGIES[1:]]
+        values = group[columns].to_numpy()
+        difference = pd.DataFrame(values[left] - values[right], columns=columns)
+        pairs.append(difference.assign(phase=phase, event_id=event_id, reference_year=year))
+    return pd.concat(pairs, ignore_index=True)
+
+
+def sign(values):
+    """Signo con tolerancia: diferencias de redondeo cuentan como empate."""
+    values = np.asarray(values, dtype=float)
+    return np.where(np.isclose(values, 0), 0.0, np.sign(values))
+
+
+def pairwise_choice(frame):
+    """Entre dos destinos, ¿con qué frecuencia la estrategia elige el que salió mejor? Un empate vale medio acierto."""
+    pairs = pair_table(frame)
+    rows = []
+    for phase, group in phases(pairs):
+        # despejado: solo uno de los dos estuvo despejado. utilidad: el tiempo fue distinto en los dos
+        # (si fue igual, la diferencia observada es solo la geometría y la acertaría siempre).
+        weather_differs = group.clear.ne(0) | group.rain.ne(0)
+        for outcome, column, mask in (("despejado", "clear", group.clear.ne(0)), ("utilidad", "utility", weather_differs)):
+            decided = group.loc[mask & ~np.isclose(group[column], 0)]
+            if decided.empty:
+                rows.extend({"phase": phase, "outcome": outcome, "strategy": strategy, "pairs": 0}
+                            for strategy in [*STRATEGIES, "completo_cuando_cambia"])
+                continue
+            truth = np.sign(decided[column]).to_numpy()
+            geometry_hit = None
+            for strategy in STRATEGIES:
+                predicted = np.zeros(len(decided)) if strategy == "azar" else sign(decided[strategy])
+                hit = np.where(predicted == 0, 0.5, (predicted == truth).astype(float))
+                yearly = pd.Series(hit, index=decided.reference_year.to_numpy()).groupby(level=0).mean()
+                if strategy == "solo_geometria":
+                    geometry_hit = yearly
+                low, high = bootstrap_interval(yearly - geometry_hit) if strategy == "completo" else (np.nan, np.nan)
+                rows.append({"phase": phase, "outcome": outcome, "strategy": strategy, "pairs": len(decided), "accuracy": hit.mean(),
+                             "diff_vs_geometry_ci_low": low, "diff_vs_geometry_ci_high": high})
+            # Pares en los que añadir el tiempo cambia la elección que haría la geometría sola.
+            full, geometric = sign(decided.completo), sign(decided.solo_geometria)
+            changed = (full != geometric) & (full != 0) & (geometric != 0)
+            hit = (full[changed] == truth[changed]).astype(float)
+            rows.append({"phase": phase, "outcome": outcome, "strategy": "completo_cuando_cambia", "pairs": int(changed.sum()),
+                         "accuracy": hit.mean() if len(hit) else np.nan, "diff_vs_geometry_ci_low": np.nan, "diff_vs_geometry_ci_high": np.nan})
+    return pd.DataFrame(rows)
+
+
 def calibration_table(predictions):
     """Previsto frente a observado por tramos de una décima en la reserva."""
     holdout = predictions.loc[predictions.phase.eq("holdout")].copy()
@@ -265,6 +390,7 @@ def query_predictions(history, query, models):
 def run(root, out):
     """Ejecuta el experimento completo y escribe resultados deterministas en out."""
     history, query, inputs = load_dataset(root)
+    geometry, geometry_inputs = load_geometry(root)
     if history[[*FULL_FEATURES[1:], *TARGETS.values()]].isna().any().any():
         raise ValueError("Hay predictores nulos en las filas evaluables.")
     predictions = pd.concat([walk_forward(history, SELECTION_YEARS, "selection"),
@@ -277,14 +403,18 @@ def run(root, out):
               "calibration.csv": calibration_table(predictions), "error_segments.csv": error_segments(predictions),
               "worst_locations.csv": worst_locations(predictions, models), "out_of_time_predictions.csv": wide,
               "query_predictions.csv": query_predictions(history, query, models)}
+    frame = ranking_frame(predictions, geometry, models)
+    tables["full_ranking_value.csv"] = full_ranking_value(frame)
+    tables["pairwise_choice.csv"] = pairwise_choice(frame)
     for filename, table in tables.items():
         sources.save_csv(table.round(5), out / filename)
     sources.save_json(out / "experiment_report.json", {
-        "gold_inputs_sha256": inputs, "script_sha256": hashlib.sha256(Path(__file__).read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
+        "gold_inputs_sha256": {**inputs, **geometry_inputs}, "script_sha256": hashlib.sha256(Path(__file__).read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
         "scikit_learn_version": sklearn.__version__, "seed": SEED, "evaluable_rows": len(history), "query_rows": len(query),
         "selection_years": SELECTION_YEARS, "holdout_years": HOLDOUT_YEARS, "models": MODELS,
         "rule": {"min_skill": MIN_SKILL, "parsimony_margin": PARSIMONY_MARGIN, "bootstrap_resamples": BOOTSTRAP_RESAMPLES},
-        "selected_models": models, "band_reliability": band_reliability(predictions, models), "output_files": list(OUTPUT_FILES)})
+        "selected_models": models, "ranking_weights": SCORE_WEIGHTS, "ranking_strategies": STRATEGIES,
+        "band_reliability": band_reliability(predictions, models), "output_files": list(OUTPUT_FILES)})
     return models
 
 

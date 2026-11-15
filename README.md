@@ -7,7 +7,7 @@ El proyecto prepara los eclipses solares y lunares de los **próximos tres años
 - [Machine Learning](docs/entregas/03_machine_learning.md): problema, baseline, validación por años y decisión para el producto.
 - [Diseño del frontal y UX](docs/entregas/04_diseno_frontal_ux.md): flujo de usuario, mockup de la pantalla principal y continuidad hacia el MVP.
 - [Pipeline](src/eclipse_pipeline.py): adquisición y preparación de los datos.
-- [Experimento de ML](src/ml_planning_experiment.py): reproduce sin red las métricas de `data/gold/ml/` a partir del Gold.
+- [Experimento de ML](src/ml_planning_experiment.py): reproduce sin red las métricas de `data/gold/ml/` a partir del Gold, incluida la prueba del ranking completo (tiempo y geometría) para elegir entre destinos.
 - [Selector](app/index.html): interfaz local que explora los resultados preparados.
 - [Guía de tipos de eclipse](app/eclipses.html): explicación de cada tipo con esquemas propios y fotos de Wikimedia Commons guardadas en `app/img/eclipses/` (autor y licencia en el pie de cada una).
 
@@ -105,6 +105,8 @@ Un evento solo aparece como **preparado** si tiene al menos 15 años de históri
 `data/gold/batch_acquisition_report.json` resume el resultado de la última ejecución.
 
 **Países y zonas.** En eclipses solares, los países se ordenan por la mayor ocultación del disco solar entre sus zonas analizadas, y se muestran los que llegan al **70 %**. Es el máximo de los puntos evaluados, no el porcentaje del territorio. En lunares se ordena por la altura de la Luna en el máximo global, y la duración mostrada es la global de la fase. Las zonas sin climatología preparada aparecen como «climatología pendiente» y nunca reciben datos de otra ubicación.
+
+**Porcentajes de cielo despejado y lluvia.** Son climatología: indican lo habitual en ese lugar y esa época del año, es decir, en cuántos de los últimos 30 años estuvo despejado o llovió a la hora del máximo. No son el pronóstico del día del eclipse, y la app lo indica junto a cada cifra. El pronóstico real solo aparece en el panel del destino cuando faltan 16 días o menos.
 
 **Candidatos.** Sin CSV propio se evalúan 688 ciudades NASA y referencias astronómicas. En los eclipses solares se añaden además localidades de [GeoNames](https://www.geonames.org/) (CC BY 4.0) dentro de la zona de mayor ocultación, para que aparezcan lugares que la lista NASA no incluye (por ejemplo, Ceuta, Tarifa, Cádiz o Málaga en la totalidad de 2027). Para la climatología se eligen hasta 12 candidatos: como máximo una cuarta parte son referencias, que pueden caer en el mar, y entre las ciudades se toma primero la mejor de cada país. Si GeoNames encuentra en un país una fase central (total o anular) que no tiene ninguna de esas ciudades, se añaden la localidad de mayor duración y la más poblada de esa fase, en una petición aparte para reutilizar lo ya descargado (en 2027, Ceuta y Málaga). Las demás zonas se muestran con la climatología pendiente. Un CSV propio (`--event-date ... --locations archivo.csv`) admite `name`, `latitude`, `longitude` y, opcionalmente, `elevation_m` y `country_code` (ISO de dos letras, por ejemplo `ES` para Melilla o `GI` para Gibraltar).
 

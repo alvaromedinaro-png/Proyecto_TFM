@@ -111,6 +111,55 @@ Porcentaje de eventos × año en que el primer destino recomendado estuvo despej
 
 La climatología duplica aproximadamente el resultado de elegir al azar. La ventaja de la regresión logística en la reserva equivale a unos 3 casos de 51, poca diferencia para decidir con ella.
 
+### Ranking completo: tiempo y geometría juntos
+
+El producto no ordena solo por la probabilidad de cielo despejado. Primero agrupa por fase (totalidad o anularidad antes que parcial) y, dentro de cada fase, ordena por la puntuación de la Entrega 2. En esa puntuación, cielo despejado y ausencia de lluvia pesan un 55 % en los eclipses solares y un 65 % en los lunares. El resto lo aportan la ocultación o la altura, la duración y la altura del Sol. Esta prueba comprueba si el orden completo ayuda a elegir destino. Se ejecuta con el mismo script y escribe [`full_ranking_value.csv`](../../data/gold/ml/full_ranking_value.csv) y [`pairwise_choice.csv`](../../data/gold/ml/pairwise_choice.csv).
+
+**Montaje.**
+
+- **Destinos.** Los de cada evento, sin referencias astronómicas, y solo los eventos con al menos 6.
+- **Geometría.** Los mismos componentes de `location_ranking.csv`, que se conocen de antemano.
+- **Tiempo.** La climatología elegida, calculada para cada año solo con los años anteriores.
+- **Estrategias.** Se comparan cuatro: al azar, solo la geometría, solo el tiempo y la puntuación completa. Las cuatro respetan la prioridad de fase.
+- **Utilidad.** Lo que pasó se mide con la misma fórmula, cambiando las probabilidades por lo observado: 1 si estuvo despejado o no llovió, 0 si no.
+- **Ajustes.** No se ajusta nada: los pesos son los de la Entrega 2 y no se tocaron al ver estos resultados. Por eso se informa de los diez años (2017–2026) además de la reserva.
+- **Intervalos.** Remuestrean años, igual que antes.
+
+**Primer destino recomendado** (129 eventos × año, 2017–2026):
+
+| Estrategia | Primer destino despejado | Primer destino con lluvia | Utilidad observada | Pérdida frente al mejor destino de ese año |
+|---|---|---|---|---|
+| Al azar dentro de la mejor fase | 24,8 % | 17,6 % | 0,520 | 0,270 |
+| Solo geometría | 33,3 % | 18,6 % | 0,593 | 0,197 |
+| Solo tiempo (climatología) | 44,6 % | 8,5 % | 0,628 | 0,162 |
+| **Completo (producto)** | **43,4 %** | **9,3 %** | **0,629** | **0,162** |
+| Máximo posible | 76,7 % (algún destino despejado) | — | 0,791 | 0 |
+
+Frente al orden solo geométrico, el orden completo sube el cielo despejado del primer destino en 10,2 puntos, con un IC 95 % de 1,0 a 19,4. También reduce a la mitad los casos con lluvia. La mejora de la utilidad es menor y no concluyente: +0,037, con un IC de −0,009 a 0,085. En la reserva sola (51 eventos × año) se ve lo mismo, pero con más incertidumbre: el cielo despejado pasa del 43,1 % al 49,0 %, con un IC de −7,7 a +20,2 puntos.
+
+**Elegir entre dos destinos.** Se toman todos los pares de destinos con la misma fase en un mismo evento y año. En cada par se mira si la estrategia pone primero el que salió mejor; si las dos puntuaciones empatan, cuenta como medio acierto.
+
+| Estrategia | Solo uno de los dos estuvo despejado (1.694 pares): eligió el despejado | El tiempo fue distinto en los dos (2.975 pares): eligió el de mayor utilidad |
+|---|---|---|
+| Al azar | 50,0 % | 50,0 % |
+| Solo geometría | 57,3 % | 54,8 % |
+| Solo tiempo | 74,9 % | 69,4 % |
+| **Completo (producto)** | **73,3 %** (IC de la mejora frente a la geometría: +11,1 a +20,3 puntos) | **68,0 %** (+10,2 a +15,7 puntos) |
+| Completo, solo en los pares donde el tiempo cambia la elección de la geometría | 72,7 % (598 pares) | 69,8 % (995 pares) |
+
+**Lectura.**
+
+- **Sí ayuda a elegir entre dos destinos.** Cuando uno de los dos amanece despejado y el otro no, el ranking completo señala el bueno unas 3 de cada 4 veces; la geometría sola, poco más que una moneda. Cuando el tiempo cambia el orden que daría la geometría, acierta el 73 % de las veces, así que el cambio está justificado.
+- **Añadir la geometría casi no cuesta acierto meteorológico.** El orden completo y el de solo tiempo dan casi lo mismo: dentro de una misma fase las diferencias geométricas entre ciudades son pequeñas. El completo cede 1,5 puntos de acierto en cielo despejado a cambio de preferir, a igualdad de tiempo, más duración y más altura.
+- **Para el primer destino la ganancia es real pero con mucha incertidumbre.** Con diez años, cada evento × año es un solo caso de acierto o fallo, y entre el primer destino y el mejor posible sigue quedando una distancia grande: es el límite de planificar con meses de antelación.
+
+**Cautelas.**
+
+- La utilidad usa los mismos pesos que el producto, así que mide la coherencia con su propio criterio. Por eso se informa también del cielo despejado, que no depende de los pesos.
+- Las ciudades de un mismo año comparten tiempo, así que los pares no son independientes; los intervalos remuestrean años por eso. Con solo los 4 años de la reserva, los intervalos son orientativos.
+- Solo entran las ciudades NASA. Las localidades GeoNames y las zonas de Copernicus no tienen años de validación en el Gold.
+- No se buscan pesos óptimos con estos datos. Con 129 casos, ajustarlos sería sobreajustar al pasado. Queda como mejora repetir la prueba cuando haya más años.
+
 ### Errores más relevantes (climatología, reserva)
 
 - **Cambio de condiciones en los años recientes.** En 2023–2026 aumentan a la vez los casos despejados (30,0 % frente a 23,5 % en 2017–2022) y los de lluvia (21,0 % frente a 17,0 %). La climatología los infraestima: prevé un 26,1 % y un 16,5 %. Con cuatro años no se puede determinar si es variabilidad natural o un cambio más persistente.
@@ -123,7 +172,7 @@ La climatología duplica aproximadamente el resultado de elegir al azar. La vent
 
 - Solo hay 10 años de validación. Los intervalos son aproximados y no detectar una mejora **no prueba** que no exista.
 - La etiqueta procede de ERA5 con umbrales fijos; una mejora frente a ella no equivale a una mejora en la observación real.
-- Se evalúa solo el componente meteorológico, no la puntuación combinada, cuyos pesos siguen pendientes de validar.
+- La puntuación combinada se evalúa con los pesos de la Entrega 2, que no se han optimizado (véase «Ranking completo»).
 - Antes de fijar este diseño se hizo una prueba exploratoria con una regresión logística sobre 2021–2026, que se solapa con la reserva. No se ajustó ningún hiperparámetro con ella, pero la reserva no es del todo independiente de esa exploración.
 
 **Reproducción.** `python src/ml_planning_experiment.py` regenera los resultados y la opción `--check` los compara con los guardados. El informe `experiment_report.json` registra los hashes del Gold utilizado, la versión del script y los modelos elegidos.
@@ -133,6 +182,8 @@ La climatología duplica aproximadamente el resultado de elegir al azar. La vent
 **Solución elegida: climatología histórica por lugar y fecha** para cielo despejado y lluvia. Cumple la regla fijada, es la opción más simple y fácil de explicar, y evita mantener un modelo sin una mejora demostrada.
 
 **Mejora que ofrece.** Frente a no usar información del lugar, reduce el Brier entre un 19 % y un 28 % y duplica aproximadamente la probabilidad de acertar con el primer destino. Frente a lo que ya usa el producto no añade precisión: el valor de este experimento es haber comprobado con evidencia que un modelo más complejo todavía no se justifica.
+
+**Ranking completo.** Combinada con la geometría, la climatología permite elegir entre dos destinos de la misma fase. Pone primero el que estuvo despejado un 73 % de las veces, frente a un 57 % con la geometría sola. También sube el cielo despejado del primer destino recomendado del 33 % al 43 %.
 
 **¿Es suficiente para el MVP?** Sí para comparar destinos con antelación y comunicar la probabilidad histórica. No sirve como pronóstico del día del eclipse: esa función la cubre la capa de pronóstico operativo en los 16 días anteriores.
 
@@ -155,7 +206,7 @@ Las probabilidades coinciden, salvo redondeo, con `clear_probability` y `rain_pr
 
 **Cautelas para el usuario.**
 
-- La cifra significa «en los últimos 30 años, este lugar estuvo despejado en esta fecha y hora con esta frecuencia». No es un pronóstico.
+- La cifra significa «en los últimos 30 años, este lugar estuvo despejado en esta fecha y hora con esta frecuencia». No es un pronóstico. El frontal lo dice junto a cada cifra: la etiqueta es «Años con cielo despejado» y debajo aparece «Lo habitual en este lugar y época… No es el pronóstico del día del eclipse».
 - Un 0 % o un 100 % solo indican que no se observó lo contrario en 30 años. Conviene mostrar junto a la cifra el intervalo de Wilson, ya calculado en `location_ranking.csv` (`clear_lower95`, `clear_upper95`) pero aún no exportado al selector.
 - En la categoría media, lo observado en la reserva superó a lo previsto en unos 9 puntos, así que la cifra debe leerse como orientativa.
 - El cielo despejado se define con datos de reanálisis para una celda de unos 25 km y puede diferir de lo que se vea desde un punto concreto.
