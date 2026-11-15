@@ -1,6 +1,6 @@
 # Planificador geoespacial de eclipses
 
-El proyecto prepara los eclipses solares y lunares de los **próximos tres años** a partir del catálogo NASA. Una aplicación local permite elegir un evento por fecha y consultar países, zonas, circunstancias astronómicas y climatología. Los alojamientos y sus precios se incorporarán más adelante.
+El proyecto prepara los eclipses solares y lunares de los **próximos tres años** a partir del catálogo NASA. Una aplicación local permite elegir un evento por fecha y consultar países, zonas, circunstancias astronómicas y climatología. Al elegir un destino, consulta en directo su pronóstico y los alojamientos cercanos, con enlaces a Google Maps y Booking para las fechas del eclipse.
 
 - [Datos y preparación](docs/entregas/02_datos_y_preparacion.md): fuentes, variables, flujo Bronze → Silver → Gold y limitaciones.
 - [Notebook](docs/entregas/02_planificador_eclipse.ipynb): ejemplo reproducible de selección y análisis.
@@ -20,7 +20,7 @@ python -m pip install -r requirements.txt
 python src/eclipse_pipeline.py
 ```
 
-La primera ejecución necesita Internet y prepara la ventana completa: catálogo, circunstancias locales, ubicaciones, climatología y archivos del selector. Después basta con abrir `app/index.html` en el navegador (o `Ctrl + O` y elegir ese archivo). No necesita servidor, y elegir un eclipse usa los datos guardados sin hacer nuevas descargas.
+La primera ejecución necesita Internet y prepara la ventana completa: catálogo, circunstancias locales, ubicaciones, climatología y archivos del selector. Después basta con abrir `app/index.html` en el navegador (o `Ctrl + O` y elegir ese archivo). No necesita servidor, y elegir un eclipse usa los datos guardados sin hacer nuevas descargas. Solo el panel del destino necesita conexión (ver «Panel del destino»).
 
 ```powershell
 # Solo el catálogo de la ventana, sin climatología.
@@ -63,6 +63,16 @@ Cada zona usa la celda ERA5 en tierra más cercana, como Open-Meteo. Las zonas q
 ## Reanudar la adquisición
 
 Open-Meteo limita el uso gratuito a 600 llamadas por minuto, 5.000 por hora y 10.000 al día, y preparar la ventana completa ronda ese límite diario. El pipeline espacia las peticiones, espera cuando se supera el límite por minuto u hora y se detiene si se agota la cuota diaria. Basta con volver a ejecutar `python src/eclipse_pipeline.py` más tarde: las respuestas ya guardadas se reutilizan y los eventos completos no se vuelven a preparar.
+
+## Panel del destino
+
+«Elegir como destino» en una tarjeta, o un punto del mapa, abre un panel que consulta en ese momento ([`app/live.js`](app/live.js)):
+
+- **Pronóstico** de [Open-Meteo](https://open-meteo.com/) a la hora del máximo, cuando faltan 16 días o menos. Antes indica desde qué fecha estará disponible.
+- **Alojamientos** de [OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL) a menos de 8 km, o de 25 km si apenas hay, mediante la API Overpass. Se consultan tres instancias públicas a la vez y, si fallan, [Photon](https://photon.komoot.io/) como búsqueda parcial. El mapa usa teselas de Esri y [Leaflet](https://leafletjs.com/) desde cdnjs, con verificación de integridad.
+- **Precio real:** enlaces a Google Maps y Booking con las dos noches del eclipse ya rellenadas.
+
+Solo se envían las coordenadas del destino. Sin conexión, el panel lo indica y el resto de la app funciona igual.
 
 ## Cómo leer el selector
 

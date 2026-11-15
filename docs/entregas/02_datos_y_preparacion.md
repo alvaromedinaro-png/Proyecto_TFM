@@ -1,6 +1,6 @@
 # Datos y preparación — Planificador geoespacial de eclipses
 
-El proyecto desarrolla la Idea 3 de [01_ideas_producto.md](01_ideas_producto.md): un planificador que permite elegir un eclipse real y comparar lugares de observación con información astronómica y meteorológica. El producto reúne los eclipses solares y lunares de los **próximos tres años** y prepara sus datos antes de la consulta. El usuario abre un selector local, elige una fecha del catálogo NASA y consulta países, zonas, visibilidad, duración y climatología. Los alojamientos y sus precios son una ampliación posterior.
+El proyecto desarrolla la Idea 3 de [01_ideas_producto.md](01_ideas_producto.md): un planificador que permite elegir un eclipse real y comparar lugares de observación con información astronómica y meteorológica. El producto reúne los eclipses solares y lunares de los **próximos tres años** y prepara sus datos antes de la consulta. El usuario abre un selector local, elige una fecha del catálogo NASA y consulta países, zonas, visibilidad, duración y climatología. Al elegir un destino, la app consulta en directo su pronóstico y los alojamientos cercanos; esos datos no forman parte del dataset.
 
 La preparación se ejecuta con [eclipse_pipeline.py](../../src/eclipse_pipeline.py), apoyado en los módulos de [catálogos](../../src/eclipse_catalogs.py), [ubicaciones](../../src/eclipse_locations.py), [acceso a fuentes](../../src/eclipse_sources.py) y [exportación](../../src/eclipse_product.py). El [notebook](02_planificador_eclipse.ipynb) recorre el flujo para un evento de ejemplo (2 de agosto de 2027) y la [interfaz](../../app/index.html) consulta la exportación local.
 
@@ -17,7 +17,8 @@ La preparación se ejecuta con [eclipse_pipeline.py](../../src/eclipse_pipeline.
 | **Deseables** | Temperatura, viento, humedad, presión, radiación y otras variables horarias | Contexto de comodidad y de calidad de la observación. |
 | | Pronóstico operativo | Solo aporta valor en los 16 días anteriores al evento. |
 | | Elevación, país, polígonos cartográficos | Precisión geométrica, agrupación por país y mapa. |
-| | Accesibilidad, relieve del horizonte, alojamiento y precio | Fase posterior; no se dispone todavía de una fuente adecuada. |
+| | Alojamiento y precio | Se consultan en directo desde la app (OpenStreetMap y enlaces a Google Maps y Booking); no entran en el Gold ni en el ranking. |
+| | Accesibilidad y relieve del horizonte | Fase posterior; no se dispone todavía de una fuente adecuada. |
 
 **Granularidad e histórico.** La meteorología es **horaria**: incluye todas las horas del día del evento y, por defecto, **dos días antes y dos después** (margen configurable de 0 a 30 días). La climatología usa **30 años recientes disponibles** con la misma fecha, anteriores al año del eclipse; una clasificación se considera validada con al menos **15 años**. La ventana de planificación es siempre **[hoy, hoy + 3 años)** en UTC: el pipeline parte de la fecha en que se ejecuta y la interfaz la recalcula al abrirse. En la preparación actual (octubre de 2026) contiene **14 eclipses, 7 solares y 7 lunares**, entre el 6 de febrero de 2027 y el 11 de julio de 2029.
 
@@ -146,6 +147,6 @@ python src/eclipse_example.py             # reconstruye el ejemplo sin red y com
 
 ## 5. Riesgos y limitaciones
 
-- **Dato que falta:** accesibilidad, relieve del horizonte, alojamiento y precio. La recomendación todavía no tiene en cuenta si se puede llegar al lugar ni a qué coste.
+- **Dato que falta:** accesibilidad y relieve del horizonte. Los alojamientos se muestran en la app, pero la recomendación todavía no tiene en cuenta si se puede llegar al lugar ni a qué coste.
 - **Sesgo y limitaciones:** solo se comparan las ciudades disponibles, sin buscar el óptimo en todo el territorio. ERA5 es una rejilla de unos 30 km, no una medición local. Las circunstancias solares son aproximadas y, en los lunares, la visibilidad se evalúa solo en el máximo global.
 - **Si una fuente deja de estar disponible:** Bronze conserva los originales y permite reconstruir sin red (`--offline`). Open-Meteo se sustituiría por ERA5 de Copernicus CDS y los catálogos NASA por EclipseWise o por efemérides JPL.

@@ -336,7 +336,17 @@
     else if (location.climate_status === "partial") card.append(node("p", "climate-partial", "Parte de los datos meteorológicos todavía no está disponible."));
     const details = dailyDetails(location);
     if (details) card.append(details);
+    card.append(destinationButton(location));
     return card;
+  }
+
+  // Elegir el destino abre el panel con el pronóstico y los alojamientos consultados en directo.
+  function destinationButton(location) {
+    const button = node("button", "destination-button", selectedLocation === location._key ? "Destino elegido · ver panel" : "Elegir como destino");
+    button.type = "button";
+    button.disabled = !finite(location.latitude) || !finite(location.longitude) || !window.EclipseLive;
+    button.addEventListener("click", () => chooseLocation(location, true));
+    return button;
   }
 
   function visibleLocations() {
@@ -458,18 +468,26 @@
     countrySelect.value = code;
     expanded = false;
     selectedLocation = null;
+    if (window.EclipseLive) window.EclipseLive.hide();
     renderLocations();
     updateMapSelection();
     if (zoom) focusCountry(code);
   }
 
-  function chooseLocation(location) {
+  function chooseLocation(location, openPanel = false) {
     chooseCountry(location._country, false);
     selectedLocation = location._key;
     const index = visibleLocations().findIndex((item) => item._key === selectedLocation);
     expanded = index >= 3;
     renderLocations();
     updateMapSelection();
+    if (window.EclipseLive && finite(location.latitude) && finite(location.longitude)) window.EclipseLive.show(location, selectedEvent);
+    const panel = byId("destination-panel");
+    if (openPanel && panel && !panel.hidden) {
+      panel.focus({ preventScroll: true });
+      panel.scrollIntoView({ block: "start", behavior: "auto" });
+      return;
+    }
     const card = byId(`location-${location._key}`);
     if (card) {
       card.focus({ preventScroll: true });
@@ -600,6 +618,7 @@
     }
     expanded = false;
     selectedLocation = null;
+    if (window.EclipseLive) window.EclipseLive.hide();
     byId("event-date").textContent = readableDate(selectedEvent.event_date);
     byId("event-title").textContent = eventTitle(selectedEvent);
     updateGuideLink(selectedEvent);
@@ -619,7 +638,7 @@
     const forecastNote = byId("forecast-note");
     if (["available", "partially_available"].includes(forecast)) forecastNote.textContent = "Hay un pronóstico guardado para parte o toda la ventana de este evento. Los porcentajes mostrados en estas tarjetas son históricos; revisa la fecha de preparación antes de planificar.";
     else if (forecast === "stale") forecastNote.textContent = "El pronóstico guardado ha quedado desactualizado. Las tarjetas muestran la climatología histórica.";
-    else forecastNote.textContent = "No hay un pronóstico operativo disponible en estos datos. Para estas fechas se utiliza la climatología histórica.";
+    else forecastNote.textContent = "Para estas fechas las tarjetas usan la climatología histórica. Al elegir un destino, el pronóstico real se consulta en directo cuando falten 16 días o menos para el eclipse.";
     prepareCountries();
     renderLocations();
     renderMap();
@@ -684,6 +703,15 @@
     showMore.addEventListener("click", () => {
       expanded = !expanded;
       renderLocations();
+    });
+    byId("destination-close").addEventListener("click", () => {
+      const key = selectedLocation;
+      selectedLocation = null;
+      if (window.EclipseLive) window.EclipseLive.hide();
+      renderLocations();
+      updateMapSelection();
+      const card = key && byId(`location-${key}`);
+      if (card) card.focus();
     });
     enableMapDrag(byId("map-container"));
     byId("map-zoom-in").addEventListener("click", () => { mapZoom = Math.min(8, mapZoom * 1.6); updateMapView(); });

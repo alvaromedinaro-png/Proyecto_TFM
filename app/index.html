@@ -6,9 +6,13 @@
   <meta name="theme-color" content="#122c36">
   <title>Planificador de eclipses</title>
   <script src="theme.js"></script>
+  <!-- Mapa del destino (Leaflet). Sin conexión no carga y el panel lo indica; el resto funciona igual. -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha384-c6Rcwz4e4CITMbu/NBmnNS8yN2sC3cUElMEMfP3vqqKFp7GOYaaBBCqmaWBjmkjb" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha384-NElt3Op+9NBMCYaef5HxeJmU4Xeard/Lku8ek6hoPTvYkQPh3zLIrJP7KiRocsxO" crossorigin="anonymous" defer></script>
   <script src="../data/gold/planner_data.js" defer></script>
   <script src="world-map.js" defer></script>
+  <script src="live.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -21,7 +25,7 @@
       </a>
       <div class="header-actions">
         <a class="header-link" href="eclipses.html">Tipos de eclipse</a>
-        <span class="offline-badge"><span aria-hidden="true"></span> Consulta sin conexión</span>
+        <span class="offline-badge" title="El catálogo y la climatología están guardados en tu equipo; el pronóstico y los alojamientos del destino se consultan en directo."><span aria-hidden="true"></span> Datos guardados · destino en directo</span>
         <button type="button" id="theme-toggle" class="theme-toggle" hidden><span class="theme-icon" aria-hidden="true"></span><span class="theme-label">Modo noche</span></button>
       </div>
     </header>
@@ -52,7 +56,7 @@
           <label for="country-selector">País</label>
           <select id="country-selector" aria-describedby="country-note" disabled></select>
         </div>
-        <p id="selector-note" class="selector-note">Seleccionar un eclipse o un país utiliza los datos guardados en tu equipo.</p>
+        <p id="selector-note" class="selector-note">Seleccionar un eclipse o un país utiliza los datos guardados en tu equipo. Al elegir un destino se consultan en directo su pronóstico y sus alojamientos.</p>
         <p id="country-note" class="selector-note"></p>
       </section>
 
@@ -100,6 +104,30 @@
         <div class="more-container">
           <button id="show-more" class="secondary-button" type="button" hidden></button>
         </div>
+        <section id="destination-panel" class="destination-panel" aria-labelledby="destination-title" tabindex="-1" hidden>
+          <header class="destination-header">
+            <div>
+              <p class="eyebrow">Tu destino</p>
+              <h3 id="destination-title"></h3>
+              <p id="destination-subtitle"></p>
+            </div>
+            <button type="button" id="destination-close" class="secondary-button">Cerrar</button>
+          </header>
+          <div class="destination-grid">
+            <section class="live-block" aria-labelledby="live-forecast-title">
+              <h4 id="live-forecast-title">Tiempo previsto para el eclipse</h4>
+              <div id="live-forecast" aria-live="polite"></div>
+            </section>
+            <section class="live-block" aria-labelledby="lodging-title">
+              <h4 id="lodging-title">Dónde alojarse</h4>
+              <div id="lodging-links" class="lodging-links"></div>
+              <div id="lodging-map" class="lodging-map" role="region" aria-label="Mapa de alojamientos cercanos"></div>
+              <p id="lodging-status" class="lodging-status" role="status" aria-live="polite"></p>
+              <ol id="lodging-list" class="lodging-list"></ol>
+              <p class="live-note">Precio y disponibilidad reales: en Google Maps y Booking para tus fechas. Para eclipses a más de un año, muchos alojamientos todavía no aceptan reservas.</p>
+            </section>
+          </div>
+        </section>
         <aside class="reading-note" aria-label="Cómo interpretar los resultados">
           <span class="note-icon" aria-hidden="true">i</span>
           <div>
@@ -112,7 +140,7 @@
     </main>
 
     <footer class="site-footer">
-      <p>Fuentes: <a href="https://eclipse.gsfc.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA GSFC</a> · <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer">GeoNames</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · Mapa: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a></p>
+      <p>Fuentes: <a href="https://eclipse.gsfc.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA GSFC</a> · <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer">GeoNames</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · Mapa: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a> · Alojamientos: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> (ODbL) · Teselas: <a href="https://www.esri.com/" target="_blank" rel="noopener noreferrer">Esri</a></p>
       <p id="prepared-at">Datos preparados para consulta local.</p>
     </footer>
   </div>

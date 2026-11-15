@@ -21,6 +21,7 @@ Este documento diseña la pantalla principal del MVP a partir de lo que ya exist
 | Probabilidad histórica con **categoría** (baja / media / alta) y **rango al 95 %** | Saber cuánto fiarse de la cifra, no solo la cifra |
 | Mapa regional coloreado por probabilidad | Ver de un vistazo qué zonas son más prometedoras y dónde están |
 | Detalle del destino y exportación al calendario | Pasar de la comparación a la acción |
+| **Panel del destino en directo:** pronóstico real cuando faltan 16 días o menos, y alojamientos cercanos con enlaces a Google Maps y Booking para las fechas del eclipse | Preparar el viaje sin salir de la app: dónde dormir, a qué distancia del punto de observación y qué tiempo se espera |
 
 ## 2. Flujo de usuario
 
@@ -28,12 +29,14 @@ El flujo principal tiene **tres pasos y ninguna pantalla intermedia**: todo ocur
 
 ```mermaid
 flowchart LR
-    A[Abre la app<br/>sin conexión ni registro] --> B[Elige un eclipse<br/>por fecha y tipo]
+    A[Abre la app<br/>sin registro] --> B[Elige un eclipse<br/>por fecha y tipo]
     B --> C[Ve el ranking de destinos<br/>y el mapa de la región]
     C -->|opcional| D[Filtra por país o<br/>cambia el orden]
     D --> C
     C --> E[Selecciona un destino<br/>en la lista o en el mapa]
     E --> F[Lee el detalle:<br/>probabilidad, rango, días cercanos, hora local]
+    F --> H[Elige el destino:<br/>pronóstico y alojamientos<br/>consultados en directo]
+    H --> I[Abre Google Maps o Booking<br/>con las fechas del eclipse]
     F --> G[Añade el eclipse al calendario<br/>o compara con otro destino]
     F -->|cambia de opinión| C
 ```
@@ -44,9 +47,10 @@ flowchart LR
 | 2. Elegir eclipse | Tipo (solar o lunar) y fecha | Título, estado de los datos, días que faltan y cuándo habrá pronóstico real |
 | 3. Comparar | Opcionalmente, país y criterio de orden | Ranking de destinos y mapa con los mismos números |
 | 4. Elegir destino | Un clic en una fila o en un punto del mapa | Detalle con la probabilidad explicada en lenguaje natural, el rango y los días cercanos |
-| 5. Después | «Añadir al calendario» | Un archivo `.ics` con la hora local del máximo en ese destino |
+| 5. Preparar el viaje | «Elegir como destino» | Panel con el pronóstico (si faltan 16 días o menos; si no, cuándo estará disponible) y los alojamientos cercanos en un mapa, cada uno con enlaces a Google Maps y Booking para las dos noches del eclipse |
+| 6. Después | «Añadir al calendario» | Un archivo `.ics` con la hora local del máximo en ese destino |
 
-Se ha descartado a propósito un formulario inicial («¿desde dónde viajas?», «¿qué presupuesto tienes?»): obliga a responder antes de ver ningún resultado, y el MVP no dispone todavía de datos de transporte ni de precios para aprovechar esas respuestas.
+Se ha descartado a propósito un formulario inicial («¿desde dónde viajas?», «¿qué presupuesto tienes?»): obliga a responder antes de ver ningún resultado, y el MVP no dispone de datos de transporte para aprovecharlas. Los precios dependen de las fechas y de cada alojamiento, así que se consultan en los buscadores desde el panel del destino.
 
 ## 3. Diseño del frontal
 
@@ -63,7 +67,7 @@ Los números en ámbar señalan las decisiones que se justifican en «Experienci
 5. **Detalle del destino** seleccionado: la cifra principal expresada como «28 de 30 años», los datos del eclipse y los días cercanos.
 6. **Acciones:** añadir al calendario, comparar y descargar el resumen.
 7. **Resultados inciertos:** zonas pendientes y significado de cada estado y de las cifras extremas.
-8. **Hueco reservado** para alojamiento y precio, marcado como mejora futura.
+8. **Alojamiento y precio.** En el mockup era un hueco reservado; ya está implementado como panel del destino (ver más abajo).
 
 ### Pantalla en el móvil
 
@@ -85,6 +89,21 @@ La aplicación de partida cubría el selector, el mapa y las tarjetas por ubicac
 - **Mapa del mundo entero.** La zona útil ocupa una pequeña parte del mapa.
 - **Comparación.** Las tarjetas grandes muestran tres destinos a la vez, así que comparar obliga a desplazarse.
 - **Hora e incertidumbre.** Los horarios solo estaban en UTC y la probabilidad no llevaba su rango.
+
+### Panel del destino: pronóstico y alojamiento en directo
+
+Al pulsar «Elegir como destino» en una tarjeta, o un punto del mapa, se abre debajo de la lista un panel con dos bloques que se consultan en ese momento:
+
+![Panel del destino con el mapa de alojamientos de Málaga](04_diseno_frontal_ux/panel_destino.png)
+
+- **Tiempo previsto.** Si faltan más de 16 días, indica la fecha a partir de la cual habrá pronóstico y recuerda la climatología del lugar. Dentro del horizonte consulta [Open-Meteo](https://open-meteo.com/) y muestra la nubosidad, la probabilidad de lluvia y la temperatura a la hora del máximo, la evolución de las nubes tres horas antes y después, y la fiabilidad según los días que faltan. Cielo despejado usa el mismo umbral que la climatología (nubosidad ≤20 %).
+- **Dónde alojarse.** Busca en [OpenStreetMap](https://www.openstreetmap.org/) hoteles, hostales, apartamentos, casas rurales y campings a menos de 8 km, o de 25 km si cerca apenas hay (zonas rurales, habituales en las franjas de los eclipses). Los muestra en un mapa con el punto de observación y en una lista con tipo, estrellas, distancia y web. Cada alojamiento enlaza a Google Maps (ubicación, fotos, opiniones y precios) y a Booking con las dos noches del eclipse ya rellenadas: la anterior y la del eclipse.
+
+Por qué así y no con una API de Google o un asistente con IA:
+
+- **El precio real lo tienen los buscadores.** Las APIs de precios exigen un acuerdo comercial, y la de Google Places, una clave de pago que quedaría expuesta en una página estática; además, sus condiciones prohíben guardar los resultados. El enlace con las fechas lleva al usuario al precio real sin esos problemas.
+- **Los alojamientos son datos estructurados y geográficos.** «Qué hay a menos de 8 km» se resuelve con una consulta espacial; un RAG o un modelo de lenguaje añadiría coste y el riesgo de inventar alojamientos sin mejorar la decisión.
+- **Solo esto se consulta en directo.** La climatología necesita 30 años de datos horarios por lugar y alimenta el experimento de ML, así que sigue preparada en el pipeline con su trazabilidad. Los alojamientos y el pronóstico cambian con el tiempo y son consultas pequeñas.
 
 ### Guía de tipos de eclipse
 
@@ -126,10 +145,13 @@ La incertidumbre es parte del resultado y se muestra donde aparece la cifra, no 
 - **Resto de zonas agrupadas (7).** Las 258 zonas de este eclipse que quedan fuera del orden de destinos (su climatología viene de Copernicus, no de la base del ranking) se resumen en una línea con enlace que indica cuántas tienen totalidad (68, como Tarifa, Cádiz o Luxor), para que el usuario sepa que existen y pueda consultar su fase, su hora y su clima. Si una zona aún no tiene climatología, la línea lo dice.
 - **Límite de la estimación (5).** Se recuerda que el cielo despejado se estima en celdas de unos 25 km y puede diferir de lo que se vea desde un punto concreto.
 - **Errores de carga.** Se mantienen los mensajes de la app actual: datos no encontrados, evento todavía sin preparar o país sin zonas que alcancen el 70 % de ocultación.
+- **Servicios en directo que fallan.** Las instancias públicas de OpenStreetMap se saturan a menudo: la app consulta tres a la vez y usa la primera que responde; si fallan todas, recurre a una búsqueda más rápida pero parcial (solo alojamientos con «hotel» en el nombre) y lo dice. Sin conexión, cada bloque lo indica sin afectar al resto de la página, y los enlaces a Google Maps y Booking siguen disponibles.
+- **Cobertura desigual de los datos abiertos.** El número de alojamientos se presenta como un mínimo: OpenStreetMap es muy completo en Europa y escaso en zonas como el Alto Egipto o Libia. Si no hay ninguno, el panel lo dice y remite a los buscadores.
+- **Fechas lejanas.** Para eclipses a más de un año, muchos alojamientos aún no aceptan reservas; el panel lo advierte junto a los enlaces.
 
 ### Facilidad de uso
 
-- Funciona **sin conexión y sin registro**: se abre un archivo y se consulta.
+- **Sin registro y sin servidor**: se abre un archivo y se consulta. El catálogo, la astronomía y la climatología están guardados en el equipo; solo el panel del destino necesita conexión, y sin ella el resto funciona igual. Al servicio externo solo se envían las coordenadas del destino, nunca la ubicación del usuario.
 - **Modo noche.** Sigue la preferencia del sistema y se puede cambiar con un botón en la cabecera, que recuerda la elección. Es útil para consultar la app de noche o en el lugar de observación, como en un eclipse lunar, sin un fondo blanco que deslumbre. Todos los colores, también los del mapa, tienen su versión oscura.
 - La lista y el mapa están **sincronizados**: seleccionar en uno resalta en el otro. El mapa ampliado se **desplaza arrastrando** con el ratón o el dedo, y un arrastre no selecciona por error el país o el punto donde termina.
 - **Guía de tipos de eclipse** en una página aparte y no en un desplegable. Quien no sabe qué diferencia un eclipse anular de uno total entiende qué va a ver antes de elegir destino, y la pantalla principal no se alarga para quien ya lo sabe. El enlace bajo el título lleva directamente al tipo del eclipse elegido. Las fotos se guardan en la app para que funcione sin conexión.
@@ -157,15 +179,17 @@ La incertidumbre es parte del resultado y se muestra donde aparece la cifra, no 
 | Zonas de la franja central aunque no estén en la lista NASA (Ceuta, Tarifa, Cádiz o Málaga en 2027) | ✔ | Ya implementado con GeoNames |
 | Comparar dos o tres destinos lado a lado (6) | Mejora futura | — |
 | Descargar el resumen del destino (6) | Mejora futura | — |
-| Alojamiento y precio orientativo (8) | Mejora futura | Hace falta una fuente de datos nueva |
+| Alojamiento cercano con mapa y enlaces a precio real (8) | ✔ | Ya implementado: OpenStreetMap en directo, enlaces a Google Maps y Booking con las fechas del eclipse (`app/live.js`) |
+| Pronóstico real del destino cuando faltan 16 días o menos | ✔ | Ya implementado: Open-Meteo en directo en el panel del destino |
 | Pronóstico operativo integrado en el ranking | Mejora futura | El pipeline ya guarda el estado del pronóstico (`forecast_status.json`) |
+| Capacidad de alojamiento como criterio del ranking | Mejora futura | Exigiría guardar los alojamientos en el pipeline para que el orden sea reproducible |
 | Franja de totalidad dibujada en el mapa | Mejora futura | — |
 | Climatología de las localidades GeoNames que mejoran la fase de su país | ✔ | Ya implementado: Open-Meteo para la de mayor duración y la más poblada (16 localidades en la ventana; en 2027, Málaga, Gibraltar y Ceuta) |
 | Climatología del resto de zonas con Copernicus CDS (ERA5 por celda, sin cuota por ubicación) | ✔ | Ya implementado para los eclipses solares (`src/eclipse_era5_cds.py`). En 2027, frente a Open-Meteo en las 14 zonas con ambas fuentes: diferencia media de 1 punto en cielo despejado (máxima 13) y 0,4 en lluvia |
 
 ### Cómo se conecta con los datos y el modelo
 
-El frontal no calcula nada por su cuenta: **lee la exportación del pipeline** (`data/gold/planner_data.js`), que se genera a partir del Gold y de la decisión del experimento de ML. Así se puede abrir sin servidor y sin red, y la app y los datos siempre corresponden a la misma versión.
+El frontal no calcula nada por su cuenta: **lee la exportación del pipeline** (`data/gold/planner_data.js`), que se genera a partir del Gold y de la decisión del experimento de ML. Así se puede abrir sin servidor y sin red, y la app y los datos siempre corresponden a la misma versión. El panel del destino es la única parte que consulta servicios externos en el momento (Open-Meteo para el pronóstico y OpenStreetMap para los alojamientos) y no modifica ningún dato del Gold.
 
 ```mermaid
 flowchart LR
@@ -174,6 +198,7 @@ flowchart LR
     G --> X[Exportación<br/>planner_data.js]
     M --> X
     X --> F[Frontal<br/>app/index.html]
+    L[En directo, al elegir destino<br/>Open-Meteo: pronóstico<br/>OpenStreetMap: alojamientos] --> F
 ```
 
 | Elemento del frontal | Campo | Origen | ¿Exportado hoy? |
