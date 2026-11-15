@@ -32,10 +32,15 @@
   let countries = [];
   let expanded = false;
   let selectedLocation = null;
+  let destinationKey = null; // zona cuyo panel de destino está abierto
   let mapSvg = null;
   let mapZoom = 1;
   let mapCenter = [mapWidth / 2, mapHeight / 2];
   const mapMarkers = new Map();
+  // Zoom máximo y nivel a partir del cual se rotulan los puntos. A ×64 dos zonas a 15 km
+  // (Tarifa y Algeciras) quedan a más de un centímetro en pantalla.
+  const maxMapZoom = 64;
+  const labelZoom = 10;
 
   function node(tag, className, content) {
     const element = document.createElement(tag);
@@ -342,7 +347,8 @@
 
   // Elegir el destino abre el panel con el pronóstico y los alojamientos consultados en directo.
   function destinationButton(location) {
-    const button = node("button", "destination-button", selectedLocation === location._key ? "Destino elegido · ver panel" : "Elegir como destino");
+    const chosen = destinationKey === location._key;
+    const button = node("button", `destination-button${chosen ? " chosen" : ""}`, chosen ? "Destino elegido · ver panel" : "Elegir como destino");
     button.type = "button";
     button.disabled = !finite(location.latitude) || !finite(location.longitude) || !window.EclipseLive;
     button.addEventListener("click", () => chooseLocation(location, true));
@@ -412,15 +418,38 @@
     mapSvg.setAttribute("viewBox", `${mapCenter[0] - width / 2} ${mapCenter[1] - height / 2} ${width} ${height}`);
     mapMarkers.forEach((entry) => {
       entry.dot.setAttribute("r", 4.4 / mapZoom);
-      entry.hit.setAttribute("r", 13 / mapZoom);
+      entry.hit.setAttribute("r", 9 / mapZoom);
       entry.focus.setAttribute("r", 7.5 / mapZoom);
       const strokeWidth = entry.group.classList.contains("selected") ? 2 : entry.group.classList.contains("pending") ? 1.6 : 1.2;
       entry.dot.setAttribute("stroke-width", strokeWidth / mapZoom);
       entry.focus.setAttribute("stroke-width", 1.7 / mapZoom);
+      entry.label.setAttribute("x", 7 / mapZoom);
+      entry.label.setAttribute("y", 3.6 / mapZoom);
+      entry.label.setAttribute("font-size", 10.5 / mapZoom);
+      entry.label.setAttribute("stroke-width", 3 / mapZoom);
     });
+    // Con el mapa ampliado se rotulan los puntos para distinguir zonas cercanas.
+    mapSvg.classList.toggle("show-labels", mapZoom >= labelZoom);
     byId("map-container").classList.toggle("can-drag", mapZoom > 1);
-    byId("map-zoom-in").disabled = mapZoom >= 8;
+    byId("map-zoom-in").disabled = mapZoom >= maxMapZoom;
     byId("map-zoom-out").disabled = mapZoom <= 1;
+  }
+
+  // Acerca o aleja manteniendo fijo el punto del mapa que está bajo el cursor.
+  function zoomMapAt(factor, svgPoint) {
+    const next = Math.max(1, Math.min(maxMapZoom, mapZoom * factor));
+    if (next === mapZoom) return;
+    const anchor = svgPoint || mapCenter;
+    mapCenter = [anchor[0] - (anchor[0] - mapCenter[0]) * mapZoom / next, anchor[1] - (anchor[1] - mapCenter[1]) * mapZoom / next];
+    mapZoom = next;
+    updateMapView();
+  }
+
+  function svgPointFromEvent(event) {
+    const matrix = mapSvg && mapSvg.getScreenCTM();
+    if (!matrix) return null;
+    const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(matrix.inverse());
+    return [point.x, point.y];
   }
 
   function focusCountry(code) {
@@ -468,31 +497,128 @@
     countrySelect.value = code;
     expanded = false;
     selectedLocation = null;
+    destinationKey = null;
     if (window.EclipseLive) window.EclipseLive.hide();
     renderLocations();
     updateMapSelection();
+    showMapHint();
     if (zoom) focusCountry(code);
   }
 
+  // Selecciona una zona sin mover la página: se resalta en el mapa y en su tarjeta, y sus datos
+  // aparecen en la ficha junto al mapa. Solo «Elegir como destino» abre el panel de abajo.
   function chooseLocation(location, openPanel = false) {
-    chooseCountry(location._country, false);
+    // El filtro de país solo cambia si ocultaría la zona elegida.
+    if (countrySelect.value !== "all" && countrySelect.value !== location._country) countrySelect.value = location._country;
     selectedLocation = location._key;
+    if (!openPanel && destinationKey !== location._key) {
+      destinationKey = null;
+      if (window.EclipseLive) window.EclipseLive.hide();
+    }
+    if (openPanel) destinationKey = location._key;
     const index = visibleLocations().findIndex((item) => item._key === selectedLocation);
-    expanded = index >= 3;
+    expanded = expanded || index >= 3;
     renderLocations();
     updateMapSelection();
+    showMapDetail(location);
+    if (!openPanel) return;
     if (window.EclipseLive && finite(location.latitude) && finite(location.longitude)) window.EclipseLive.show(location, selectedEvent);
     const panel = byId("destination-panel");
-    if (openPanel && panel && !panel.hidden) {
+    if (panel && !panel.hidden) {
       panel.focus({ preventScroll: true });
       panel.scrollIntoView({ block: "start", behavior: "auto" });
+    }
+  }
+
+  function scrollToCard(location) {
+    const card = byId(`location-${location._key}`);
+    if (!card) return;
+    card.focus({ preventScroll: true });
+    card.scrollIntoView({ block: "center", behavior: "auto" });
+  }
+
+  function showMapHint() {
+    const detail = byId("map-detail");
+    if (!detail) return;
+    const box = node("div", "map-detail-hint");
+    box.append(node("strong", "", "Elige un punto del mapa"), node("p", "", "Sus datos aparecerán aquí sin salir del mapa. Usa la rueda del ratón o los botones + y − para acercar; al ampliar se muestran los nombres de las zonas."));
+    detail.replaceChildren(box);
+  }
+
+  function metricText(location) {
+    return selectedEvent.event_family === "solar" ? `${formatted(location.obscuration_pct, " %")} oculto` : `Luna a ${formatted(location.body_altitude_deg, "°")}`;
+  }
+
+  // Ficha compacta junto al mapa con los datos de la zona seleccionada.
+  function showMapDetail(location) {
+    const detail = byId("map-detail");
+    if (!detail) return;
+    const head = node("div", "map-detail-head");
+    head.append(node("h4", "", location.name || "Zona sin nombre"), node("span", "location-country", locationCountry(location)));
+    const localPhase = phaseNames[location.local_phase] || location.local_phase;
+    if (localPhase) head.append(node("span", "phase-label", `Fase visible: ${localPhase}`));
+    const astronomy = node("dl", "map-detail-stats");
+    if (selectedEvent.event_family === "solar") astronomy.append(stat("Disco solar oculto", formatted(location.obscuration_pct, " %")));
+    else astronomy.append(stat("Altura de la Luna", formatted(location.body_altitude_deg, "°")));
+    const central = location.duration_scope === "local_central";
+    astronomy.append(stat(central ? "Fase central" : location.duration_scope === "global_lunar_phase" ? "Fase global" : "Duración visible", duration(location.phase_duration_s)));
+    astronomy.append(peakStat(location, selectedEvent));
+    if (selectedEvent.event_family === "solar") astronomy.append(stat("Altura del Sol", formatted(location.body_altitude_deg, "°")));
+    detail.replaceChildren(head, astronomy);
+    if (hasClimate(location)) {
+      const climate = node("dl", "map-detail-stats climate");
+      climate.append(probabilityStat("Cielo despejado", location.clear_probability_pct, location.clear_range_pct, location.clear_band, location.valid_cloud_years, "clear"));
+      climate.append(probabilityStat("Lluvia", location.rain_probability_pct, location.rain_range_pct, location.rain_band, location.valid_rain_years, "rain", "rain-stat"));
+      detail.append(climate);
+    } else {
+      detail.append(node("p", "climate-pending", "Climatología pendiente para esta zona."));
+    }
+    const actions = node("div", "map-detail-actions");
+    const choose = destinationButton(location);
+    const card = node("button", "secondary-button", "Ver la tarjeta completa");
+    card.type = "button";
+    card.addEventListener("click", () => scrollToCard(location));
+    actions.append(choose, card);
+    detail.append(actions);
+  }
+
+  // Al pulsar un punto se buscan los que se solapan en pantalla. Si hay varios, la ficha los lista
+  // y el mapa se acerca a ellos para separarlos.
+  function pickFromMap(location) {
+    const matrix = mapSvg && mapSvg.getScreenCTM();
+    // Píxeles de pantalla por unidad del SVG; ya incluye el zoom del viewBox.
+    const pixelsPerUnit = matrix ? Math.hypot(matrix.a, matrix.b) : 1;
+    const [x, y] = project(location.longitude, location.latitude);
+    const near = locations.filter((item) => {
+      const entry = mapMarkers.get(item._key);
+      if (!entry || entry.group.hidden || !finite(item.latitude) || !finite(item.longitude)) return false;
+      const [ix, iy] = project(item.longitude, item.latitude);
+      return Math.hypot(ix - x, iy - y) * pixelsPerUnit < 12;
+    });
+    if (near.length <= 1) {
+      chooseLocation(location);
       return;
     }
-    const card = byId(`location-${location._key}`);
-    if (card) {
-      card.focus({ preventScroll: true });
-      card.scrollIntoView({ block: "nearest", behavior: "auto" });
-    }
+    const cx = near.reduce((sum, item) => sum + project(item.longitude, item.latitude)[0], 0) / near.length;
+    const cy = near.reduce((sum, item) => sum + project(item.longitude, item.latitude)[1], 0) / near.length;
+    zoomMapAt(4, [cx, cy]);
+    const detail = byId("map-detail");
+    const box = node("div", "map-detail-cluster");
+    box.append(node("strong", "", `${near.length} zonas muy próximas`), node("p", "", "He acercado el mapa para separarlas. Elige una:"));
+    const list = node("ul", "cluster-list");
+    // Primero la zona pulsada y después las demás por cercanía.
+    near.sort((a, b) => Math.hypot(project(a.longitude, a.latitude)[0] - x, project(a.longitude, a.latitude)[1] - y)
+      - Math.hypot(project(b.longitude, b.latitude)[0] - x, project(b.longitude, b.latitude)[1] - y)).forEach((item) => {
+      const entry = node("li");
+      const button = node("button", "cluster-item");
+      button.type = "button";
+      button.append(node("strong", "", item.name || "Zona"), node("span", "", `${locationCountry(item)} · ${metricText(item)}${hasClimate(item) && finite(item.clear_probability_pct) ? ` · ${formatted(item.clear_probability_pct, " %")} despejado` : ""}`));
+      button.addEventListener("click", () => chooseLocation(item));
+      entry.append(button);
+      list.append(entry);
+    });
+    box.append(list);
+    detail.replaceChildren(box);
   }
 
   // Arrastrar con el botón izquierdo (o el dedo) desplaza el mapa ampliado.
@@ -597,15 +723,18 @@
       const hit = svgNode("circle", { class: "marker-hit", r: 13 });
       const focus = svgNode("circle", { class: "marker-focus", r: 7.5 });
       const dot = svgNode("circle", { class: "marker-dot", r: 4.4 });
-      group.append(title, hit, focus, dot);
-      activateOnKeyboard(group, () => chooseLocation(location));
-      mapMarkers.set(location._key, { group, hit, focus, dot });
+      const name = svgNode("text", { class: "marker-label", "aria-hidden": "true" });
+      name.textContent = location.name || "";
+      group.append(title, hit, focus, dot, name);
+      activateOnKeyboard(group, () => pickFromMap(location));
+      mapMarkers.set(location._key, { group, hit, focus, dot, label: name });
       markers.append(group);
     });
     mapSvg.append(markers);
     container.append(mapSvg);
     updateMapSelection();
     updateMapView();
+    showMapHint();
   }
 
   function renderEvent() {
@@ -618,6 +747,7 @@
     }
     expanded = false;
     selectedLocation = null;
+    destinationKey = null;
     if (window.EclipseLive) window.EclipseLive.hide();
     byId("event-date").textContent = readableDate(selectedEvent.event_date);
     byId("event-title").textContent = eventTitle(selectedEvent);
@@ -705,17 +835,25 @@
       renderLocations();
     });
     byId("destination-close").addEventListener("click", () => {
-      const key = selectedLocation;
-      selectedLocation = null;
+      const key = destinationKey;
+      destinationKey = null;
       if (window.EclipseLive) window.EclipseLive.hide();
       renderLocations();
-      updateMapSelection();
       const card = key && byId(`location-${key}`);
       if (card) card.focus();
     });
     enableMapDrag(byId("map-container"));
-    byId("map-zoom-in").addEventListener("click", () => { mapZoom = Math.min(8, mapZoom * 1.6); updateMapView(); });
-    byId("map-zoom-out").addEventListener("click", () => { mapZoom = Math.max(1, mapZoom / 1.6); updateMapView(); });
+    byId("map-zoom-in").addEventListener("click", () => zoomMapAt(2));
+    byId("map-zoom-out").addEventListener("click", () => zoomMapAt(1 / 2));
+    // Rueda del ratón (o gesto de dos dedos en el panel táctil) sobre el mapa: zoom hacia el cursor.
+    byId("map-container").addEventListener("wheel", (event) => {
+      if (!mapSvg) return;
+      const steps = Math.max(-3, Math.min(3, -event.deltaY / (event.deltaMode === 1 ? 3 : 100)));
+      // Con el mapa ya alejado del todo, la rueda hacia abajo desplaza la página como siempre.
+      if ((steps < 0 && mapZoom <= 1) || (steps > 0 && mapZoom >= maxMapZoom)) return;
+      event.preventDefault();
+      zoomMapAt(Math.pow(1.35, steps), svgPointFromEvent(event));
+    }, { passive: false });
     byId("map-reset").addEventListener("click", () => {
       mapZoom = 1;
       mapCenter = [mapWidth / 2, mapHeight / 2];

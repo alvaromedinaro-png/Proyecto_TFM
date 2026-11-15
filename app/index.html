@@ -75,7 +75,7 @@
           <div class="map-heading">
             <div>
               <h3 id="map-title">Explora las zonas en el mapa</h3>
-              <p id="map-description">Selecciona un país o un punto para ver sus ubicaciones.</p>
+              <p id="map-description">Pulsa un punto para ver sus datos al lado del mapa. Acerca con la rueda del ratón para separar los puntos cercanos.</p>
             </div>
             <div class="map-controls" aria-label="Controles del mapa">
               <button type="button" id="map-zoom-in" class="map-button" aria-label="Acercar mapa">+</button>
@@ -83,7 +83,10 @@
               <button type="button" id="map-reset" class="map-button map-reset">Mundo</button>
             </div>
           </div>
-          <div id="map-container" class="map-container"></div>
+          <div class="map-body">
+            <div id="map-container" class="map-container"></div>
+            <aside id="map-detail" class="map-detail" aria-live="polite" aria-label="Datos de la zona seleccionada en el mapa"></aside>
+          </div>
           <p id="map-selection" class="map-selection" role="status" aria-live="polite">Todos los países disponibles.</p>
           <div class="map-legend">
             <span><i class="legend-country" aria-hidden="true"></i> País con zonas disponibles</span>
