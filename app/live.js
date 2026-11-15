@@ -340,7 +340,8 @@ window.EclipseLive = (() => {
     }
     container.hidden = false;
     if (!map) {
-      map = window.L.map(container, { scrollWheelZoom: false });
+      // Rueda para acercar y alejar; Leaflet impide que la página se desplace con el cursor sobre el mapa.
+      map = window.L.map(container, { scrollWheelZoom: true, wheelPxPerZoomLevel: 90 });
       map.setMaxZoom(16);
       tileLayer = window.L.layerGroup().addTo(map);
       setTiles();
