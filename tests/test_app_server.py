@@ -31,8 +31,11 @@ class FakeClient:
     def get(self, url, params=None, headers=None, timeout=None):
         self.calls.append((url, dict(params or {}), dict(headers or {})))
         if url.endswith("/api/search"):
+            # Formato real de la búsqueda geográfica: primero un homónimo lejano, que debe descartarse.
             return FakeResponse({"error": None, "result": {"list": [
-                {"name": "Málaga", "location_key": "g187438", "place_name": "Andalucía, España"}]}})
+                {"hotel_key": None, "location_key": "g999", "name": "Malaga", "latitude": 41.9, "longitude": -74.0},
+                {"hotel_key": None, "location_key": "g187438", "name": "Malaga", "place_name": "Andalucia, Spain",
+                 "latitude": 36.718468, "longitude": -4.422782}]}})
         if url.endswith("/api/list"):
             return FakeResponse({"error": None, "result": {"list": [
                 {"name": "Cerca", "key": "g187438-d1", "accommodation_type": "Hotel",
@@ -81,6 +84,7 @@ class AppServerTest(unittest.TestCase):
         service = server.PriceService("clave", client, self.cache)
         result = service.prices(server.parse_query(query()))
         self.assertEqual(result["status"], "ok")
+        self.assertEqual(result["location"]["key"], "g187438")
         self.assertEqual([hotel["name"] for hotel in result["hotels"]], ["Cerca", "Sin tarifa"])
         self.assertEqual(result["hotels"][0]["price"]["min"], 95)
         self.assertEqual(result["hotels"][0]["price"]["provider"], "Agoda.com")
@@ -106,6 +110,25 @@ class AppServerTest(unittest.TestCase):
         client = FakeClient()
         server.PriceService(None, client, self.cache).prices(server.parse_query(query()))
         self.assertFalse(any(url.endswith("/api/search") for url, _, _ in client.calls))
+
+    def test_hotel_search_is_the_fallback_and_failures_are_cached(self):
+        class GeoFails(FakeClient):
+            def get(self, url, params=None, headers=None, timeout=None):
+                if url.endswith("/api/search"):
+                    self.calls.append((url, dict(params or {}), dict(headers or {})))
+                    if params.get("location_type") == "geo" or params["query"] == "Nada":
+                        return FakeResponse({"error": {"message": "Failed to search data"}, "result": None})
+                    return FakeResponse({"error": None, "result": {"list": [
+                        {"name": "Hotel en Portugal", "location_key": "g189180", "latitude": 41.1, "longitude": -8.6},
+                        {"name": "Parador De Ceuta", "location_key": "g187504", "latitude": 35.888, "longitude": -5.316}]}})
+                return super().get(url, params, headers, timeout)
+        client = GeoFails()
+        service = server.PriceService("clave", client, self.cache)
+        self.assertEqual(service.find_location("Ceuta", "España", 35.889, -5.321)["key"], "g187504")
+        self.assertIsNone(service.find_location("Nada", "España", 35.0, -5.0))
+        searches = len(client.calls)
+        self.assertIsNone(service.find_location("Nada", "España", 35.0, -5.0))
+        self.assertEqual(len(client.calls), searches)  # el fallo reciente no gasta otra búsqueda
 
     def test_without_key_reports_it(self):
         self.assertEqual(server.PriceService(None, FakeClient(), self.cache).prices(server.parse_query(query()))["status"], "no_key")

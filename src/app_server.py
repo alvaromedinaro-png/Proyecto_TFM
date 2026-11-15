@@ -40,6 +40,8 @@ PRICED_HOTELS = 16          # tarifas consultadas por destino
 MIN_REVIEWS = 20            # con opiniones suele haber tarifas; los apartamentos sin ellas rara vez las publican
 LIST_LIMIT = 100            # máximo que admite /api/list
 MAX_RADIUS_KM = 25
+MAX_LOCATION_KM = 60        # distancia máxima entre el destino y la localidad de TripAdvisor
+FAILED_LOCATION_TTL_S = 24 * 3600  # una localidad no encontrada se vuelve a buscar al día siguiente
 RATES_TTL_S = 6 * 3600      # las tarifas cambian: se reutilizan como mucho seis horas
 # Solo se sirven la app y su exportación, no el resto del proyecto (código, entorno, cachés).
 STATIC_PREFIXES = ("/app/", "/data/gold/planner_data.js")
@@ -104,6 +106,28 @@ def parse_query(query):
             "checkin": checkin.isoformat(), "checkout": checkout.isoformat(), "radius_km": radius}
 
 
+def nearest_location(items, name, lat, lon, from_hotel=False):
+    """Localidad del resultado más cercano al destino, descartando los que están a más de
+    MAX_LOCATION_KM (un homónimo en otro país daría precios de otro lugar)."""
+    candidates = []
+    for position, item in enumerate(items):
+        key = location_key({"location_key": item.get("location_key")}) if from_hotel else location_key(item)
+        if not key:
+            continue
+        try:
+            distance = distance_km(lat, lon, float(item["latitude"]), float(item["longitude"]))
+        except (KeyError, TypeError, ValueError):
+            if from_hotel:
+                continue  # un hotel sin coordenadas no permite comprobar que es del destino
+            distance = float("inf")  # localidad sin coordenadas: se acepta en el orden de la búsqueda
+        if distance != float("inf") and distance > MAX_LOCATION_KM:
+            continue
+        place = item.get("short_place_name") if from_hotel else item.get("place_name")
+        candidates.append((distance, position, {"key": key, "name": name if from_hotel else item.get("name") or name,
+                                                "place": place or ""}))
+    return min(candidates)[2] if candidates else None
+
+
 def mark_outliers(hotels, factor=4, floor=500):
     """Marca tarifas desproporcionadas: más de `factor` veces la más barata de otro alojamiento
     y más de `floor` por noche. Para fechas aún no abiertas a reserva, algunas agencias devuelven
@@ -137,25 +161,38 @@ class PriceService:
         self.cache_file.parent.mkdir(parents=True, exist_ok=True)
         self.cache_file.write_text(json.dumps(self.locations, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    def find_location(self, name, country):
-        """Clave de localidad de TripAdvisor para el destino, con caché en disco."""
+    def find_location(self, name, country, lat=None, lon=None):
+        """Clave de localidad de TripAdvisor para el destino, con caché en disco.
+
+        Si hay varios resultados se elige el más cercano al destino, y se descartan los que quedan
+        a más de MAX_LOCATION_KM: un homónimo en otro país daría precios de otro lugar."""
         cache_key = f"{name}|{country}".lower()
         with _lock:
-            if cache_key in self.locations:
-                return self.locations[cache_key]
+            cached = self.locations.get(cache_key)
+        if cached and cached.get("key"):
+            return cached
+        # Un fallo reciente no se repite: cada búsqueda gasta cuota de RapidAPI aunque falle.
+        if cached and time.time() - cached.get("failed_at", 0) < FAILED_LOCATION_TTL_S:
+            return None
         if not self.key:
             return None
-        query = f"{name}, {country}" if country else name
-        result = self._get(f"https://{RAPIDAPI_HOST}/api/search", {"query": query, "location_type": "geo"},
-                           headers={"X-RapidAPI-Key": self.key, "X-RapidAPI-Host": RAPIDAPI_HOST})
+        # 1) Búsqueda geográfica («Málaga, España»). 2) Si falla o no hay nada cerca, búsqueda de
+        # alojamientos por nombre: cada hotel trae la clave de su localidad (así se encuentran Ceuta
+        # o Gibraltar, que la búsqueda geográfica no devuelve).
+        attempts = [({"query": f"{name}, {country}" if country else name, "location_type": "geo"}, False),
+                    ({"query": name}, True)]
         found = None
-        for item in result.get("list") or []:
-            key = location_key(item)
-            if key:
-                found = {"key": key, "name": item.get("name") or name, "place": item.get("place_name") or ""}
+        for params, from_hotel in attempts:
+            try:
+                result = self._get(f"https://{RAPIDAPI_HOST}/api/search", params,
+                                   headers={"X-RapidAPI-Key": self.key, "X-RapidAPI-Host": RAPIDAPI_HOST})
+            except RuntimeError:
+                continue  # Xotelo responde «Failed to search data» a algunas consultas
+            found = nearest_location(result.get("list") or [], name, lat, lon, from_hotel)
+            if found:
                 break
         with _lock:
-            self.locations[cache_key] = found
+            self.locations[cache_key] = found or {"key": None, "failed_at": time.time()}
             self._save_locations()
         return found
 
@@ -196,9 +233,10 @@ class PriceService:
         return value
 
     def prices(self, params):
-        if not self.key and f"{params['name']}|{params['country']}".lower() not in self.locations:
+        cached = self.locations.get(f"{params['name']}|{params['country']}".lower()) or {}
+        if not self.key and not cached.get("key"):
             return {"status": "no_key"}
-        location = self.find_location(params["name"], params["country"])
+        location = self.find_location(params["name"], params["country"], params["lat"], params["lon"])
         if not location:
             return {"status": "no_location"}
         hotels = self.nearby_hotels(location, params["lat"], params["lon"], params["radius_km"])
