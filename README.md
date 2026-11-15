@@ -1,6 +1,6 @@
 # Planificador geoespacial de eclipses
 
-El proyecto prepara los eclipses solares y lunares de los **próximos tres años** a partir del catálogo NASA. Una aplicación local permite elegir un evento por fecha y consultar países, zonas, circunstancias astronómicas y climatología. Al elegir un destino, consulta en directo su pronóstico y los alojamientos cercanos, con enlaces a Google Maps y Booking para las fechas del eclipse.
+El proyecto prepara los eclipses solares y lunares de los **próximos tres años** a partir del catálogo NASA. Una aplicación local permite elegir un evento por fecha y consultar países, zonas, circunstancias astronómicas y climatología. Al elegir un destino, consulta en directo su pronóstico y los alojamientos cercanos. Con el servidor local muestra también su disponibilidad, su precio y sus fotos para las fechas y personas que elijas, con enlaces de reserva en Booking.
 
 - [Datos y preparación](docs/entregas/02_datos_y_preparacion.md): fuentes, variables, flujo Bronze → Silver → Gold y limitaciones.
 - [Notebook](docs/entregas/02_planificador_eclipse.ipynb): ejemplo reproducible de selección y análisis.
@@ -20,7 +20,7 @@ python -m pip install -r requirements.txt
 python src/eclipse_pipeline.py
 ```
 
-La primera ejecución necesita Internet y prepara la ventana completa: catálogo, circunstancias locales, ubicaciones, climatología y archivos del selector. Después basta con abrir `app/index.html` en el navegador (o `Ctrl + O` y elegir ese archivo). No necesita servidor, y elegir un eclipse usa los datos guardados sin hacer nuevas descargas. Solo el panel del destino necesita conexión (ver «Panel del destino»).
+La primera ejecución necesita Internet y prepara la ventana completa: catálogo, circunstancias locales, ubicaciones, climatología y archivos del selector. Después basta con abrir `app/index.html` en el navegador (o `Ctrl + O` y elegir ese archivo). No necesita servidor, y elegir un eclipse usa los datos guardados sin hacer nuevas descargas. Solo el panel del destino necesita conexión (ver «Panel del destino»). Para ver también la disponibilidad y el precio de los alojamientos, abre la app con `abrir_planificador.bat` (ver «Precios de alojamiento»).
 
 ```powershell
 # Solo el catálogo de la ventana, sin climatología.
@@ -71,7 +71,7 @@ Open-Meteo limita el uso gratuito a 600 llamadas por minuto, 5.000 por hora y 10
 - **Pronóstico** de [Open-Meteo](https://open-meteo.com/) a la hora del máximo, cuando faltan 16 días o menos. Antes indica desde qué fecha estará disponible.
 - **Alojamientos** de [OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL) a menos de 8 km, o de 25 km si apenas hay, mediante la API Overpass. Se consultan tres instancias públicas a la vez y, si fallan, [Photon](https://photon.komoot.io/) como búsqueda parcial. El mapa usa teselas de Esri y [Leaflet](https://leafletjs.com/) desde cdnjs, con verificación de integridad.
 - **Fechas y personas.** Por defecto, la noche anterior y la del eclipse para 2 adultos en una habitación; se pueden cambiar entrada, salida (hasta 30 noches), adultos (hasta 8) y habitaciones. Al pulsar «Consultar» se actualizan los precios y los enlaces de reserva.
-- **Disponibilidad y precio para esas fechas** de los alojamientos cercanos, si la app se abre con el servidor local (ver abajo): tarifa más baja por habitación y noche, total de la estancia y agencia. Siempre hay además enlaces a Google Maps y Booking con las fechas y personas ya rellenadas.
+- **Disponibilidad y precio para esas fechas** de los alojamientos cercanos, si la app se abre con el servidor local (ver abajo): tarifa más baja por habitación y noche, total de la estancia y agencia. Siempre hay además enlaces a Booking con las fechas y personas ya rellenadas y a Google Maps para ver la ubicación.
 - **Al pulsar un alojamiento del mapa**, su ventana muestra, con el servidor local, si está disponible para tus fechas y personas, con el precio por noche, el total y la agencia (lo busca en TripAdvisor por nombre y posición). También muestra fotos del propio alojamiento: la de TripAdvisor, la que tenga en OpenStreetMap o las de [Wikimedia Commons](https://commons.wikimedia.org/) que lo citan; no se muestran fotos del entorno sin relación. Siempre hay un enlace a Google Imágenes. El enlace de Google Maps solo sirve para la ubicación: Google no admite fechas en sus enlaces, y Booking sí las lleva.
 
 Solo se envían las coordenadas del destino (y, al servidor de precios, las fechas y el número de personas). Sin conexión, el panel lo indica y el resto de la app funciona igual.
