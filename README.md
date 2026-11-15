@@ -72,7 +72,7 @@ Open-Meteo limita el uso gratuito a 600 llamadas por minuto, 5.000 por hora y 10
 - **Alojamientos** de [OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL) a menos de 8 km, o de 25 km si apenas hay, mediante la API Overpass. Se consultan tres instancias públicas a la vez y, si fallan, [Photon](https://photon.komoot.io/) como búsqueda parcial. El mapa usa teselas de Esri y [Leaflet](https://leafletjs.com/) desde cdnjs, con verificación de integridad.
 - **Fechas y personas.** Por defecto, la noche anterior y la del eclipse para 2 adultos en una habitación; se pueden cambiar entrada, salida (hasta 30 noches), adultos (hasta 8) y habitaciones. Al pulsar «Consultar» se actualizan los precios y los enlaces de reserva.
 - **Disponibilidad y precio para esas fechas** de los alojamientos cercanos, si la app se abre con el servidor local (ver abajo): tarifa más baja por habitación y noche, total de la estancia y agencia. Siempre hay además enlaces a Google Maps y Booking con las fechas y personas ya rellenadas.
-- **Fotos del alojamiento.** Al pulsar el nombre de un alojamiento con precio se muestran su foto de TripAdvisor y las fotos de [Wikimedia Commons](https://commons.wikimedia.org/) tomadas a menos de 150 m (cada una con su autor y licencia), con enlaces a Google Imágenes y a TripAdvisor para ver más.
+- **Fotos del alojamiento.** La ventana de cada alojamiento en el mapa muestra fotos de Wikimedia Commons de su entorno (y la suya si OpenStreetMap la tiene), también con la app abierta como archivo. Con el servidor, al pulsar el nombre de un alojamiento con precio se muestran su foto de TripAdvisor y las fotos de [Wikimedia Commons](https://commons.wikimedia.org/) tomadas a menos de 150 m (cada una con su autor y licencia), con enlaces a Google Imágenes y a TripAdvisor para ver más.
 
 Solo se envían las coordenadas del destino (y, al servidor de precios, las fechas y el número de personas). Sin conexión, el panel lo indica y el resto de la app funciona igual.
 
@@ -83,6 +83,8 @@ El navegador no puede pedir los precios directamente, así que se sirven desde u
 ```powershell
 python src/app_server.py        # abre http://127.0.0.1:8000/app/index.html
 ```
+
+En Windows basta con hacer doble clic en `abrir_planificador.bat`, que ejecuta lo mismo.
 
 Para cada destino, [`src/app_server.py`](src/app_server.py) busca su localidad en TripAdvisor (una vez; queda en `.cache/`), obtiene los alojamientos cercanos y consulta la tarifa más baja por habitación y noche, en euros, que publican Booking, Agoda y otras agencias para las fechas y personas elegidas. Que alguna agencia publique tarifa se muestra como «Disponible»; si ninguna lo hace, «Sin oferta para esas fechas». Es una disponibilidad orientativa: no distingue un hotel completo de uno que aún no ha abierto esas fechas (lo habitual a más de un año vista), y la confirmación está en la agencia. Cambiar las fechas no gasta cuota de RapidAPI, porque la localidad ya está en caché. Usa [Xotelo](https://xotelo.com/), una API gratuita no oficial: puede cambiar o fallar, y entonces quedan los enlaces de búsqueda. Las tarifas desproporcionadas (más de 4 veces la más barata de la zona y más de 500 €) se marcan como atípicas.
 

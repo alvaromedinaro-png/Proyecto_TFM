@@ -218,9 +218,10 @@ window.EclipseLive = (() => {
     const distance = distanceKm(origin.lat, origin.lon, itemLat, itemLon);
     if (distance > origin.radius / 1000) return null;
     const website = tags.website || tags["contact:website"] || "";
+    const image = /^https:\/\/\S+\.(jpe?g|png|webp)$/i.test(tags.image || "") ? tags.image : "";
     return {
       id, name: lodgingName(tags), type: tags.tourism, stars: tags.stars || "", city: tags["addr:city"] || "",
-      lat: itemLat, lon: itemLon, website: /^https?:\/\//i.test(website) ? website : "", distance
+      lat: itemLat, lon: itemLon, website: /^https?:\/\//i.test(website) ? website : "", image, distance
     };
   }
 
@@ -287,8 +288,16 @@ window.EclipseLive = (() => {
 
   // Búsqueda de Booking con las fechas y personas elegidas.
   function bookingUrl(text, stay) {
-    const params = new URLSearchParams({ ss: text, checkin: stay.checkin, checkout: stay.checkout,
-      group_adults: String(stay.adults), no_rooms: String(stay.rooms), group_children: "0" });
+    const [inYear, inMonth, inDay] = stay.checkin.split("-").map(Number);
+    const [outYear, outMonth, outDay] = stay.checkout.split("-").map(Number);
+    // Las fechas van en los dos formatos que entiende Booking: si la búsqueda lleva directamente a la
+    // ficha de un hotel, conserva las del formato por campos.
+    const params = new URLSearchParams({
+      ss: text, checkin: stay.checkin, checkout: stay.checkout,
+      checkin_year: String(inYear), checkin_month: String(inMonth), checkin_monthday: String(inDay),
+      checkout_year: String(outYear), checkout_month: String(outMonth), checkout_monthday: String(outDay),
+      group_adults: String(stay.adults), no_rooms: String(stay.rooms), group_children: "0", selected_currency: "EUR"
+    });
     return `https://www.booking.com/searchresults.es.html?${params}`;
   }
 
@@ -312,7 +321,7 @@ window.EclipseLive = (() => {
     const wrap = node("span", "lodging-actions");
     // Google Maps busca el nombre alrededor de las coordenadas del alojamiento, así no confunde homónimos.
     const at = `@${item.lat.toFixed(6)},${item.lon.toFixed(6)},17z`;
-    wrap.append(link("Mapa y precio", item.name
+    wrap.append(link("Google Maps", item.name
       ? `https://www.google.com/maps/search/${encodeURIComponent(item.name)}/${at}`
       : `https://www.google.com/maps/search/?api=1&query=${item.lat.toFixed(6)},${item.lon.toFixed(6)}`));
     if (item.name) {
@@ -384,7 +393,14 @@ window.EclipseLive = (() => {
       const marker = window.L.circleMarker([item.lat, item.lon], { radius: 5, color: "#176a65", weight: 1.5, fillColor: "#5fc2b4", fillOpacity: 0.85 });
       const popup = node("div", "lodging-popup");
       popup.append(node("strong", "", item.name || "Alojamiento sin nombre"), node("span", "", lodgingDescription(item)), hotelLinks(item, location, stay));
-      marker.bindPopup(popup);
+      const pictures = node("div", "popup-photos");
+      popup.prepend(pictures);
+      marker.bindPopup(popup, { maxWidth: 280 });
+      marker.on("popupopen", () => {
+        if (pictures.dataset.loaded) return;
+        pictures.dataset.loaded = "1";
+        popupPhotos(item, isReference(location) ? item.city : location.name, pictures, marker);
+      });
       markerLayer.addLayer(marker);
       markersById.set(item.id, marker);
     });
@@ -475,7 +491,7 @@ window.EclipseLive = (() => {
     const status = await priceServer();
     if (id !== lodgingRequest) return;
     if (!status) {
-      priceNote(box, "Precios dentro de la app", "Abre la app con «python src/app_server.py» para ver aquí el precio por noche de los alojamientos cercanos en tus fechas. Mientras, los enlaces de Google Maps y Booking muestran el precio real.");
+      priceNote(box, "Precios dentro de la app", "La app está abierta como archivo. Para ver aquí la disponibilidad, el precio de tus fechas y la foto de TripAdvisor de cada alojamiento, ábrela con «abrir_planificador.bat» (o «python src/app_server.py»). Mientras, el enlace de Booking de cada alojamiento lleva a tus fechas y su ventana en el mapa muestra fotos del entorno.");
       return;
     }
     if (!status.prices) {
@@ -668,6 +684,33 @@ window.EclipseLive = (() => {
       .sort((a, b) => Number(b.own) - Number(a.own)).slice(0, 6);
     photoCache.set(key, photos);
     return photos;
+  }
+
+  // Fotos en la ventana de un alojamiento de OpenStreetMap: la suya si la tiene etiquetada y las de
+  // Wikimedia Commons de alrededor. No necesitan el servidor local.
+  async function popupPhotos(item, area, container, marker) {
+    const query = `${item.name || "hotel"}${area ? ` ${area}` : ""}`;
+    const more = link("Más fotos en Google Imágenes", `https://www.google.com/search?${new URLSearchParams({ tbm: "isch", q: query })}`, "popup-more-photos");
+    const strip = node("div", "popup-strip");
+    if (item.image) strip.append(photo(item.image, `Foto de ${item.name}`));
+    container.replaceChildren(strip, node("small", "lodging-meta", "Buscando fotos…"));
+    let found = [];
+    try {
+      found = await commonsPhotos({ lat: item.lat, lon: item.lon, name: item.name || "" }, area);
+    } catch (error) {
+      found = [];
+    }
+    found.slice(0, item.image ? 2 : 3).forEach((picture) => {
+      const anchor = link("", picture.href);
+      anchor.title = `${picture.own ? "Alojamiento" : "Alrededores"} · ${picture.author || "Wikimedia Commons"}${picture.license ? ` · ${picture.license}` : ""}`;
+      anchor.append(photo(picture.thumb, picture.title));
+      strip.append(anchor);
+    });
+    const caption = strip.childElementCount
+      ? node("small", "lodging-meta", `Fotos del alojamiento y de su entorno (Wikimedia Commons, a menos de ${commonsRadiusM} m).`)
+      : node("small", "lodging-meta", "Sin fotos a su alrededor en Wikimedia Commons.");
+    container.replaceChildren(...[strip.childElementCount ? strip : null, caption, more].filter(Boolean));
+    if (marker && marker.getPopup()) marker.getPopup().update();
   }
 
   async function renderPhotos(hotel, area, container) {
