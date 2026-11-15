@@ -123,13 +123,22 @@
             </section>
             <section class="live-block" aria-labelledby="lodging-title">
               <h4 id="lodging-title">Dónde alojarse</h4>
+              <form id="stay-form" class="stay-form" novalidate aria-describedby="stay-help">
+                <div class="stay-field"><label for="stay-checkin">Entrada</label><input type="date" id="stay-checkin" required></div>
+                <div class="stay-field"><label for="stay-checkout">Salida</label><input type="date" id="stay-checkout" required></div>
+                <div class="stay-field narrow"><label for="stay-adults">Adultos</label><input type="number" id="stay-adults" min="1" max="8" step="1" value="2" required></div>
+                <div class="stay-field narrow"><label for="stay-rooms">Habitaciones</label><input type="number" id="stay-rooms" min="1" max="4" step="1" value="1" required></div>
+                <button type="submit" class="stay-submit">Consultar</button>
+                <p id="stay-help" class="stay-help">Por defecto, la noche anterior y la del eclipse. Al cambiarlo se actualizan los precios y los enlaces de reserva.</p>
+                <p id="stay-error" class="stay-error" role="alert" hidden></p>
+              </form>
               <div id="lodging-links" class="lodging-links"></div>
               <div id="lodging-map" class="lodging-map" role="region" aria-label="Mapa de alojamientos cercanos"></div>
               <div id="lodging-prices" class="lodging-prices" aria-live="polite"></div>
               <h5 class="prices-heading">Todos los alojamientos cercanos (OpenStreetMap)</h5>
               <p id="lodging-status" class="lodging-status" role="status" aria-live="polite"></p>
               <ol id="lodging-list" class="lodging-list"></ol>
-              <p class="live-note">Precio y disponibilidad definitivos: en Google Maps y Booking para tus fechas. Para eclipses lejanos, muchos alojamientos todavía no aceptan reservas.</p>
+              <p class="live-note">Precio y disponibilidad definitivos: en Booking o Google Maps para tus fechas. Para eclipses lejanos, muchos alojamientos todavía no aceptan reservas.</p>
             </section>
           </div>
         </section>
@@ -145,7 +154,7 @@
     </main>
 
     <footer class="site-footer">
-      <p>Fuentes: <a href="https://eclipse.gsfc.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA GSFC</a> · <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer">GeoNames</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · Mapa: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a> · Alojamientos: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> (ODbL) · Teselas: <a href="https://www.esri.com/" target="_blank" rel="noopener noreferrer">Esri</a></p>
+      <p>Fuentes: <a href="https://eclipse.gsfc.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA GSFC</a> · <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer">GeoNames</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) · Mapa: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a> · Alojamientos: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> (ODbL) · Teselas: <a href="https://www.esri.com/" target="_blank" rel="noopener noreferrer">Esri</a> · Fotos: TripAdvisor y <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a> (licencia de cada autor)</p>
       <p id="prepared-at">Datos preparados para consulta local.</p>
     </footer>
   </div>

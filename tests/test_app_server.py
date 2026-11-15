@@ -40,9 +40,11 @@ class FakeClient:
             return FakeResponse({"error": None, "result": {"list": [
                 {"name": "Cerca", "key": "g187438-d1", "accommodation_type": "Hotel",
                  "geo": {"latitude": 36.7215, "longitude": -4.4215}, "review_summary": {"rating": 4.5, "count": 10},
-                 "url": "https://www.tripadvisor.com/Hotel_Review-g187438-d1.html"},
+                 "url": "https://www.tripadvisor.com/Hotel_Review-g187438-d1.html",
+                 "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1.jpg"},
                 {"name": "Lejos", "key": "g187438-d2", "geo": {"latitude": 37.5, "longitude": -4.4}},
-                {"name": "Sin tarifa", "key": "g187438-d3", "geo": {"latitude": 36.73, "longitude": -4.42}}]}})
+                {"name": "Sin tarifa", "key": "g187438-d3", "geo": {"latitude": 36.73, "longitude": -4.42},
+                 "image": "https://otro.example/foto.jpg"}]}})
         if url.endswith("/api/rates"):
             rates = [] if params["hotel_key"] == "g187438-d3" else [
                 {"code": "BookingCom", "name": "Booking.com", "rate": 120}, {"code": "Agoda", "name": "Agoda.com", "rate": 95}]
@@ -73,6 +75,11 @@ class AppServerTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 server.parse_query(query(**bad))
         self.assertEqual(server.parse_query(query(radius_km="900"))["radius_km"], server.MAX_RADIUS_KM)
+        self.assertEqual((params["adults"], params["rooms"]), (2, 1))  # valores por defecto
+        self.assertEqual(server.parse_query(query(adults="4", rooms="2"))["rooms"], 2)
+        for bad in ({"adults": "0"}, {"adults": "9"}, {"adults": "2", "rooms": "3"}, {"rooms": "x"}):
+            with self.assertRaises(ValueError):
+                server.parse_query(query(**bad))
 
     def test_location_key_is_taken_from_any_field(self):
         self.assertEqual(server.location_key({"location_key": "g187438"}), "g187438")
@@ -90,10 +97,27 @@ class AppServerTest(unittest.TestCase):
         self.assertEqual(result["hotels"][0]["price"]["provider"], "Agoda.com")
         self.assertIsNone(result["hotels"][1]["price"])
         self.assertEqual(result["nights"], 2)
+        self.assertEqual(result["hotels"][0]["price"]["total"], 190)  # 95 € × 1 habitación × 2 noches
+        self.assertEqual([hotel["available"] for hotel in result["hotels"]], [True, False])
+        # Solo se reenvían fotos del CDN de TripAdvisor.
+        self.assertTrue(result["hotels"][0]["image"].startswith(server.IMAGE_PREFIX))
+        self.assertEqual(result["hotels"][1]["image"], "")
         rates = [params for url, params, _ in client.calls if url.endswith("/api/rates")]
         self.assertTrue(all(params["currency"] == "EUR" and params["adults"] == 2 for params in rates))
         # La clave solo viaja a RapidAPI, nunca a los endpoints libres.
         self.assertTrue(all("X-RapidAPI-Key" not in headers for url, _, headers in client.calls if "rapidapi" not in url))
+
+    def test_people_and_rooms_reach_the_rates_and_the_total(self):
+        client = FakeClient()
+        service = server.PriceService("clave", client, self.cache)
+        result = service.prices(server.parse_query(query(adults="4", rooms="2", checkout="2027-08-04")))
+        rates = [params for url, params, _ in client.calls if url.endswith("/api/rates")]
+        self.assertTrue(all((params["adults"], params["rooms"]) == (4, 2) for params in rates))
+        self.assertEqual((result["adults"], result["rooms"], result["nights"]), (4, 2, 3))
+        self.assertEqual(result["hotels"][0]["price"]["total"], 95 * 2 * 3)
+        # Otra composición del grupo no reutiliza la tarifa guardada.
+        service.prices(server.parse_query(query(adults="2", rooms="1", checkout="2027-08-04")))
+        self.assertEqual(len([url for url, _, _ in client.calls if url.endswith("/api/rates")]), 2 * len(rates))
 
     def test_disproportionate_rates_are_flagged(self):
         hotels = [{"price": {"min": 733}}, {"price": {"min": 7911}}, {"price": None}, {"price": {"error": True}}]
@@ -130,6 +154,31 @@ class AppServerTest(unittest.TestCase):
         self.assertIsNone(service.find_location("Nada", "España", 35.0, -5.0))
         self.assertEqual(len(client.calls), searches)  # el fallo reciente no gasta otra búsqueda
 
+    def test_photos_only_come_from_the_tripadvisor_cdn(self):
+        class PhotoClient(FakeClient):
+            kind = "image/jpeg"
+
+            def get(self, url, params=None, headers=None, timeout=None, stream=False):
+                self.calls.append((url, dict(params or {}), {}))
+                response = FakeResponse(None)
+                response.status_code = 200
+                response.headers = {"Content-Type": self.kind}
+                response.iter_content = lambda size: iter([b"jp", b"eg"])
+                return response
+        client = PhotoClient()
+        service = server.PriceService(None, client, self.cache)
+        good = server.IMAGE_PREFIX + "media/photo-o/1a/hotel.jpg"
+        self.assertEqual(service.photo(good, 480), ("image/jpeg", b"jpeg"))
+        self.assertEqual(client.calls[-1][1]["w"], 500)  # se ajusta a un ancho que admite el CDN
+        for bad in ("https://otro.example/x.jpg", server.IMAGE_PREFIX + "../x.jpg",
+                    server.IMAGE_PREFIX + "x.jpg?u=https://otro", "http://dynamic-media-cdn.tripadvisor.com/x.jpg"):
+            with self.assertRaises(ValueError):
+                service.photo(bad, 480)
+        self.assertEqual(len(client.calls), 1)  # las direcciones ajenas ni se piden
+        client.kind = "text/html"
+        with self.assertRaises(ValueError):
+            service.photo(good, 480)
+
     def test_without_key_reports_it(self):
         self.assertEqual(server.PriceService(None, FakeClient(), self.cache).prices(server.parse_query(query()))["status"], "no_key")
 
@@ -149,6 +198,10 @@ class AppServerTest(unittest.TestCase):
                     urllib.request.urlopen(base + path)
                 self.assertEqual(error.exception.code, 404)
                 error.exception.close()
+            with self.assertRaises(urllib.error.HTTPError) as error:
+                urllib.request.urlopen(f"{base}/api/photo?url=https://otro.example/x.jpg")
+            self.assertEqual(error.exception.code, 400)
+            error.exception.close()
             with self.assertRaises(urllib.error.HTTPError) as error:
                 urllib.request.urlopen(f"{base}/api/prices?name=&lat=1&lon=1")
             self.assertEqual(error.exception.code, 400)

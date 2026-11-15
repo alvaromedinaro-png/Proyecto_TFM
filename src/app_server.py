@@ -9,10 +9,11 @@ Flujo de /api/prices para un destino:
 1. Localidad de TripAdvisor del destino: búsqueda de Xotelo en RapidAPI (requiere clave gratuita).
    Es la única llamada con clave y se guarda en caché en disco, así que se hace una vez por destino.
 2. Alojamientos de esa localidad con coordenadas: /api/list de Xotelo (libre).
-3. Tarifa por noche para las fechas de los más cercanos: /api/rates de Xotelo (libre).
+3. Tarifa por habitación y noche para las fechas, adultos y habitaciones elegidos: /api/rates de Xotelo (libre).
+   Que una agencia publique tarifa indica disponibilidad orientativa; no distingue «completo» de «aún sin precio».
 
 La clave se lee de la variable de entorno RAPIDAPI_KEY o del archivo ~/.rapidapi_key, nunca del repositorio.
-Solo se envían a los servicios el nombre del destino, sus coordenadas y las fechas.
+Solo se envían a los servicios el nombre del destino, sus coordenadas, las fechas y el número de personas.
 """
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, timezone
@@ -40,6 +41,12 @@ PRICED_HOTELS = 16          # tarifas consultadas por destino
 MIN_REVIEWS = 20            # con opiniones suele haber tarifas; los apartamentos sin ellas rara vez las publican
 LIST_LIMIT = 100            # máximo que admite /api/list
 MAX_RADIUS_KM = 25
+MAX_ADULTS = 8
+MAX_ROOMS = 4
+# Fotos de los alojamientos: solo se reenvían las del CDN de TripAdvisor que devuelve Xotelo.
+IMAGE_PREFIX = "https://dynamic-media-cdn.tripadvisor.com/"
+MAX_IMAGE_BYTES = 5 * 1024 * 1024
+PHOTO_WIDTHS = (300, 500, 700)  # anchos que acepta el CDN al redimensionar (otros devuelven 400)
 MAX_LOCATION_KM = 60        # distancia máxima entre el destino y la localidad de TripAdvisor
 FAILED_LOCATION_TTL_S = 24 * 3600  # una localidad no encontrada se vuelve a buscar al día siguiente
 RATES_TTL_S = 6 * 3600      # las tarifas cambian: se reutilizan como mucho seis horas
@@ -99,11 +106,21 @@ def parse_query(query):
     if not 1 <= (checkout - checkin).days <= 30:
         raise ValueError("La estancia debe durar entre 1 y 30 noches.")
     try:
+        adults = int(one("adults") or 2)
+        rooms = int(one("rooms") or 1)
+    except ValueError:
+        raise ValueError("Número de adultos o habitaciones no válido.") from None
+    if not 1 <= adults <= MAX_ADULTS:
+        raise ValueError(f"Los adultos deben ser entre 1 y {MAX_ADULTS}.")
+    if not 1 <= rooms <= min(MAX_ROOMS, adults):
+        raise ValueError(f"Las habitaciones deben ser entre 1 y {min(MAX_ROOMS, adults)} (no más que adultos).")
+    try:
         radius = min(MAX_RADIUS_KM, max(1.0, float(one("radius_km") or 8)))
     except ValueError:
         radius = 8.0
     return {"name": name, "country": country, "lat": lat, "lon": lon,
-            "checkin": checkin.isoformat(), "checkout": checkout.isoformat(), "radius_km": radius}
+            "checkin": checkin.isoformat(), "checkout": checkout.isoformat(), "radius_km": radius,
+            "adults": adults, "rooms": rooms}
 
 
 def nearest_location(items, name, lat, lon, from_hotel=False):
@@ -210,20 +227,23 @@ class PriceService:
             if distance > radius_km or not item.get("key"):
                 continue
             review = item.get("review_summary") or {}
+            image = item.get("image") if str(item.get("image") or "").startswith(IMAGE_PREFIX) else ""
             hotels.append({
                 "name": item.get("name") or "", "key": item["key"], "type": item.get("accommodation_type") or "",
                 "lat": h_lat, "lon": h_lon, "distance_km": round(distance, 2),
-                "rating": review.get("rating"), "reviews": review.get("count"), "url": item.get("url") or ""})
+                "rating": review.get("rating"), "reviews": review.get("count"), "url": item.get("url") or "",
+                "image": image})
         return sorted(hotels, key=lambda hotel: hotel["distance_km"])
 
-    def rates(self, hotel_key, checkin, checkout):
-        cache_key = (hotel_key, checkin, checkout)
+    def rates(self, hotel_key, checkin, checkout, adults=2, rooms=1):
+        """Tarifa más baja por habitación y noche entre las agencias, o None si ninguna la publica."""
+        cache_key = (hotel_key, checkin, checkout, adults, rooms)
         with _lock:
             cached = _rates_cache.get(cache_key)
         if cached and time.time() - cached[0] < RATES_TTL_S:
             return cached[1]
         result = self._get(f"{XOTELO_URL}/rates", {"hotel_key": hotel_key, "chk_in": checkin, "chk_out": checkout,
-                                                   "currency": CURRENCY, "adults": 2, "rooms": 1})
+                                                   "currency": CURRENCY, "adults": adults, "rooms": rooms})
         offers = sorted(({"provider": rate.get("name") or rate.get("code") or "", "rate": rate["rate"]}
                          for rate in result.get("rates") or [] if isinstance(rate.get("rate"), (int, float))),
                         key=lambda offer: offer["rate"])
@@ -247,19 +267,45 @@ class PriceService:
         selected = sorted(hotels, key=lambda hotel: ((hotel["reviews"] or 0) < MIN_REVIEWS, hotel["distance_km"]))[:PRICED_HOTELS]
         with ThreadPoolExecutor(max_workers=6) as pool:
             results = list(pool.map(lambda hotel: self._safe_rates(hotel, params), selected))
-        for hotel, price in zip(selected, results):
-            hotel["price"] = price
-        mark_outliers(selected)
         checkin = date.fromisoformat(params["checkin"])
         nights = (date.fromisoformat(params["checkout"]) - checkin).days
+        for hotel, price in zip(selected, results):
+            if price and "min" in price:
+                # Total de la estancia: tarifa por habitación y noche × habitaciones × noches.
+                price = {**price, "total": price["min"] * params["rooms"] * nights}
+            hotel["price"] = price
+            hotel["available"] = bool(price and "min" in price)
+        mark_outliers(selected)
         return {"status": "ok", "currency": CURRENCY, "nights": nights, "location": location,
+                "checkin": params["checkin"], "checkout": params["checkout"],
+                "adults": params["adults"], "rooms": params["rooms"],
                 "hotels": selected, "total_nearby": len(hotels),
                 "days_ahead": (checkin - datetime.now(timezone.utc).date()).days,
                 "retrieved_utc": datetime.now(timezone.utc).isoformat(timespec="seconds")}
 
+    def photo(self, url, width):
+        """Foto de un alojamiento a través del servidor: el navegador no siempre puede cargarla
+        directamente del CDN. Solo se aceptan direcciones de IMAGE_PREFIX (no es un proxy abierto)."""
+        if not url.startswith(IMAGE_PREFIX) or any(char in url for char in "?#@\\") or ".." in url:
+            raise ValueError("Foto no válida.")
+        width = min(PHOTO_WIDTHS, key=lambda allowed: abs(allowed - width))
+        response = self.client.get(url, params={"w": width, "h": -1, "s": 1}, timeout=20, stream=True)
+        if response.status_code == 400:  # si no admite el tamaño, la original
+            response = self.client.get(url, timeout=20, stream=True)
+        response.raise_for_status()
+        kind = response.headers.get("Content-Type", "")
+        if not kind.startswith("image/"):
+            raise ValueError("La respuesta no es una imagen.")
+        body = bytearray()
+        for chunk in response.iter_content(64 * 1024):
+            body.extend(chunk)
+            if len(body) > MAX_IMAGE_BYTES:
+                raise ValueError("Foto demasiado grande.")
+        return kind, bytes(body)
+
     def _safe_rates(self, hotel, params):
         try:
-            return self.rates(hotel["key"], params["checkin"], params["checkout"])
+            return self.rates(hotel["key"], params["checkin"], params["checkout"], params["adults"], params["rooms"])
         except (requests.RequestException, RuntimeError, ValueError, KeyError):
             return {"error": True}
 
@@ -302,6 +348,24 @@ class Handler(SimpleHTTPRequestHandler):
                 self._json(200, self.service.prices(params))
             except (requests.RequestException, RuntimeError, ValueError) as error:
                 self._json(502, {"status": "error", "message": type(error).__name__})
+            return
+        if url.path == "/api/photo":
+            query = parse_qs(url.query)
+            try:
+                width = int((query.get("w") or ["500"])[0])
+                kind, body = self.service.photo((query.get("url") or [""])[0], width)
+            except ValueError:
+                self.send_error(400)
+                return
+            except requests.RequestException:
+                self.send_error(502)
+                return
+            self.send_response(200)
+            self.send_header("Content-Type", kind)
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "max-age=86400")
+            self.end_headers()
+            self.wfile.write(body)
             return
         if not url.path.startswith(STATIC_PREFIXES):
             self.send_error(404)

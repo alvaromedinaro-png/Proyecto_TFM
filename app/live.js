@@ -3,7 +3,9 @@
 // Consultas en directo para el destino elegido. El catálogo, la astronomía y la climatología
 // llegan preparados en planner_data.js; aquí solo se consulta lo que cambia con el tiempo:
 // - el pronóstico meteorológico de Open-Meteo, cuando el eclipse entra en su horizonte de 16 días;
-// - los alojamientos registrados en OpenStreetMap (API Overpass) alrededor del destino.
+// - los alojamientos registrados en OpenStreetMap (API Overpass) alrededor del destino;
+// - con el servidor local, precios para las fechas y personas elegidas y fotos de cada alojamiento
+//   (la de TripAdvisor y las de Wikimedia Commons tomadas a su alrededor).
 // Solo se envían las coordenadas del destino, nunca la ubicación del usuario.
 window.EclipseLive = (() => {
   const forecastDays = 16;
@@ -31,6 +33,14 @@ window.EclipseLive = (() => {
   const lodgingCache = new Map();
   const byId = (id) => document.getElementById(id);
   let request = 0;
+  let lodgingRequest = 0; // las fechas pueden cambiar sin volver a pedir el pronóstico
+  let current = null;     // destino abierto en el panel: { location, day, stay }
+  const commonsUrl = "https://commons.wikimedia.org/w/api.php";
+  const commonsRadiusM = 150;
+  const photoCache = new Map();
+  const maxNights = 30;
+  const maxAdults = 8;
+  const maxRooms = 4;
   let map = null;
   let tileLayer = null;
   let markerLayer = null;
@@ -275,6 +285,13 @@ window.EclipseLive = (() => {
     return { complete, items: unique, radius: origin.radius };
   }
 
+  // Búsqueda de Booking con las fechas y personas elegidas.
+  function bookingUrl(text, stay) {
+    const params = new URLSearchParams({ ss: text, checkin: stay.checkin, checkout: stay.checkout,
+      group_adults: String(stay.adults), no_rooms: String(stay.rooms), group_children: "0" });
+    return `https://www.booking.com/searchresults.es.html?${params}`;
+  }
+
   function isReference(location) {
     return location.candidate_type === "astronomical_reference" || /^Referencia\b/i.test(location.name || "");
   }
@@ -285,8 +302,7 @@ window.EclipseLive = (() => {
     const lon = location.longitude.toFixed(5);
     const links = [link("Ver hoteles y precios en Google Maps", `https://www.google.com/maps/search/hoteles/@${lat},${lon},13z`, "action-link primary")];
     if (!isReference(location)) {
-      const params = new URLSearchParams({ ss: `${location.name}, ${location.country_name || ""}`.replace(/,\s*$/, ""), checkin: stay.checkin, checkout: stay.checkout, group_adults: "2", no_rooms: "1" });
-      links.push(link("Disponibilidad en Booking", `https://www.booking.com/searchresults.es.html?${params}`, "action-link"));
+      links.push(link("Disponibilidad en Booking", bookingUrl(`${location.name}, ${location.country_name || ""}`.replace(/,\s*$/, ""), stay), "action-link"));
     }
     container.replaceChildren(...links);
   }
@@ -300,8 +316,7 @@ window.EclipseLive = (() => {
       ? `https://www.google.com/maps/search/${encodeURIComponent(item.name)}/${at}`
       : `https://www.google.com/maps/search/?api=1&query=${item.lat.toFixed(6)},${item.lon.toFixed(6)}`));
     if (item.name) {
-      const params = new URLSearchParams({ ss: `${item.name}${area ? `, ${area}` : ""}`, checkin: stay.checkin, checkout: stay.checkout, group_adults: "2", no_rooms: "1" });
-      wrap.append(link("Booking", `https://www.booking.com/searchresults.es.html?${params}`));
+      wrap.append(link("Booking", bookingUrl(`${item.name}${area ? `, ${area}` : ""}`, stay)));
     }
     if (item.website) wrap.append(link("Web", item.website));
     return wrap;
@@ -392,13 +407,13 @@ window.EclipseLive = (() => {
     try {
       result = await fetchLodgings(location.latitude, location.longitude);
     } catch (error) {
-      if (id !== request) return;
+      if (id !== lodgingRequest) return;
       renderPrices(location, stay, id, lodgingRadiusM, []);
       status.className = "lodging-status error";
       status.textContent = "No se pudo consultar OpenStreetMap ahora mismo (el servicio público puede estar saturado o no hay conexión). Los enlaces de Google Maps y Booking funcionan igualmente; vuelve a elegir el destino para reintentarlo.";
       return;
     }
-    if (id !== request) return;
+    if (id !== lodgingRequest) return;
     const items = result.items;
     renderPrices(location, stay, id, result.radius, items);
     const named = items.filter((item) => item.name);
@@ -450,7 +465,7 @@ window.EclipseLive = (() => {
     const message = node("div", className);
     message.append(node("strong", "", title));
     if (text) message.append(node("p", "", text));
-    box.replaceChildren(node("h5", "prices-heading", "Precios para tus fechas"), message);
+    box.replaceChildren(node("h5", "prices-heading", "Disponibilidad y precio para tus fechas"), message);
   }
 
   async function renderPrices(location, stay, id, radiusM, items) {
@@ -458,7 +473,7 @@ window.EclipseLive = (() => {
     if (!box) return;
     box.replaceChildren();
     const status = await priceServer();
-    if (id !== request) return;
+    if (id !== lodgingRequest) return;
     if (!status) {
       priceNote(box, "Precios dentro de la app", "Abre la app con «python src/app_server.py» para ver aquí el precio por noche de los alojamientos cercanos en tus fechas. Mientras, los enlaces de Google Maps y Booking muestran el precio real.");
       return;
@@ -472,20 +487,21 @@ window.EclipseLive = (() => {
       priceNote(box, "Sin localidad para buscar precios", "Este punto no tiene nombre de localidad. Elige una zona cercana con nombre o usa los enlaces de búsqueda.");
       return;
     }
-    priceNote(box, "Consultando precios…", "Tarifas de Booking, Agoda y otras agencias para tus fechas; puede tardar unos segundos.", "live-message loading");
+    priceNote(box, "Consultando disponibilidad y precios…", "Ofertas de Booking, Agoda y otras agencias para tus fechas y personas; puede tardar unos segundos.", "live-message loading");
     const params = new URLSearchParams({
       name, country: location.country_name || "", lat: location.latitude.toFixed(5), lon: location.longitude.toFixed(5),
-      checkin: stay.checkin, checkout: stay.checkout, radius_km: String(Math.min(25, radiusM / 1000))
+      checkin: stay.checkin, checkout: stay.checkout, adults: String(stay.adults), rooms: String(stay.rooms),
+      radius_km: String(Math.min(25, radiusM / 1000))
     });
     let body;
     try {
       body = await fetchJson(`/api/prices?${params}`, {}, 60000);
     } catch (error) {
-      if (id !== request) return;
+      if (id !== lodgingRequest) return;
       priceNote(box, "No se pudieron consultar los precios", "El servicio de tarifas no respondió. Los enlaces de Google Maps y Booking siguen mostrando el precio real.", "live-message error");
       return;
     }
-    if (id !== request) return;
+    if (id !== lodgingRequest) return;
     if (body.status === "no_key") {
       priceNote(box, "Precios sin activar", "Falta la clave de RapidAPI en el servidor local (instrucciones en el README).");
       return;
@@ -508,51 +524,246 @@ window.EclipseLive = (() => {
     const hotels = body.hotels.slice().sort((a, b) => rank(a) - rank(b) || (hasPrice(a) ? a.price.min : 0) - (hasPrice(b) ? b.price.min : 0) || a.distance_km - b.distance_km);
     const priced = hotels.filter((hotel) => hasPrice(hotel) && !hotel.price.outlier);
     const outliers = hotels.filter((hotel) => hasPrice(hotel) && hotel.price.outlier).length;
-    const heading = node("h5", "prices-heading", "Precios para tus fechas");
+    const nights = body.nights;
+    const group = `${body.adults} ${body.adults === 1 ? "adulto" : "adultos"}, ${body.rooms} ${body.rooms === 1 ? "habitación" : "habitaciones"}`;
+    const range = `${shortDate(stay.checkin)}–${shortDate(stay.checkout)}`;
+    const perNight = body.rooms > 1 ? "por habitación y noche" : "por noche";
+    const heading = node("h5", "prices-heading", `Disponibilidad y precio · ${range} · ${nights} ${nights === 1 ? "noche" : "noches"} · ${group}`);
     const summary = node("p", "lodging-status", priced.length
-      ? `Desde ${euro.format(priced[0].price.min)} por noche · ${priced.length} de los ${hotels.length} alojamientos consultados (de ${body.total_nearby} en TripAdvisor a menos de ${Math.min(25, radiusM / 1000)} km) tienen tarifa para el ${stay.checkin.split("-").reverse().join("/")}–${stay.checkout.split("-").reverse().join("/")}${outliers ? `, y ${outliers} más con un precio atípico` : ""}.`
-      : "Ninguno de los alojamientos más cercanos publica todavía una tarifa fiable para esas fechas. Es habitual a más de un año vista: vuelve a consultarlo más adelante.");
+      ? `Disponibles ${priced.length} de los ${hotels.length} alojamientos consultados (de ${body.total_nearby} en TripAdvisor a menos de ${Math.min(25, radiusM / 1000)} km), desde ${euro.format(priced[0].price.min)} ${perNight} (${euro.format(priced[0].price.total)} en total)${outliers ? `; ${outliers} más con un precio atípico` : ""}. Pulsa un nombre para ver sus fotos.`
+      : "Ninguno de los alojamientos más cercanos publica todavía una oferta fiable para esas fechas. Es habitual a más de un año vista: vuelve a consultarlo más adelante o prueba otras fechas.");
     const far = finite(body.days_ahead) && body.days_ahead > 330
       ? node("p", "live-message error", `Faltan ${body.days_ahead} días: muchos alojamientos aún no han abierto reservas para esas fechas y algunas agencias devuelven tarifas provisionales o desproporcionadas. Tómalas como orientación y compruébalas en la agencia.`)
       : null;
     const list = node("ol", "price-list");
     const unpriced = hotels.filter((hotel) => !hasPrice(hotel));
+    const area = isReference(location) ? name : location.name;
     hotels.filter(hasPrice).forEach((hotel) => {
       const row = node("li", hotel.price.outlier ? "suspect" : "");
       const info = node("div", "price-info");
       const meta = [hotel.type, finite(hotel.rating) && hotel.rating > 0 ? `${number.format(hotel.rating)} ★ (${hotel.reviews || 0})` : "", `${number.format(hotel.distance_km)} km`].filter(Boolean).join(" · ");
-      info.append(node("strong", "", hotel.name), node("span", "lodging-meta", meta));
+      const title = node("button", "lodging-name", hotel.name);
+      title.type = "button";
+      title.setAttribute("aria-expanded", "false");
+      const badge = hotel.price.outlier
+        ? node("span", "availability doubtful", "Por confirmar")
+        : node("span", "availability", "Disponible");
+      const titleLine = node("span", "price-title");
+      titleLine.append(title, badge);
+      info.append(titleLine, node("span", "lodging-meta", meta));
       const actions = node("span", "lodging-actions");
+      actions.append(link("Reservar en Booking", bookingUrl(`${hotel.name}${area ? `, ${area}` : ""}`, stay)));
       if (/^https:\/\/www\.tripadvisor\./.test(hotel.url)) actions.append(link("TripAdvisor", hotel.url));
-      const booking = new URLSearchParams({ ss: hotel.name, checkin: stay.checkin, checkout: stay.checkout, group_adults: "2", no_rooms: "1" });
-      actions.append(link("Booking", `https://www.booking.com/searchresults.es.html?${booking}`));
       info.append(actions);
       const price = node("div", "price-value");
-      if (hotel.price && finite(hotel.price.min)) {
-        price.append(node("strong", "", euro.format(hotel.price.min)), node("small", "", `/noche · ${hotel.price.provider}`));
-        if (hotel.price.outlier) price.append(node("small", "suspect-note", "Precio atípico: verifícalo"));
-        price.title = hotel.price.offers.map((offer) => `${offer.provider}: ${euro.format(offer.rate)}`).join("\n");
-      } else {
-        price.append(node("small", "", hotel.price && hotel.price.error ? "Error al consultar" : "Sin tarifa aún"));
-      }
-      row.append(info, price);
+      price.append(node("strong", "", euro.format(hotel.price.min)), node("small", "", `${perNight} · ${hotel.price.provider}`));
+      if (finite(hotel.price.total)) price.append(node("small", "price-total", `${euro.format(hotel.price.total)} en total`));
+      if (hotel.price.outlier) price.append(node("small", "suspect-note", "Precio atípico: verifícalo"));
+      price.title = hotel.price.offers.map((offer) => `${offer.provider}: ${euro.format(offer.rate)}`).join("\n");
+      const photos = node("div", "hotel-photos");
+      photos.hidden = true;
+      title.addEventListener("click", () => {
+        const open = photos.hidden;
+        photos.hidden = !open;
+        title.setAttribute("aria-expanded", String(open));
+        if (open && !photos.childElementCount) renderPhotos(hotel, area, photos);
+        if (open && map) map.setView([hotel.lat, hotel.lon], Math.max(map.getZoom(), 14));
+      });
+      row.append(info, price, photos);
       list.append(row);
-      if (map && priceLayer && hasPrice(hotel) && !hotel.price.outlier) {
+      if (map && priceLayer && !hotel.price.outlier) {
         const pin = window.L.marker([hotel.lat, hotel.lon], { icon: window.L.divIcon({ className: "price-pin-anchor", html: "", iconSize: [0, 0] }) });
         pin.on("add", () => {
           const element = pin.getElement();
           if (element && !element.firstChild) element.append(node("span", "price-pin", euro.format(hotel.price.min)));
         });
         const popup = node("div", "lodging-popup");
-        popup.append(node("strong", "", hotel.name), node("span", "", `${euro.format(hotel.price.min)} por noche · ${hotel.price.provider}`), node("span", "", meta));
+        if (hotel.image) popup.append(photo(tripadvisorImage(hotel.image, 300), `Foto de ${hotel.name}`, "popup-photo"));
+        popup.append(node("strong", "", hotel.name), node("span", "", `${euro.format(hotel.price.min)} ${perNight} · ${euro.format(hotel.price.total)} en total · ${hotel.price.provider}`), node("span", "", meta));
+        const more = node("button", "popup-more", "Ver fotos y reservar");
+        more.type = "button";
+        more.addEventListener("click", () => {
+          if (photos.hidden) title.click();
+          row.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        });
+        popup.append(more);
         pin.bindPopup(popup);
         priceLayer.addLayer(pin);
       }
     });
-    const note = node("p", "live-note", `Tarifa más baja por noche para 2 adultos entre las agencias que recoge Xotelo a partir de TripAdvisor, consultada ahora (${new Date(body.retrieved_utc).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}). Puede no incluir impuestos y cambiar al reservar.`);
-    // Los que no publican tarifa se resumen en una línea para no alargar la lista.
-    const rest = unpriced.length ? node("p", "lodging-meta unpriced", `Sin tarifa publicada todavía: ${unpriced.slice(0, 8).map((hotel) => hotel.name).join(", ")}${unpriced.length > 8 ? ` y ${unpriced.length - 8} más` : ""}.`) : null;
+    const note = node("p", "live-note", `«Disponible» significa que al menos una de las agencias que recoge Xotelo a partir de TripAdvisor (Booking, Agoda, Expedia…) ofrece habitación para esas fechas y personas; no garantiza la reserva. Tarifa más baja ${perNight}, consultada ahora (${new Date(body.retrieved_utc).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}); puede no incluir impuestos y cambiar al reservar.`);
+    // Los que no publican tarifa se resumen en una línea para no alargar la lista. Sin oferta no
+    // distingue «completo» de «aún sin precio»: para fechas lejanas suele ser lo segundo.
+    const rest = unpriced.length ? node("p", "lodging-meta unpriced", `Sin oferta para esas fechas: ${unpriced.slice(0, 8).map((hotel) => hotel.name).join(", ")}${unpriced.length > 8 ? ` y ${unpriced.length - 8} más` : ""}.`) : null;
     box.replaceChildren(...[heading, summary, far, list.children.length ? list : null, rest, note].filter(Boolean));
+  }
+
+  // ---------- Fotos del alojamiento ----------
+
+  function shortDate(day) {
+    return day.split("-").reverse().join("/");
+  }
+
+  // La foto de TripAdvisor llega a través del servidor local, que la pide al CDN ya redimensionada
+  // (300 o 500 px de ancho, de los tamaños que admite).
+  function tripadvisorImage(url, width) {
+    return `/api/photo?${new URLSearchParams({ url: url.split("?")[0], w: String(width) })}`;
+  }
+
+  function photo(src, alt, className = "") {
+    const image = node("img", className);
+    image.src = src;
+    image.alt = alt;
+    image.loading = "lazy";
+    image.decoding = "async";
+    image.referrerPolicy = "no-referrer";
+    image.addEventListener("error", () => {
+      const figure = image.closest("figure");
+      (figure || image).remove();
+    });
+    return image;
+  }
+
+  function figure(src, alt, href, credit) {
+    const item = node("figure", "photo");
+    const anchor = link("", href);
+    anchor.append(photo(src, alt));
+    item.append(anchor, node("figcaption", "", credit));
+    return item;
+  }
+
+  function plainText(html) {
+    return new DOMParser().parseFromString(String(html || ""), "text/html").body.textContent.trim();
+  }
+
+  const nameWords = (text) => (text.toLocaleLowerCase("es").normalize("NFD").replace(/[̀-ͯ]/g, "").match(/[a-z0-9]{4,}/g) || [])
+    .filter((word) => !["hotel", "hostal", "apartamento", "apartamentos", "suites", "resort", "spain", "espana"].includes(word));
+
+  // Fotos de Wikimedia Commons tomadas a menos de 150 m del alojamiento. Primero las que citan su
+  // nombre (suelen ser del propio edificio) y después las del entorno. Las palabras de la localidad
+  // («Málaga» en «AC Hotel Málaga Palacio») no cuentan: aparecen en casi todas las fotos del lugar.
+  async function commonsPhotos(hotel, area) {
+    const key = `${hotel.lat.toFixed(5)},${hotel.lon.toFixed(5)}`;
+    if (photoCache.has(key)) return photoCache.get(key);
+    const params = new URLSearchParams({
+      action: "query", format: "json", origin: "*", generator: "geosearch", ggscoord: `${hotel.lat}|${hotel.lon}`,
+      ggsradius: String(commonsRadiusM), ggsnamespace: "6", ggslimit: "20", prop: "imageinfo",
+      iiprop: "url|mime|extmetadata", iiurlwidth: "360", iiextmetadatafilter: "Artist|LicenseShortName"
+    });
+    const body = await fetchJson(`${commonsUrl}?${params}`, {}, 15000);
+    const placeWords = nameWords(area || "");
+    const words = nameWords(hotel.name).filter((word) => !placeWords.includes(word));
+    const pages = Object.values((body.query && body.query.pages) || {});
+    const photos = pages.map((page) => {
+      const info = (page.imageinfo || [])[0] || {};
+      const title = (page.title || "").replace(/^File:/, "").replace(/\.[a-z]+$/i, "");
+      const meta = info.extmetadata || {};
+      return {
+        title, thumb: info.thumburl, href: info.descriptionurl, mime: info.mime,
+        own: words.some((word) => nameWords(title).includes(word)),
+        author: plainText(meta.Artist && meta.Artist.value).slice(0, 60),
+        license: plainText(meta.LicenseShortName && meta.LicenseShortName.value)
+      };
+    }).filter((item) => item.thumb && /^image\/(jpeg|png|webp)$/.test(item.mime || ""))
+      .sort((a, b) => Number(b.own) - Number(a.own)).slice(0, 6);
+    photoCache.set(key, photos);
+    return photos;
+  }
+
+  async function renderPhotos(hotel, area, container) {
+    const query = `${hotel.name}${area ? ` ${area}` : ""}`;
+    const links = node("p", "lodging-actions photo-links");
+    links.append(link("Más fotos en Google Imágenes", `https://www.google.com/search?${new URLSearchParams({ tbm: "isch", q: query })}`));
+    if (/^https:\/\/www\.tripadvisor\./.test(hotel.url)) links.append(link("Todas las fotos en TripAdvisor", hotel.url));
+    const gallery = node("div", "photo-strip");
+    if (hotel.image) {
+      gallery.append(figure(tripadvisorImage(hotel.image, 500), `Foto de ${hotel.name}`, /^https:\/\/www\.tripadvisor\./.test(hotel.url) ? hotel.url : hotel.image, "Alojamiento · TripAdvisor"));
+    }
+    const status = node("p", "lodging-meta", "Buscando fotos del entorno en Wikimedia Commons…");
+    container.replaceChildren(gallery, status, links);
+    try {
+      const photos = await commonsPhotos(hotel, area);
+      photos.forEach((item) => gallery.append(figure(item.thumb, item.title, item.href,
+        `${item.own ? "Alojamiento" : "Alrededores"} · ${item.author || "Wikimedia Commons"}${item.license ? ` · ${item.license}` : ""}`)));
+      status.textContent = photos.length
+        ? `Fotos de TripAdvisor y de Wikimedia Commons tomadas a menos de ${commonsRadiusM} m; pulsa una para ver su autor y licencia.`
+        : `${hotel.image ? "" : "Este alojamiento no tiene foto en TripAdvisor. "}Wikimedia Commons no tiene fotos a menos de ${commonsRadiusM} m: usa los enlaces para ver más.`;
+    } catch (error) {
+      status.textContent = "No se pudieron cargar las fotos del entorno ahora mismo; los enlaces muestran más fotos.";
+    }
+  }
+
+  // ---------- Fechas y personas ----------
+
+  function today() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function nightsBetween(checkin, checkout) {
+    return Math.round((new Date(`${checkout}T00:00:00Z`) - new Date(`${checkin}T00:00:00Z`)) / 86400000);
+  }
+
+  // Comprueba el formulario y devuelve la estancia, o un mensaje si no es válida.
+  function readStay(values) {
+    const { checkin, checkout } = values;
+    const adults = Number(values.adults);
+    const rooms = Number(values.rooms);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(checkin || "") || !/^\d{4}-\d{2}-\d{2}$/.test(checkout || "")) return { error: "Indica las fechas de entrada y salida." };
+    if (checkin < today()) return { error: "La fecha de entrada ya ha pasado." };
+    const nights = nightsBetween(checkin, checkout);
+    if (nights < 1) return { error: "La salida debe ser posterior a la entrada." };
+    if (nights > maxNights) return { error: `La estancia puede ser de ${maxNights} noches como máximo.` };
+    if (!Number.isInteger(adults) || adults < 1 || adults > maxAdults) return { error: `Indica entre 1 y ${maxAdults} adultos.` };
+    if (!Number.isInteger(rooms) || rooms < 1 || rooms > Math.min(maxRooms, adults)) return { error: `Indica entre 1 y ${Math.min(maxRooms, adults)} habitaciones (no más que adultos).` };
+    return { stay: { checkin, checkout, adults, rooms } };
+  }
+
+  function fillStayForm(stay) {
+    const form = byId("stay-form");
+    if (!form) return;
+    byId("stay-checkin").value = stay.checkin;
+    byId("stay-checkout").value = stay.checkout;
+    byId("stay-adults").value = String(stay.adults);
+    byId("stay-rooms").value = String(stay.rooms);
+    byId("stay-checkin").min = today();
+    byId("stay-checkout").min = shiftDay(stay.checkin, 1);
+    byId("stay-error").hidden = true;
+  }
+
+  function subtitle(day, stay) {
+    const nights = nightsBetween(stay.checkin, stay.checkout);
+    return `Eclipse el ${longDate.format(new Date(`${day}T00:00:00Z`))} (fecha local). Alojamiento del ${longDate.format(new Date(`${stay.checkin}T00:00:00Z`))} al ${longDate.format(new Date(`${stay.checkout}T00:00:00Z`))}: ${nights} ${nights === 1 ? "noche" : "noches"}, ${stay.adults} ${stay.adults === 1 ? "adulto" : "adultos"}.`;
+  }
+
+  function bindStayForm() {
+    const form = byId("stay-form");
+    if (!form || form.dataset.bound) return;
+    form.dataset.bound = "1";
+    byId("stay-checkin").addEventListener("change", () => {
+      const checkin = byId("stay-checkin").value;
+      if (!checkin) return;
+      byId("stay-checkout").min = shiftDay(checkin, 1);
+      // Si la salida queda antes de la nueva entrada, se mantiene el mismo número de noches.
+      if (byId("stay-checkout").value <= checkin && current) {
+        byId("stay-checkout").value = shiftDay(checkin, Math.max(1, nightsBetween(current.stay.checkin, current.stay.checkout)));
+      }
+    });
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!current) return;
+      const result = readStay({
+        checkin: byId("stay-checkin").value, checkout: byId("stay-checkout").value,
+        adults: byId("stay-adults").value, rooms: byId("stay-rooms").value
+      });
+      const error = byId("stay-error");
+      error.hidden = !result.error;
+      error.textContent = result.error || "";
+      if (result.error) return;
+      current.stay = result.stay;
+      byId("destination-subtitle").textContent = subtitle(current.day, current.stay);
+      lodgingRequest += 1;
+      renderLodgings(current.location, current.stay, lodgingRequest);
+    });
   }
 
   // ---------- Panel ----------
@@ -561,23 +772,30 @@ window.EclipseLive = (() => {
     const panel = byId("destination-panel");
     if (!panel || !location) return;
     request += 1;
+    lodgingRequest += 1;
     const id = request;
     const peak = new Date(location.peak_time_utc || `${event.event_date}T12:00:00Z`);
     const day = localDay(Number.isNaN(peak.getTime()) ? new Date(`${event.event_date}T12:00:00Z`) : peak, location.timezone);
-    // Dos noches: la anterior y la del eclipse, válidas tanto para eclipses de día como de noche.
-    const stay = { checkin: shiftDay(day, -1), checkout: shiftDay(day, 1) };
+    // Por defecto, dos noches: la anterior y la del eclipse, válidas para eclipses de día y de noche.
+    // Se conservan las personas que ya se hubieran indicado para otro destino.
+    const people = current ? { adults: current.stay.adults, rooms: current.stay.rooms } : { adults: 2, rooms: 1 };
+    const stay = { checkin: shiftDay(day, -1), checkout: shiftDay(day, 1), ...people };
+    current = { location, day, stay };
     panel.hidden = false;
+    bindStayForm();
+    fillStayForm(stay);
     byId("destination-title").textContent = `${location.name || "Zona"}${location.country_name ? ` · ${location.country_name}` : ""}`;
-    byId("destination-subtitle").textContent = `Eclipse el ${longDate.format(new Date(`${day}T00:00:00Z`))} (fecha local). Búsquedas de alojamiento para dos noches: del ${longDate.format(new Date(`${stay.checkin}T00:00:00Z`))} al ${longDate.format(new Date(`${stay.checkout}T00:00:00Z`))}.`;
+    byId("destination-subtitle").textContent = subtitle(day, stay);
     renderForecast(location, Number.isNaN(peak.getTime()) ? new Date(`${event.event_date}T12:00:00Z`) : peak, id);
-    renderLodgings(location, stay, id);
+    renderLodgings(location, stay, lodgingRequest);
   }
 
   function hide() {
     request += 1;
+    lodgingRequest += 1;
     const panel = byId("destination-panel");
     if (panel) panel.hidden = true;
   }
 
-  return { show, hide };
+  return { show, hide, readStay, bookingUrl };
 })();
