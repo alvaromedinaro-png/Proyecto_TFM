@@ -48,6 +48,8 @@ coverage/
 *.txt
 !requirements.txt
 *.pdf
+# Enunciado de la primera entrega: material del curso, no del proyecto.
+Entrega_1_Propuesta_inicial_de_ideas_de_producto*.pdf
 
 # Datos regenerables con python src/eclipse_pipeline.py (ver docs/entregas/02_datos_y_preparacion.md).
 # Se versionan los originales NASA, el nomenclátor GeoNames (3,4 MB), la cartografía, una respuesta climática de muestra,
