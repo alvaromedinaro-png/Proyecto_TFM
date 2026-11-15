@@ -848,10 +848,10 @@
     // Rueda del ratón (o gesto de dos dedos en el panel táctil) sobre el mapa: zoom hacia el cursor.
     byId("map-container").addEventListener("wheel", (event) => {
       if (!mapSvg) return;
-      const steps = Math.max(-3, Math.min(3, -event.deltaY / (event.deltaMode === 1 ? 3 : 100)));
-      // Con el mapa ya alejado del todo, la rueda hacia abajo desplaza la página como siempre.
-      if ((steps < 0 && mapZoom <= 1) || (steps > 0 && mapZoom >= maxMapZoom)) return;
+      // Con el cursor sobre el mapa la rueda solo hace zoom: la página no se desplaza
+      // aunque el mapa ya esté al máximo o al mínimo.
       event.preventDefault();
+      const steps = Math.max(-3, Math.min(3, -event.deltaY / (event.deltaMode === 1 ? 3 : 100)));
       zoomMapAt(Math.pow(1.35, steps), svgPointFromEvent(event));
     }, { passive: false });
     byId("map-reset").addEventListener("click", () => {
