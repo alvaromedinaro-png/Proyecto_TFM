@@ -309,7 +309,7 @@ window.EclipseLive = (() => {
     const container = byId("lodging-links");
     const lat = location.latitude.toFixed(5);
     const lon = location.longitude.toFixed(5);
-    const links = [link("Ver hoteles y precios en Google Maps", `https://www.google.com/maps/search/hoteles/@${lat},${lon},13z`, "action-link primary")];
+    const links = [link("Ver hoteles en Google Maps", `https://www.google.com/maps/search/hoteles/@${lat},${lon},13z`, "action-link primary")];
     if (!isReference(location)) {
       links.push(link("Disponibilidad en Booking", bookingUrl(`${location.name}, ${location.country_name || ""}`.replace(/,\s*$/, ""), stay), "action-link"));
     }
@@ -321,7 +321,7 @@ window.EclipseLive = (() => {
     const wrap = node("span", "lodging-actions");
     // Google Maps busca el nombre alrededor de las coordenadas del alojamiento, así no confunde homónimos.
     const at = `@${item.lat.toFixed(6)},${item.lon.toFixed(6)},17z`;
-    wrap.append(link("Google Maps", item.name
+    wrap.append(link("Ubicación (Google Maps)", item.name
       ? `https://www.google.com/maps/search/${encodeURIComponent(item.name)}/${at}`
       : `https://www.google.com/maps/search/?api=1&query=${item.lat.toFixed(6)},${item.lon.toFixed(6)}`));
     if (item.name) {
@@ -389,17 +389,17 @@ window.EclipseLive = (() => {
     if (!map) return;
     const area = window.L.circle([location.latitude, location.longitude], { radius, color: "#176a65", weight: 1, fill: false, dashArray: "4 6" }).addTo(markerLayer);
     map.fitBounds(area.getBounds(), { padding: [10, 10] });
+    const queryName = priceQueryName(location, items);
     items.forEach((item) => {
       const marker = window.L.circleMarker([item.lat, item.lon], { radius: 5, color: "#176a65", weight: 1.5, fillColor: "#5fc2b4", fillOpacity: 0.85 });
       const popup = node("div", "lodging-popup");
-      popup.append(node("strong", "", item.name || "Alojamiento sin nombre"), node("span", "", lodgingDescription(item)), hotelLinks(item, location, stay));
       const pictures = node("div", "popup-photos");
-      popup.prepend(pictures);
+      popup.append(node("strong", "", item.name || "Alojamiento sin nombre"), node("span", "", lodgingDescription(item)), pictures, hotelLinks(item, location, stay));
       marker.bindPopup(popup, { maxWidth: 280 });
       marker.on("popupopen", () => {
         if (pictures.dataset.loaded) return;
         pictures.dataset.loaded = "1";
-        popupPhotos(item, isReference(location) ? item.city : location.name, pictures, marker);
+        popupDetails(item, location, queryName, stay, pictures, marker);
       });
       markerLayer.addLayer(marker);
       markersById.set(item.id, marker);
@@ -655,9 +655,9 @@ window.EclipseLive = (() => {
   const nameWords = (text) => (text.toLocaleLowerCase("es").normalize("NFD").replace(/[̀-ͯ]/g, "").match(/[a-z0-9]{4,}/g) || [])
     .filter((word) => !["hotel", "hostal", "apartamento", "apartamentos", "suites", "resort", "spain", "espana"].includes(word));
 
-  // Fotos de Wikimedia Commons tomadas a menos de 150 m del alojamiento. Primero las que citan su
-  // nombre (suelen ser del propio edificio) y después las del entorno. Las palabras de la localidad
-  // («Málaga» en «AC Hotel Málaga Palacio») no cuentan: aparecen en casi todas las fotos del lugar.
+  // Fotos de Wikimedia Commons tomadas a menos de 150 m del alojamiento y cuyo título cita su nombre:
+  // las del entorno sin relación con él se descartan. Las palabras de la localidad («Málaga» en
+  // «AC Hotel Málaga Palacio») no cuentan: aparecen en casi todas las fotos del lugar.
   async function commonsPhotos(hotel, area) {
     const key = `${hotel.lat.toFixed(5)},${hotel.lon.toFixed(5)}`;
     if (photoCache.has(key)) return photoCache.get(key);
@@ -681,36 +681,81 @@ window.EclipseLive = (() => {
         license: plainText(meta.LicenseShortName && meta.LicenseShortName.value)
       };
     }).filter((item) => item.thumb && /^image\/(jpeg|png|webp)$/.test(item.mime || ""))
-      .sort((a, b) => Number(b.own) - Number(a.own)).slice(0, 6);
+      .filter((item) => item.own).slice(0, 6);
     photoCache.set(key, photos);
     return photos;
   }
 
-  // Fotos en la ventana de un alojamiento de OpenStreetMap: la suya si la tiene etiquetada y las de
-  // Wikimedia Commons de alrededor. No necesitan el servidor local.
-  async function popupPhotos(item, area, container, marker) {
-    const query = `${item.name || "hotel"}${area ? ` ${area}` : ""}`;
-    const more = link("Más fotos en Google Imágenes", `https://www.google.com/search?${new URLSearchParams({ tbm: "isch", q: query })}`, "popup-more-photos");
+  // Ventana de un alojamiento del mapa: disponibilidad y precio para las fechas elegidas (con el servidor
+  // local, buscándolo en TripAdvisor por nombre y posición) y fotos del propio alojamiento: la de
+  // TripAdvisor, la que tenga etiquetada en OpenStreetMap o las de Wikimedia Commons que lo citan.
+  async function popupDetails(item, location, queryName, stay, container, marker) {
+    const area = isReference(location) ? item.city || queryName : location.name;
+    const refresh = () => { if (marker.getPopup()) marker.getPopup().update(); };
+    const offer = node("div", "popup-offer loading", "Consultando disponibilidad…");
     const strip = node("div", "popup-strip");
-    if (item.image) strip.append(photo(item.image, `Foto de ${item.name}`));
-    container.replaceChildren(strip, node("small", "lodging-meta", "Buscando fotos…"));
-    let found = [];
-    try {
-      found = await commonsPhotos({ lat: item.lat, lon: item.lon, name: item.name || "" }, area);
-    } catch (error) {
-      found = [];
+    const google = link("Ver fotos en Google Imágenes", `https://www.google.com/search?${new URLSearchParams({ tbm: "isch", q: `${item.name} ${area || ""}`.trim() })}`, "popup-more-photos");
+    container.replaceChildren(offer, strip, google);
+    const nights = nightsBetween(stay.checkin, stay.checkout);
+    const range = `${shortDate(stay.checkin)}–${shortDate(stay.checkout)}`;
+    let tripadvisor = null;
+    const status = item.name ? await priceServer() : null;
+    if (!item.name) {
+      offer.remove();
+    } else if (!status || !status.prices || !queryName) {
+      offer.className = "popup-offer muted";
+      offer.textContent = status ? "Sin precios en el servidor para esta zona: comprueba la disponibilidad en Booking." : `Disponibilidad y precio del ${range}: abre la app con «abrir_planificador.bat». Booking ya lleva tus fechas.`;
+    } else {
+      const params = new URLSearchParams({
+        name: queryName, country: location.country_name || "", lat: location.latitude.toFixed(5), lon: location.longitude.toFixed(5),
+        checkin: stay.checkin, checkout: stay.checkout, adults: String(stay.adults), rooms: String(stay.rooms),
+        hotel_name: item.name, hotel_lat: item.lat.toFixed(6), hotel_lon: item.lon.toFixed(6)
+      });
+      try {
+        const body = await fetchJson(`/api/hotel?${params}`, {}, 30000);
+        if (body.status === "ok") {
+          tripadvisor = body.hotel;
+          const price = tripadvisor.price;
+          const perNight = stay.rooms > 1 ? "por habitación y noche" : "por noche";
+          if (tripadvisor.available) {
+            offer.className = "popup-offer ok";
+            offer.replaceChildren(node("strong", "", `Disponible del ${range}`),
+              node("span", "", `${euro.format(price.min)} ${perNight} · ${euro.format(price.total)} en total (${nights} ${nights === 1 ? "noche" : "noches"}) · ${price.provider}`));
+          } else {
+            offer.className = "popup-offer none";
+            offer.replaceChildren(node("strong", "", `Sin oferta del ${range}`),
+              node("span", "", price && price.error ? "No se pudo consultar ahora." : "Ninguna agencia publica habitación para esas fechas y personas (puede estar completo o sin abrir aún)."));
+          }
+        } else {
+          offer.className = "popup-offer muted";
+          offer.textContent = body.status === "not_found" ? "No figura en TripAdvisor: comprueba la disponibilidad en Booking." : "Sin datos de disponibilidad para esta zona: compruébala en Booking.";
+        }
+      } catch (error) {
+        offer.className = "popup-offer muted";
+        offer.textContent = "No se pudo consultar la disponibilidad ahora mismo.";
+      }
     }
-    found.slice(0, item.image ? 2 : 3).forEach((picture) => {
-      const anchor = link("", picture.href);
-      anchor.title = `${picture.own ? "Alojamiento" : "Alrededores"} · ${picture.author || "Wikimedia Commons"}${picture.license ? ` · ${picture.license}` : ""}`;
-      anchor.append(photo(picture.thumb, picture.title));
+    const sources = [];
+    if (tripadvisor && tripadvisor.image) sources.push({ src: tripadvisorImage(tripadvisor.image, 300), href: tripadvisor.url || tripadvisor.image, title: "Foto de TripAdvisor" });
+    if (item.image) sources.push({ src: item.image, href: item.image, title: "Foto etiquetada en OpenStreetMap" });
+    if (item.name) {
+      try {
+        (await commonsPhotos({ lat: item.lat, lon: item.lon, name: item.name }, area)).forEach((picture) => sources.push({
+          src: picture.thumb, href: picture.href,
+          title: `Wikimedia Commons · ${picture.author || "autor en la ficha"}${picture.license ? ` · ${picture.license}` : ""}`
+        }));
+      } catch (error) {
+        // sin fotos de Commons: queda el enlace a Google Imágenes
+      }
+    }
+    sources.slice(0, 3).forEach((source) => {
+      const anchor = link("", source.href);
+      anchor.title = source.title;
+      anchor.append(photo(source.src, `${item.name || "Alojamiento"}: ${source.title}`));
       strip.append(anchor);
     });
-    const caption = strip.childElementCount
-      ? node("small", "lodging-meta", `Fotos del alojamiento y de su entorno (Wikimedia Commons, a menos de ${commonsRadiusM} m).`)
-      : node("small", "lodging-meta", "Sin fotos a su alrededor en Wikimedia Commons.");
-    container.replaceChildren(...[strip.childElementCount ? strip : null, caption, more].filter(Boolean));
-    if (marker && marker.getPopup()) marker.getPopup().update();
+    if (!strip.childElementCount) strip.remove();
+    refresh();
   }
 
   async function renderPhotos(hotel, area, container) {
@@ -722,17 +767,17 @@ window.EclipseLive = (() => {
     if (hotel.image) {
       gallery.append(figure(tripadvisorImage(hotel.image, 500), `Foto de ${hotel.name}`, /^https:\/\/www\.tripadvisor\./.test(hotel.url) ? hotel.url : hotel.image, "Alojamiento · TripAdvisor"));
     }
-    const status = node("p", "lodging-meta", "Buscando fotos del entorno en Wikimedia Commons…");
+    const status = node("p", "lodging-meta", "Buscando más fotos del alojamiento en Wikimedia Commons…");
     container.replaceChildren(gallery, status, links);
     try {
       const photos = await commonsPhotos(hotel, area);
       photos.forEach((item) => gallery.append(figure(item.thumb, item.title, item.href,
-        `${item.own ? "Alojamiento" : "Alrededores"} · ${item.author || "Wikimedia Commons"}${item.license ? ` · ${item.license}` : ""}`)));
+        `Wikimedia Commons · ${item.author || "autor en la ficha"}${item.license ? ` · ${item.license}` : ""}`)));
       status.textContent = photos.length
-        ? `Fotos de TripAdvisor y de Wikimedia Commons tomadas a menos de ${commonsRadiusM} m; pulsa una para ver su autor y licencia.`
-        : `${hotel.image ? "" : "Este alojamiento no tiene foto en TripAdvisor. "}Wikimedia Commons no tiene fotos a menos de ${commonsRadiusM} m: usa los enlaces para ver más.`;
+        ? "Foto de TripAdvisor y fotos de Wikimedia Commons que citan el alojamiento; pulsa una para ver su autor y licencia."
+        : hotel.image ? "Foto de TripAdvisor. Para ver más, usa los enlaces." : "No hay fotos de este alojamiento en TripAdvisor ni en Wikimedia Commons: usa los enlaces.";
     } catch (error) {
-      status.textContent = "No se pudieron cargar las fotos del entorno ahora mismo; los enlaces muestran más fotos.";
+      status.textContent = "No se pudieron buscar más fotos ahora mismo; los enlaces muestran más.";
     }
   }
 

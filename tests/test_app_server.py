@@ -62,6 +62,7 @@ def query(**overrides):
 class AppServerTest(unittest.TestCase):
     def setUp(self):
         server._rates_cache.clear()
+        server._list_cache.clear()
         self.tmp = tempfile.TemporaryDirectory()
         self.cache = Path(self.tmp.name) / "locations.json"
 
@@ -178,6 +179,28 @@ class AppServerTest(unittest.TestCase):
         client.kind = "text/html"
         with self.assertRaises(ValueError):
             service.photo(good, 480)
+
+    def test_a_map_hotel_is_matched_by_name_and_distance(self):
+        hotels = [{"name": "Gran Hotel Miramar GL", "lat": 36.7201, "lon": -4.4075},
+                  {"name": "Hostal Vecino", "lat": 36.7202, "lon": -4.4076}]
+        self.assertEqual(server.match_hotel(hotels, "Gran Hotel Miramar", 36.7203, -4.4074)["name"], "Gran Hotel Miramar GL")
+        self.assertIsNone(server.match_hotel(hotels, "Otro Sitio", 36.7215, -4.4075))   # nombre distinto y a 150 m
+        self.assertIsNone(server.match_hotel(hotels, "Gran Hotel Miramar", 36.75, -4.4075))  # demasiado lejos
+        self.assertEqual(server.match_hotel(hotels, "Edificio sin nombre común", 36.72011, -4.40751)["name"],
+                         "Gran Hotel Miramar GL")  # a pocos metros se acepta aunque el nombre no coincida
+
+    def test_single_hotel_availability(self):
+        client = FakeClient()
+        service = server.PriceService("clave", client, self.cache)
+        params = server.parse_query(query(adults="2", rooms="1"))
+        result = service.hotel(params, "Hotel Cerca", 36.7214, -4.4214)
+        self.assertEqual(result["status"], "ok")
+        self.assertTrue(result["hotel"]["available"])
+        self.assertEqual(result["hotel"]["price"]["total"], 190)
+        self.assertEqual(service.hotel(params, "Sin Tarifa", 36.73, -4.42)["hotel"]["available"], False)
+        self.assertEqual(service.hotel(params, "Nada parecido", 36.80, -4.40)["status"], "not_found")
+        lists = [url for url, _, _ in client.calls if url.endswith("/api/list")]
+        self.assertEqual(len(lists), 1)  # la lista de la localidad se reutiliza
 
     def test_without_key_reports_it(self):
         self.assertEqual(server.PriceService(None, FakeClient(), self.cache).prices(server.parse_query(query()))["status"], "no_key")

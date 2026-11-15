@@ -27,6 +27,7 @@ import os
 import re
 import threading
 import time
+import unicodedata
 import webbrowser
 
 import requests
@@ -53,8 +54,14 @@ RATES_TTL_S = 6 * 3600      # las tarifas cambian: se reutilizan como mucho seis
 # Solo se sirven la app y su exportación, no el resto del proyecto (código, entorno, cachés).
 STATIC_PREFIXES = ("/app/", "/data/gold/planner_data.js")
 
+HOTEL_MATCH_KM = 0.3        # distancia máxima entre un alojamiento de OpenStreetMap y el de TripAdvisor
+LIST_TTL_S = 6 * 3600
+GENERIC_WORDS = {"hotel", "hostal", "hostel", "apartamentos", "apartamento", "apartments", "apartment", "suites",
+                 "resort", "boutique", "the", "and", "del", "las", "los", "spa", "rooms", "house", "casa"}
+
 _lock = threading.Lock()
 _rates_cache = {}
+_list_cache = {}
 
 
 def rapidapi_key():
@@ -145,6 +152,32 @@ def nearest_location(items, name, lat, lon, from_hotel=False):
     return min(candidates)[2] if candidates else None
 
 
+def name_words(text):
+    """Palabras significativas de un nombre de alojamiento, sin tildes ni términos genéricos."""
+    plain = unicodedata.normalize("NFD", str(text or "").lower())
+    plain = "".join(char for char in plain if unicodedata.category(char) != "Mn")
+    return {word for word in re.findall(r"[a-z0-9]{3,}", plain) if word not in GENERIC_WORDS}
+
+
+def match_hotel(hotels, name, lat, lon):
+    """Alojamiento de TripAdvisor que corresponde a uno de OpenStreetMap: cerca (HOTEL_MATCH_KM) y con
+    nombre parecido. Si el nombre no coincide, solo se acepta uno a menos de 40 m."""
+    wanted = name_words(name)
+    best = None
+    for hotel in hotels:
+        distance = distance_km(lat, lon, hotel["lat"], hotel["lon"])
+        if distance > HOTEL_MATCH_KM:
+            continue
+        words = name_words(hotel["name"])
+        common = len(wanted & words) / max(1, min(len(wanted), len(words))) if wanted and words else 0
+        if common < 0.5 and distance > 0.04:
+            continue
+        score = (common, -distance)
+        if best is None or score > best[0]:
+            best = (score, hotel)
+    return best[1] if best else None
+
+
 def mark_outliers(hotels, factor=4, floor=500):
     """Marca tarifas desproporcionadas: más de `factor` veces la más barata de otro alojamiento
     y más de `floor` por noche. Para fechas aún no abiertas a reserva, algunas agencias devuelven
@@ -213,9 +246,19 @@ class PriceService:
             self._save_locations()
         return found
 
-    def nearby_hotels(self, location, lat, lon, radius_km):
-        result = self._get(f"{XOTELO_URL}/list", {"location_key": location["key"], "limit": LIST_LIMIT,
+    def _hotel_list(self, location_key):
+        with _lock:
+            cached = _list_cache.get(location_key)
+        if cached and time.time() - cached[0] < LIST_TTL_S:
+            return cached[1]
+        result = self._get(f"{XOTELO_URL}/list", {"location_key": location_key, "limit": LIST_LIMIT,
                                                   "offset": 0, "sort": "distance"})
+        with _lock:
+            _list_cache[location_key] = (time.time(), result)
+        return result
+
+    def nearby_hotels(self, location, lat, lon, radius_km):
+        result = self._hotel_list(location["key"])
         hotels = []
         for item in result.get("list") or []:
             geo = item.get("geo") or {}
@@ -283,6 +326,27 @@ class PriceService:
                 "days_ahead": (checkin - datetime.now(timezone.utc).date()).days,
                 "retrieved_utc": datetime.now(timezone.utc).isoformat(timespec="seconds")}
 
+    def hotel(self, params, hotel_name, hotel_lat, hotel_lon):
+        """Disponibilidad, precio y foto para las fechas de un alojamiento concreto elegido en el mapa."""
+        cached = self.locations.get(f"{params['name']}|{params['country']}".lower()) or {}
+        if not self.key and not cached.get("key"):
+            return {"status": "no_key"}
+        location = self.find_location(params["name"], params["country"], params["lat"], params["lon"])
+        if not location:
+            return {"status": "no_location"}
+        candidates = self.nearby_hotels(location, hotel_lat, hotel_lon, HOTEL_MATCH_KM)
+        found = match_hotel(candidates, hotel_name, hotel_lat, hotel_lon)
+        if not found:
+            return {"status": "not_found"}
+        price = self._safe_rates(found, params)
+        nights = (date.fromisoformat(params["checkout"]) - date.fromisoformat(params["checkin"])).days
+        if price and "min" in price:
+            price = {**price, "total": price["min"] * params["rooms"] * nights}
+        found = {**found, "price": price, "available": bool(price and "min" in price)}
+        return {"status": "ok", "currency": CURRENCY, "nights": nights, "adults": params["adults"],
+                "rooms": params["rooms"], "hotel": found,
+                "retrieved_utc": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+
     def photo(self, url, width):
         """Foto de un alojamiento a través del servidor: el navegador no siempre puede cargarla
         directamente del CDN. Solo se aceptan direcciones de IMAGE_PREFIX (no es un proxy abierto)."""
@@ -346,6 +410,22 @@ class Handler(SimpleHTTPRequestHandler):
                 return
             try:
                 self._json(200, self.service.prices(params))
+            except (requests.RequestException, RuntimeError, ValueError) as error:
+                self._json(502, {"status": "error", "message": type(error).__name__})
+            return
+        if url.path == "/api/hotel":
+            query = parse_qs(url.query)
+            try:
+                params = parse_query(query)
+                hotel_name = ((query.get("hotel_name") or [""])[0]).strip()[:120]
+                hotel_lat, hotel_lon = float((query.get("hotel_lat") or [""])[0]), float((query.get("hotel_lon") or [""])[0])
+                if not hotel_name or not (-90 <= hotel_lat <= 90 and -180 <= hotel_lon <= 180):
+                    raise ValueError("Alojamiento no válido.")
+            except ValueError as error:
+                self._json(400, {"status": "invalid", "message": str(error)})
+                return
+            try:
+                self._json(200, self.service.hotel(params, hotel_name, hotel_lat, hotel_lon))
             except (requests.RequestException, RuntimeError, ValueError) as error:
                 self._json(502, {"status": "error", "message": type(error).__name__})
             return
