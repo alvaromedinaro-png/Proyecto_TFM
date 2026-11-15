@@ -23,10 +23,12 @@ try:
     from . import eclipse_sources as sources
     from .eclipse_catalogs import catalog_between, planning_window
     from .eclipse_geography import enrich_country, export_world_map
+    from .eclipse_pipeline import SCORE_WEIGHTS, weighted_score
 except ImportError:
     import eclipse_sources as sources
     from eclipse_catalogs import catalog_between, planning_window
     from eclipse_geography import enrich_country, export_world_map
+    from eclipse_pipeline import SCORE_WEIGHTS, weighted_score
 
 
 SCHEMA_VERSION = 1
@@ -209,7 +211,31 @@ def _daily_sample(row):
         "valid_rain_years": _count(row.get("valid_rain_years"))}
 
 
-def _location(row, daily, family, rank, root=sources.ROOT):
+def _recommendation_score(row, family, duration_reference):
+    """Puntuación del orden «Recomendado»: la del ranking del Gold, con sus pesos y componentes.
+
+    Se recalcula aquí para las zonas que no entraron en el ranking (Copernicus) con la misma
+    fórmula; en los destinos del Gold reproduce su columna score.
+    """
+    clear, rain, altitude = (_number(row.get(key)) for key in ("clear_probability", "rain_probability", "body_altitude_deg"))
+    if clear is None or rain is None or altitude is None:
+        return None
+    altitude_score = max(0.0, math.sin(math.radians(altitude)))
+    obscuration, duration = _number(row.get("obscuration_fraction")), _number(row.get("phase_duration_s"))
+    components = {"astronomy_score": obscuration if obscuration is not None else altitude_score, "altitude_score": altitude_score,
+                  "duration_score": min(1.0, duration / duration_reference) if duration is not None and duration_reference else 0.0}
+    return round(weighted_score(SCORE_WEIGHTS[family], clear, 1 - rain, components), 6)
+
+
+def _duration_reference(directory, ranking):
+    """Duración que normaliza duration_score: la máxima entre los candidatos del ranking, referencias incluidas."""
+    path = directory / "location_ranking.csv"
+    values = pd.read_csv(path, usecols=["phase_duration_s"]).phase_duration_s if path.exists() else ranking.get("phase_duration_s")
+    largest = _number(values.max()) if values is not None and len(values) else None
+    return largest if largest and largest > 0 else None
+
+
+def _location(row, daily, family, rank, root=sources.ROOT, duration_reference=None):
     latitude, longitude = _number(row.get("latitude")), _number(row.get("longitude"))
     if latitude is None or longitude is None or not -90 <= latitude <= 90 or not -180 <= longitude <= 180:
         raise ValueError("Las coordenadas de un destino no son válidas.")
@@ -267,6 +293,9 @@ def _location(row, daily, family, rank, root=sources.ROOT):
         "rain_band": _band(rain) if has_climate else None,
         "valid_cloud_years": cloud_years, "valid_rain_years": rain_years,
         "ranking_provisional": validated is False or (cloud_years or 0) < 15 or (rain_years or 0) < 15,
+        # Orden «Recomendado»: prioridad de fase y, dentro de ella, la puntuación del Gold.
+        "phase_priority": _count(row.get("phase_priority")),
+        "recommendation_score": _recommendation_score(row, family, duration_reference) if has_climate else None,
         "mean_cloud_cover_pct": _number(climate.get("mean_cloud_cover_pct")),
         "mean_temperature_c": _number(climate.get("mean_temperature_c")),
         "mean_wind_speed_kmh": _number(climate.get("mean_wind_speed_kmh")),
@@ -339,7 +368,9 @@ def _prepared_event_output(event, root):
         else:
             daily = pd.DataFrame()
             errors.append("Falta el resumen climático de los días próximos al eclipse.")
-        base["locations"] = [_location(row, daily, event["event_family"], rank, root)
+        reference = _duration_reference(directory, ranking)
+        base["recommendation"] = {"weights": SCORE_WEIGHTS[event["event_family"]], "duration_reference_s": reference}
+        base["locations"] = [_location(row, daily, event["event_family"], rank, root, reference)
             for rank, row in enumerate(ranking.to_dict("records"), 1)]
         climate = report.get("climate", {})
         if climate.get("failures") or climate.get("missing_key_values"):
@@ -475,7 +506,7 @@ def _event_output(event, root):
                 climate = ({field: day_zero.iloc[0].get(field) for field in climate_fields if field in day_zero}
                            if not day_zero.empty else {})
                 location = _location({**row, **dict.fromkeys(climate_fields), **climate}, daily,
-                    event["event_family"], 0, root)
+                    event["event_family"], 0, root, base.get("recommendation", {}).get("duration_reference_s"))
                 if _has_climate_observations(location):
                     location["climate_source"] = "copernicus_cds_era5"
                 astronomy.append(location)

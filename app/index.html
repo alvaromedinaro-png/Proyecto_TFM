@@ -100,7 +100,17 @@
             <h3 id="locations-title">Ubicaciones para observar</h3>
             <p id="locations-note"></p>
           </div>
-          <span class="small-label">Hora local del lugar y UTC</span>
+          <div class="heading-side">
+            <label class="sort-field" for="sort-selector">Ordenar por
+              <select id="sort-selector">
+                <option value="recommended">Recomendado</option>
+                <option value="clear">Cielo despejado habitual</option>
+                <option value="astronomy">Disco solar oculto</option>
+                <option value="duration">Duración</option>
+              </select>
+            </label>
+            <span class="small-label">Hora local del lugar y UTC</span>
+          </div>
         </div>
         <div id="locations" class="locations-grid"></div>
         <div id="locations-empty" class="empty-state" hidden></div>
@@ -147,6 +157,7 @@
           <div>
             <h3>Cómo leer la climatología</h3>
             <p><strong>Los porcentajes indican lo habitual en ese lugar y esa época del año, no el pronóstico del día del eclipse.</strong> Cuentan en cuántos de los años históricos disponibles estuvo despejado o llovió a la hora del máximo. Cielo despejado significa una nubosidad de hasta el 20 %. La nubosidad media indica cuánto cielo estaba cubierto. Sirven para comparar destinos con antelación; el día del eclipse puede salir distinto.</p>
+            <p>El orden <strong>Recomendado</strong> pone primero las zonas con totalidad o anularidad y, dentro de cada fase, las que mejor combinan cielo despejado habitual, ausencia de lluvia, ocultación, duración y altura del Sol. Probado con los años 2017–2026, entre dos destinos de la misma fase eligió el que estuvo despejado un 73 % de las veces, frente a un 57 % ordenando solo por la geometría del eclipse.</p>
             <p id="forecast-note"></p>
           </div>
         </aside>

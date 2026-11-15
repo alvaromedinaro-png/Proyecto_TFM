@@ -158,6 +158,7 @@ Frente al orden solo geométrico, el orden completo sube el cielo despejado del 
 - La utilidad usa los mismos pesos que el producto, así que mide la coherencia con su propio criterio. Por eso se informa también del cielo despejado, que no depende de los pesos.
 - Las ciudades de un mismo año comparten tiempo, así que los pares no son independientes; los intervalos remuestrean años por eso. Con solo los 4 años de la reserva, los intervalos son orientativos.
 - Solo entran las ciudades NASA. Las localidades GeoNames y las zonas de Copernicus no tienen años de validación en el Gold.
+- La duración apenas influye dentro de una misma fase. `duration_score` divide por la duración más larga entre los candidatos, y en los eventos con zonas parciales esa es la duración visible de la parcial, de unas 2,5 horas. Por eso unos minutos de totalidad puntúan cerca de 0,04. El resultado describe el ranking tal como está; separar la normalización por fase sería un cambio de pesos que habría que validar igual.
 - No se buscan pesos óptimos con estos datos. Con 129 casos, ajustarlos sería sobreajustar al pasado. Queda como mejora repetir la prueba cuando haya más años.
 
 ### Errores más relevantes (climatología, reserva)
@@ -183,7 +184,7 @@ Frente al orden solo geométrico, el orden completo sube el cielo despejado del 
 
 **Mejora que ofrece.** Frente a no usar información del lugar, reduce el Brier entre un 19 % y un 28 % y duplica aproximadamente la probabilidad de acertar con el primer destino. Frente a lo que ya usa el producto no añade precisión: el valor de este experimento es haber comprobado con evidencia que un modelo más complejo todavía no se justifica.
 
-**Ranking completo.** Combinada con la geometría, la climatología permite elegir entre dos destinos de la misma fase. Pone primero el que estuvo despejado un 73 % de las veces, frente a un 57 % con la geometría sola. También sube el cielo despejado del primer destino recomendado del 33 % al 43 %.
+**Ranking completo.** Es el orden «Recomendado» del frontal. Combinada con la geometría, la climatología permite elegir entre dos destinos de la misma fase. Pone primero el que estuvo despejado un 73 % de las veces, frente a un 57 % con la geometría sola. También sube el cielo despejado del primer destino recomendado del 33 % al 43 %.
 
 **¿Es suficiente para el MVP?** Sí para comparar destinos con antelación y comunicar la probabilidad histórica. No sirve como pronóstico del día del eclipse: esa función la cubre la capa de pronóstico operativo en los 16 días anteriores.
 

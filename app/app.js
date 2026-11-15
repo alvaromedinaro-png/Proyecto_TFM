@@ -7,6 +7,7 @@
   const familySelect = byId("family-selector");
   const eventSelect = byId("event-selector");
   const countrySelect = byId("country-selector");
+  const sortSelect = byId("sort-selector");
   const locationContainer = byId("locations");
   const showMore = byId("show-more");
   const number = new Intl.NumberFormat("es-ES", { maximumFractionDigits: 1 });
@@ -217,10 +218,46 @@
     return (Number.isNaN(delta) ? 0 : delta) || (finite(a.rank) ? a.rank : Infinity) - (finite(b.rank) ? b.rank : Infinity) || (finite(b.phase_duration_s) ? b.phase_duration_s : 0) - (finite(a.phase_duration_s) ? a.phase_duration_s : 0) || collator.compare(a.name || "", b.name || "");
   }
 
+  // Orden de las tarjetas. «Recomendado» es el ranking del Gold (validado en el experimento de ML):
+  // fase, cobertura climática suficiente y puntuación; las zonas sin climatología van al final de su fase.
+  const metric = (value) => finite(value) ? value : -Infinity;
+  const sorters = {
+    recommended: (a, b) => metric(b.phase_priority) - metric(a.phase_priority)
+      || Number(finite(b.recommendation_score)) - Number(finite(a.recommendation_score))
+      || Number(!b.ranking_provisional) - Number(!a.ranking_provisional)
+      || metric(b.recommendation_score) - metric(a.recommendation_score),
+    // A igual cielo despejado, primero la que menos llueve.
+    clear: (a, b) => metric(b.clear_probability_pct) - metric(a.clear_probability_pct)
+      || metric(finite(b.rain_probability_pct) ? -b.rain_probability_pct : null) - metric(finite(a.rain_probability_pct) ? -a.rain_probability_pct : null),
+    astronomy: () => 0,
+    duration: (a, b) => metric(b.phase_priority) - metric(a.phase_priority) || metric(b.phase_duration_s) - metric(a.phase_duration_s)
+  };
+  const sortNotes = {
+    recommended: "Orden recomendado: primero totalidad o anularidad; dentro de cada fase, cielo despejado habitual, lluvia, ocultación, duración y altura del Sol.",
+    clear: "Ordenadas por cielo despejado habitual.",
+    duration: "Ordenadas por fase y, dentro de cada fase, por duración."
+  };
+
+  function sortMode() {
+    return sorters[sortSelect.value] ? sortSelect.value : "recommended";
+  }
+
+  function sortLocations() {
+    const sorter = sorters[sortMode()];
+    locations.sort((a, b) => sorter(a, b) || locationSort(a, b)); // NaN (ambos sin dato) cuenta como empate
+  }
+
+  function updateSortOptions() {
+    const option = sortSelect.querySelector('option[value="astronomy"]');
+    option.textContent = selectedEvent && selectedEvent.event_family === "lunar" ? "Altura de la Luna" : "Disco solar oculto";
+  }
+
   function prepareCountries() {
     locations = (Array.isArray(selectedEvent.locations) ? selectedEvent.locations : []).map((location, index) => ({
       ...location, _key: `${selectedEvent.event_id}-${index}`, _country: countryCode(location.country_code)
-    })).filter(eligibleLocation).sort(locationSort);
+    })).filter(eligibleLocation);
+    updateSortOptions();
+    sortLocations();
     const grouped = new Map();
     (Array.isArray(selectedEvent.countries) ? selectedEvent.countries : []).forEach((country) => {
       const code = countryCode(country.country_code);
@@ -387,7 +424,10 @@
     showMore.setAttribute("aria-expanded", String(expanded));
     showMore.setAttribute("aria-controls", "locations");
     const preparedCount = filtered.filter(hasClimate).length;
-    const order = selectedEvent.event_family === "solar" ? "Ordenadas por disco solar oculto." : "Ordenadas por altura de la Luna.";
+    const lunar = selectedEvent.event_family === "lunar";
+    const order = sortMode() === "astronomy" ? (lunar ? "Ordenadas por altura de la Luna." : "Ordenadas por disco solar oculto.")
+      : sortMode() === "recommended" && lunar ? "Orden recomendado: cielo despejado habitual, lluvia y altura de la Luna."
+      : sortNotes[sortMode()];
     const cdsCount = filtered.filter((location) => location.climate_source === "copernicus_cds_era5").length;
     const sourceNote = cdsCount ? ` Climatología ERA5; en ${cdsCount} ${cdsCount === 1 ? "zona" : "zonas"} se obtuvo de Copernicus por regiones.` : "";
     byId("locations-note").textContent = filtered.length ? `${filtered.length} zonas analizadas · ${preparedCount} con climatología. ${order}${sourceNote}` : "Los resultados aparecerán cuando estén preparados.";
@@ -836,6 +876,11 @@
     familySelect.addEventListener("change", fillEventOptions);
     eventSelect.addEventListener("change", renderEvent);
     countrySelect.addEventListener("change", () => chooseCountry(countrySelect.value));
+    sortSelect.addEventListener("change", () => {
+      sortLocations();
+      expanded = false;
+      renderLocations();
+    });
     showMore.addEventListener("click", () => {
       expanded = !expanded;
       renderLocations();

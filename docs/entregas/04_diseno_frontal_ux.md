@@ -83,9 +83,9 @@ Esta captura es la aplicación de partida, antes del mockup. La siguiente muestr
 
 ![Aplicación actual en modo noche con las zonas de España en totalidad](04_diseno_frontal_ux/app_noche_espana.png)
 
-La aplicación de partida cubría el selector, el mapa y las tarjetas por ubicación. El mockup corrige cuatro problemas detectados al usarla; los dos últimos ya están resueltos en la aplicación:
+La aplicación de partida cubría el selector, el mapa y las tarjetas por ubicación. El mockup corrige cuatro problemas detectados al usarla; el primero y los dos últimos ya están resueltos en la aplicación:
 
-- **Orden de los destinos.** Ahora se ordenan solo por disco solar oculto. En el eclipse del 6 de febrero de 2027, Vitoria (Brasil), con un 10 % de cielo despejado, aparece tercera.
+- **Orden de los destinos.** Se ordenaban solo por disco solar oculto: en el eclipse del 6 de febrero de 2027, Vitoria (Brasil), con un 10 % de cielo despejado, aparecía tercera. Ahora el orden por defecto es «Recomendado», y la ocultación sigue disponible en «Ordenar por».
 - **Mapa del mundo entero.** La zona útil ocupa una pequeña parte del mapa.
 - **Comparación.** Las tarjetas grandes muestran tres destinos a la vez, así que comparar obliga a desplazarse.
 - **Hora e incertidumbre.** Los horarios solo estaban en UTC y la probabilidad no llevaba su rango.
@@ -169,7 +169,7 @@ La incertidumbre es parte del resultado y se muestra donde aparece la cifra, no 
 | Parte del frontal | MVP (9 de diciembre) | Situación actual |
 |---|---|---|
 | Selector de tipo, eclipse y país (1) | ✔ | Ya existe |
-| Orden «Recomendado / Cielo despejado / Duración» (1) | ✔ | Ahora solo se ordena por ocultación |
+| Orden «Recomendado / Cielo despejado / Duración» (1) | ✔ | Ya implementado: «Ordenar por» con Recomendado (por defecto), Cielo despejado habitual, Disco solar oculto (o Altura de la Luna) y Duración. «Recomendado» usa la puntuación del Gold, que la exportación reproduce en cada zona (`phase_priority`, `recommendation_score`) |
 | Estado del evento, días que faltan y aviso de pronóstico (2) | ✔ | El estado existe; faltan la cuenta atrás y la fecha del pronóstico |
 | Ranking compacto con barra de rango y categoría (3) | ✔ | Rango al 95 % (barra) y categoría ya están en cada tarjeta; falta la vista compacta en filas |
 | Mapa centrado en la región y coloreado por categoría (4) | ✔ | El mapa existe; hay que ajustar el encuadre y el color |
@@ -222,4 +222,4 @@ flowchart LR
 | **Orden recomendado** | `score` (`rank` ya se exporta) | `location_ranking.csv` | **Solo `rank`** |
 | **Hora local** | `timezone` (IANA) | Localidad GeoNames más cercana del mismo país (Bronze, sin red) | Sí |
 
-La exportación ya incluye rango, categoría y zona horaria, sin nuevas descargas ni modelos nuevos; solo falta `score` para el orden «Recomendado». Tras cada cambio en `src/` se regeneran las salidas sin red y se comprueba con `python src/eclipse_pipeline.py --verify` que datos, informes y código siguen siendo de la misma versión. Si en el futuro un modelo supera a la climatología con la regla de selección del experimento de ML, solo cambiaría el origen de `clear_probability_pct` y `rain_probability_pct`: el frontal seguiría igual.
+La exportación ya incluye rango, categoría y zona horaria, sin nuevas descargas ni modelos nuevos; también exporta, para el orden «Recomendado», la prioridad de fase y la puntuación del Gold de cada zona (`phase_priority`, `recommendation_score`). En las zonas de Copernicus, que no están en el ranking del Gold, se calcula con la misma fórmula y los mismos pesos; un test comprueba que en los destinos del Gold coincide con su `score`. Tras cada cambio en `src/` se regeneran las salidas sin red y se comprueba con `python src/eclipse_pipeline.py --verify` que datos, informes y código siguen siendo de la misma versión. Si en el futuro un modelo supera a la climatología con la regla de selección del experimento de ML, solo cambiaría el origen de `clear_probability_pct` y `rain_probability_pct`: el frontal seguiría igual.

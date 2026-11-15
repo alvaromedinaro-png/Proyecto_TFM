@@ -139,7 +139,7 @@
     "validation": "temporal split by reference_year; baseline = prior empirical frequency"
   },
   "preparation_config": {
-    "version": 6,
+    "version": 7,
     "event_id": "NASA-SE-09567",
     "years": [
       1997,
@@ -182,7 +182,7 @@
     "locations_sha256": null
   },
   "reused_preparation": false,
-  "prepared_at_utc": "2026-11-15T10:17:03.391068+00:00",
+  "prepared_at_utc": "2026-11-15T21:17:19.598565+00:00",
   "output_sha256": {
     "climate_event_samples.csv": "5877a9ee366ef7f9d12aae01e56779ac52013d31b17a5db38853c58d55bcf56c",
     "planning_ml_dataset.csv": "65f812b06b247dbf480014481aba127c2fd3a6ca9f09aa7a35aad35bcb6971d5",
@@ -200,8 +200,8 @@
     "eclipse_example.py": "cf6bf91982e5ed890826e695a753aa190b4caed8fbc1b524d326e6f43459fa00",
     "eclipse_geography.py": "f2531c98ba44517a8c98ea71e5a6889561ee4fe80d00d35d5dff5f37387b4e48",
     "eclipse_locations.py": "eb24797a521e6d1e3f7b853434131ba5705893fd8eceefdf307a2dddef7c998f",
-    "eclipse_pipeline.py": "beb07a885209208a549f17160a1bd24af893bf121d71dd9ea41497378a79eb61",
-    "eclipse_product.py": "0280c2e2a8a9a8cd7576cba65b21adb418305b843e846466f65ffe5eb770783b",
+    "eclipse_pipeline.py": "54119a1477688958102360eae9f2ebfc92a85705ef8a955da2f9e62eb8dcd85c",
+    "eclipse_product.py": "e36ba5625b39cb2152deeaaeff5995ae7c1942170e38fdf90e959be1f1084d05",
     "eclipse_sources.py": "6662fca561367756b58b55f0d4bb14c0903164a26c3360b53280bd410c5ba96f"
   }
 }

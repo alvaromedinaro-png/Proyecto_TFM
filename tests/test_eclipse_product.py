@@ -451,5 +451,29 @@ class ProductSnapshotTests(unittest.TestCase):
         ranking.to_csv(directory / "destination_ranking.csv", index=False)
         self.assertEqual(self.build([selected])["events"][0]["status"], "partial")
 
+@unittest.skipUnless((product.sources.ROOT / "data/gold/planner_data.json").is_file(), "Exportación no generada.")
+class RecommendedOrderTests(unittest.TestCase):
+    def test_recommendation_score_reproduces_the_gold_ranking_score(self):
+        payload = json.loads((product.sources.ROOT / "data/gold/planner_data.json").read_text(encoding="utf-8"))
+        compared = 0
+        for item in payload["events"]:
+            path = product.sources.ROOT / "data/gold/events" / item["event_date"] / "destination_ranking.csv"
+            if not path.exists():
+                continue
+            gold = pd.read_csv(path).set_index("name").score
+            for location in item["locations"]:
+                if location["name"] in gold.index and location["recommendation_score"] is not None and pd.notna(gold[location["name"]]):
+                    self.assertAlmostEqual(location["recommendation_score"], gold[location["name"]], places=5, msg=location["name"])
+                    compared += 1
+        self.assertGreater(compared, 0)
+
+    def test_score_needs_climate_and_caps_duration(self):
+        row = {"clear_probability": 1.0, "rain_probability": 0.0, "body_altitude_deg": 90.0,
+               "obscuration_fraction": 1.0, "phase_duration_s": 900.0}
+        self.assertAlmostEqual(product._recommendation_score(row, "solar", 300.0), 1.0)
+        self.assertIsNone(product._recommendation_score({**row, "clear_probability": None}, "solar", 300.0))
+        self.assertAlmostEqual(product._recommendation_score(row, "solar", None), 0.85)
+
+
 if __name__ == "__main__":
     unittest.main()

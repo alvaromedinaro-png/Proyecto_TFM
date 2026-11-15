@@ -24,7 +24,7 @@ HISTORICAL_VARIABLES = ["temperature_2m", "relative_humidity_2m", "dew_point_2m"
     "wind_gusts_10m", "shortwave_radiation", "sunshine_duration"]
 FORECAST_VARIABLES = HISTORICAL_VARIABLES + ["precipitation_probability", "visibility", "showers"]
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
-PREPARATION_VERSION = 6
+PREPARATION_VERSION = 7
 # En lunares la duración publicada es global (igual en todos los destinos) y la
 # altura ya es la componente astronómica: no se cuentan dos veces.
 SCORE_WEIGHTS = {
