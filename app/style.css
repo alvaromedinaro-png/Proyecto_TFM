@@ -274,10 +274,38 @@ h2 { margin: 0; font-size: clamp(25px, 3vw, 34px); letter-spacing: -.025em; font
 .map-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 22px 10px; color: var(--muted); font-size: 10px; }
 .map-legend > span { display: inline-flex; align-items: center; gap: 7px; }
 .map-legend i { display: inline-block; flex-shrink: 0; }
-.legend-country { width: 14px; height: 9px; border-radius: 2px; background: var(--map-available); border: 1px solid var(--legend-border); }
+.legend-country { width: 14px; height: 9px; border-radius: 2px; background: color-mix(in srgb, var(--teal) 30%, var(--white)); border: 1px solid var(--legend-border); }
 .legend-point, .legend-pending { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
 .legend-pending { background: var(--white); border: 1.5px solid var(--pending-stroke); }
 .map-note { margin: 0 22px 17px; color: var(--muted); font-size: 10px; max-width: 900px; }
+/* Mapa con teselas (Leaflet). Los colores de Leaflet llegan como atributos SVG y estas reglas los sustituyen. */
+.map-container.leaflet-world { font: inherit; z-index: 0; }.leaflet-world .map-country { fill: transparent; stroke: none; }
+.leaflet-world .map-country.available { fill: var(--teal); fill-opacity: .2; stroke: var(--teal); stroke-width: 1; stroke-opacity: .75; cursor: pointer; transition: fill-opacity .15s; }
+.leaflet-world .map-country.available:hover, .leaflet-world .map-country.available:focus { fill: var(--teal); fill-opacity: .34; stroke: var(--teal); stroke-width: 1.6; outline: none; }
+.leaflet-world .map-country.selected { fill: var(--teal); fill-opacity: .3; stroke: var(--teal); stroke-width: 2; stroke-opacity: 1; }
+/* De cerca manda el mapa base: el sombreado casi desaparece y las fronteras quedan como guía. */
+.leaflet-world.map-near .map-country.available { fill-opacity: .05; stroke-opacity: .35; }
+.leaflet-world.map-near .map-country.available:hover { fill-opacity: .1; }
+.leaflet-world.map-near .map-country.selected { fill-opacity: 0; stroke-opacity: .5; stroke-dasharray: 5 5; }
+/* Sin teselas (sin conexión) se pintan todos los países como en el mapa local. */
+.leaflet-world.tiles-offline { background: var(--map-sea); }
+.leaflet-world.tiles-offline .map-country { fill: var(--map-land); fill-opacity: 1; stroke: var(--map-border); stroke-width: .65; }
+.leaflet-world.tiles-offline .map-country.available { fill: var(--map-available); fill-opacity: 1; }
+.leaflet-world.tiles-offline .map-country.selected { fill: var(--map-selected); stroke: var(--teal); stroke-width: 1.6; }
+.map-pin { background: none; border: 0; outline: none; }
+.map-pin span { display: block; box-sizing: border-box; width: 12px; height: 12px; margin: 2px; border-radius: 50%; background: var(--teal); border: 2px solid #fff; box-shadow: 0 1px 3px #0007; transition: transform .12s; }
+.map-pin.pending span { background: #fff; border-color: var(--pending-stroke); }
+.map-pin:hover span { transform: scale(1.3); }
+.map-pin:focus-visible span { box-shadow: 0 0 0 3px var(--focus); }
+.map-pin.selected span { width: 16px; height: 16px; margin: 0; background: var(--accent); border-color: #fff; box-shadow: 0 0 0 3px #c9802655, 0 1px 4px #0008; }
+.map-pin.pending.selected span { background: #fff; border-color: var(--accent); }
+.leaflet-world .leaflet-tooltip.map-pin-label { display: none; background: transparent; border: 0; box-shadow: none; padding: 0; color: var(--ink); font-size: 11px; font-weight: 650; text-shadow: 0 0 3px var(--white), 0 0 3px var(--white), 0 0 2px var(--white); white-space: nowrap; }
+.leaflet-world.show-labels .leaflet-tooltip.map-pin-label { display: block; }
+.leaflet-world .leaflet-tooltip.map-pin-label::before { display: none; }
+.leaflet-tooltip.map-tooltip { background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; font-size: 12px; box-shadow: 0 2px 8px #0003; max-width: 280px; white-space: normal; }
+.leaflet-tooltip-top.map-tooltip::before { border-top-color: var(--line); }
+.leaflet-world .leaflet-control-attribution { background: color-mix(in srgb, var(--white) 85%, transparent); color: var(--muted); font-size: 10px; }
+.leaflet-world .leaflet-control-attribution a { color: var(--teal); }
 .map-unavailable { position: absolute; inset: 0; display: grid; place-content: center; padding: 24px; text-align: center; color: var(--muted); font-size: 13px; }
 .map-unavailable p { margin: 4px 0; }
 details { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; }

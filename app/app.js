@@ -42,6 +42,18 @@
   // (Tarifa y Algeciras) quedan a más de un centímetro en pantalla.
   const maxMapZoom = 64;
   const labelZoom = 10;
+  // Mapa con teselas (Leaflet). Si Leaflet no carga, por ejemplo sin conexión, se dibuja el SVG local.
+  let leafletMap = null;
+  let tileGroup = null;
+  let countryLayer = null;
+  let markerLayer = null;
+  const worldBounds = [[-56, -168], [74, 180]];
+  const leafletMaxZoom = 16;
+  const leafletLabelZoom = 6;
+  // A partir de este nivel las fronteras de Natural Earth (1:110m) ya no coinciden con las
+  // del mapa base, así que el sombreado de países se atenúa y manda el mapa de teselas.
+  const leafletNearZoom = 5;
+  const esriTiles = "https://server.arcgisonline.com/ArcGIS/rest/services";
 
   function node(tag, className, content) {
     const element = document.createElement(tag);
@@ -456,6 +468,15 @@
   }
 
   function updateMapView() {
+    if (leafletMap) {
+      const zoom = leafletMap.getZoom();
+      const container = byId("map-container");
+      container.classList.toggle("show-labels", zoom >= leafletLabelZoom);
+      container.classList.toggle("map-near", zoom >= leafletNearZoom);
+      byId("map-zoom-in").disabled = zoom >= leafletMap.getMaxZoom();
+      byId("map-zoom-out").disabled = zoom <= leafletMap.getMinZoom();
+      return;
+    }
     if (!mapSvg) return;
     const width = mapWidth / mapZoom;
     const height = mapHeight / mapZoom;
@@ -499,6 +520,12 @@
   }
 
   function focusCountry(code) {
+    if (leafletMap) {
+      const points = locations.filter((location) => location._country === code && finite(location.latitude) && finite(location.longitude)).map((location) => [location.latitude, location.longitude]);
+      if (!points.length || code === "all") resetLeafletView();
+      else leafletMap.fitBounds(points, { padding: [50, 50], maxZoom: 7 });
+      return;
+    }
     const points = locations.filter((location) => location._country === code && finite(location.latitude) && finite(location.longitude)).map((location) => project(location.longitude, location.latitude));
     if (!points.length || code === "all") {
       mapZoom = 1;
@@ -517,7 +544,28 @@
   }
 
   function updateMapSelection() {
-    if (mapSvg) {
+    if (leafletMap) {
+      countryLayer.eachLayer((layer) => {
+        const element = layer.getElement && layer.getElement();
+        if (!element) return;
+        const selected = layer.feature.properties._code === countrySelect.value;
+        element.classList.toggle("selected", selected);
+        if (element.classList.contains("available")) element.setAttribute("aria-pressed", String(selected));
+      });
+      mapMarkers.forEach(({ marker }, key) => {
+        const location = locations.find((item) => item._key === key);
+        const visible = countrySelect.value === "all" || location._country === countrySelect.value;
+        if (visible && !markerLayer.hasLayer(marker)) markerLayer.addLayer(marker);
+        if (!visible && markerLayer.hasLayer(marker)) markerLayer.removeLayer(marker);
+        const selected = selectedLocation === key;
+        marker.setZIndexOffset(selected ? 1000 : 0);
+        const element = marker.getElement();
+        if (element) {
+          element.classList.toggle("selected", selected);
+          element.setAttribute("aria-pressed", String(selected));
+        }
+      });
+    } else if (mapSvg) {
       mapSvg.querySelectorAll(".map-country[data-country]").forEach((path) => {
         const selected = path.dataset.country === countrySelect.value;
         path.classList.toggle("selected", selected);
@@ -631,23 +679,41 @@
   // Al pulsar un punto se buscan los que se solapan en pantalla. Si hay varios, la ficha los lista
   // y el mapa se acerca a ellos para separarlos.
   function pickFromMap(location) {
-    const matrix = mapSvg && mapSvg.getScreenCTM();
-    // Píxeles de pantalla por unidad del SVG; ya incluye el zoom del viewBox.
-    const pixelsPerUnit = matrix ? Math.hypot(matrix.a, matrix.b) : 1;
-    const [x, y] = project(location.longitude, location.latitude);
+    let screen;
+    if (leafletMap) {
+      // Con una animación de zoom en curso las posiciones en pantalla no son las finales.
+      leafletMap.stop();
+      // Posición en píxeles del contenedor de Leaflet al zoom actual.
+      screen = (item) => {
+        const point = leafletMap.latLngToContainerPoint([item.latitude, item.longitude]);
+        return [point.x, point.y];
+      };
+    } else {
+      const matrix = mapSvg && mapSvg.getScreenCTM();
+      // Píxeles de pantalla por unidad del SVG; ya incluye el zoom del viewBox.
+      const pixelsPerUnit = matrix ? Math.hypot(matrix.a, matrix.b) : 1;
+      screen = (item) => project(item.longitude, item.latitude).map((value) => value * pixelsPerUnit);
+    }
+    const isShown = (entry) => leafletMap ? markerLayer.hasLayer(entry.marker) : !entry.group.hidden;
+    const [x, y] = screen(location);
     const near = locations.filter((item) => {
       const entry = mapMarkers.get(item._key);
-      if (!entry || entry.group.hidden || !finite(item.latitude) || !finite(item.longitude)) return false;
-      const [ix, iy] = project(item.longitude, item.latitude);
-      return Math.hypot(ix - x, iy - y) * pixelsPerUnit < 12;
+      if (!entry || !isShown(entry) || !finite(item.latitude) || !finite(item.longitude)) return false;
+      const [ix, iy] = screen(item);
+      return Math.hypot(ix - x, iy - y) < 12;
     });
     if (near.length <= 1) {
       chooseLocation(location);
       return;
     }
-    const cx = near.reduce((sum, item) => sum + project(item.longitude, item.latitude)[0], 0) / near.length;
-    const cy = near.reduce((sum, item) => sum + project(item.longitude, item.latitude)[1], 0) / near.length;
-    zoomMapAt(4, [cx, cy]);
+    if (leafletMap) {
+      const zoom = Math.min(leafletMaxZoom, Math.max(leafletMap.getZoom() + 2, leafletLabelZoom));
+      leafletMap.fitBounds(near.map((item) => [item.latitude, item.longitude]), { padding: [70, 70], maxZoom: zoom });
+    } else {
+      const cx = near.reduce((sum, item) => sum + project(item.longitude, item.latitude)[0], 0) / near.length;
+      const cy = near.reduce((sum, item) => sum + project(item.longitude, item.latitude)[1], 0) / near.length;
+      zoomMapAt(4, [cx, cy]);
+    }
     const detail = byId("map-detail");
     const box = node("div", "map-detail-cluster");
     box.append(node("strong", "", `${near.length} zonas muy próximas`), node("p", "", "He acercado el mapa para separarlas. Elige una:"));
@@ -709,8 +775,138 @@
     }, true);
   }
 
+  function darkTheme() {
+    const root = document.documentElement;
+    return root.dataset.theme === "dark" || (!root.dataset.theme && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  }
+
+  // Teselas de Esri, las mismas que el mapa del destino: no piden clave ni cabecera Referer y
+  // funcionan con la página abierta como archivo local. Si ninguna carga, se rellenan los países
+  // con el color de tierra para que el mapa siga siendo legible.
+  function setWorldTiles() {
+    const container = byId("map-container");
+    tileGroup.clearLayers();
+    let loaded = false;
+    const urls = darkTheme()
+      ? [`${esriTiles}/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}`, `${esriTiles}/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}`]
+      : [`${esriTiles}/World_Street_Map/MapServer/tile/{z}/{y}/{x}`];
+    urls.forEach((url, position) => {
+      const layer = window.L.tileLayer(url, {
+        maxZoom: leafletMaxZoom,
+        attribution: position ? "" : 'Teselas &copy; <a href="https://www.esri.com/">Esri</a> · Países &copy; <a href="https://www.naturalearthdata.com/">Natural Earth</a>'
+      });
+      layer.on("tileload", () => { loaded = true; container.classList.remove("tiles-offline"); });
+      layer.on("tileerror", () => { if (!loaded) container.classList.add("tiles-offline"); });
+      tileGroup.addLayer(layer);
+    });
+  }
+
+  function resetLeafletView() {
+    if (leafletMap) leafletMap.fitBounds(worldBounds, { padding: [4, 4] });
+  }
+
+  function ensureLeafletMap(container) {
+    if (leafletMap) return leafletMap;
+    container.replaceChildren();
+    container.classList.add("leaflet-world");
+    leafletMap = window.L.map(container, {
+      zoomControl: false,
+      zoomSnap: 0.25,
+      zoomDelta: 1,
+      wheelPxPerZoomLevel: 90,
+      minZoom: 1,
+      maxZoom: leafletMaxZoom,
+      maxBounds: [[-85, -200], [85, 200]],
+      maxBoundsViscosity: 1,
+      worldCopyJump: false
+    });
+    tileGroup = window.L.layerGroup().addTo(leafletMap);
+    setWorldTiles();
+    countryLayer = window.L.layerGroup().addTo(leafletMap);
+    markerLayer = window.L.layerGroup().addTo(leafletMap);
+    leafletMap.on("zoomend", updateMapView);
+    // El mapa sigue el modo día / noche de la página.
+    new MutationObserver(setWorldTiles).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    if (window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", setWorldTiles);
+    // El tamaño del contenedor cambia con el diseño adaptable; Leaflet tiene que saberlo.
+    if (window.ResizeObserver) new ResizeObserver(() => leafletMap.invalidateSize()).observe(container);
+    return leafletMap;
+  }
+
+  // Leaflet no hace enfocables sus polígonos: se añade el acceso por teclado a mano.
+  function makeAccessible(element, label, action) {
+    if (!element || element.dataset.keyboard) return;
+    element.dataset.keyboard = "1";
+    element.setAttribute("role", "button");
+    element.setAttribute("tabindex", "0");
+    element.setAttribute("aria-label", label);
+    element.setAttribute("aria-pressed", "false");
+    element.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        action();
+      }
+    });
+  }
+
+  function renderLeafletMap(container) {
+    const map = ensureLeafletMap(container);
+    countryLayer.clearLayers();
+    markerLayer.clearLayers();
+    mapMarkers.clear();
+    world.features.forEach((feature) => {
+      if (!feature || !feature.geometry) return;
+      const properties = feature.properties || {};
+      const code = countryCode(properties.country_code);
+      const country = countries.find((item) => item.country_code === code);
+      const title = country ? `${country.country_name}${selectedEvent.event_family === "solar" ? `: hasta ${formatted(country.max_obscuration_pct, " %")} de disco solar oculto en las zonas analizadas` : ": zonas visibles en el máximo global lunar"}` : properties.country_name || "Territorio";
+      const layer = window.L.geoJSON({ ...feature, properties: { ...properties, _code: code } }, {
+        className: `map-country${country ? " available" : ""}`,
+        interactive: Boolean(country),
+        // Los colores los pone la hoja de estilos según el tema y el zoom.
+        style: { weight: 1, fillOpacity: 1 }
+      });
+      layer.eachLayer((path) => {
+        if (!country) return;
+        path.bindTooltip(title, { sticky: true, className: "map-tooltip", direction: "top", offset: [0, -6] });
+        path.on("click", () => chooseCountry(code));
+        path.on("add", () => makeAccessible(path.getElement(), `Seleccionar ${title}`, () => chooseCountry(code)));
+        countryLayer.addLayer(path);
+      });
+      if (!country) layer.eachLayer((path) => countryLayer.addLayer(path));
+    });
+    locations.forEach((location) => {
+      if (!finite(location.latitude) || !finite(location.longitude)) return;
+      const label = `${location.name || "Zona"}, ${locationCountry(location)}${selectedEvent.event_family === "solar" ? `: ${formatted(location.obscuration_pct, " %")} de disco solar oculto` : `: Luna a ${formatted(location.body_altitude_deg, "°")}`}${hasClimate(location) ? "" : ". Climatología pendiente"}`;
+      const icon = window.L.divIcon({ className: `map-pin${hasClimate(location) ? "" : " pending"}`, html: "<span></span>", iconSize: [16, 16], iconAnchor: [8, 8] });
+      // keyboard: true hace el punto enfocable y Enter equivale a pulsarlo.
+      const marker = window.L.marker([location.latitude, location.longitude], { icon, keyboard: true, title: label, riseOnHover: true });
+      marker.bindTooltip(location.name || "", { permanent: true, direction: "right", offset: [8, 0], className: "map-pin-label", interactive: false });
+      marker.on("click", () => pickFromMap(location));
+      marker.on("add", () => {
+        const element = marker.getElement();
+        if (!element) return;
+        element.setAttribute("role", "button");
+        element.setAttribute("aria-label", `Ver ${label}`);
+      });
+      mapMarkers.set(location._key, { marker });
+      markerLayer.addLayer(marker);
+    });
+    ["map-zoom-in", "map-zoom-out", "map-reset"].forEach((id) => { byId(id).disabled = false; });
+    resetLeafletView();
+    // El contenedor puede haber estado oculto hasta ahora: Leaflet recalcula su tamaño.
+    setTimeout(() => { map.invalidateSize(); resetLeafletView(); }, 0);
+    updateMapSelection();
+    showMapHint();
+  }
+
   function renderMap() {
     const container = byId("map-container");
+    const mapAvailableWithTiles = window.L && world && world.type === "FeatureCollection" && Array.isArray(world.features) && world.features.length;
+    if (mapAvailableWithTiles) {
+      renderLeafletMap(container);
+      return;
+    }
     container.replaceChildren();
     mapMarkers.clear();
     mapSvg = null;
@@ -894,8 +1090,8 @@
       if (card) card.focus();
     });
     enableMapDrag(byId("map-container"));
-    byId("map-zoom-in").addEventListener("click", () => zoomMapAt(2));
-    byId("map-zoom-out").addEventListener("click", () => zoomMapAt(1 / 2));
+    byId("map-zoom-in").addEventListener("click", () => leafletMap ? leafletMap.zoomIn() : zoomMapAt(2));
+    byId("map-zoom-out").addEventListener("click", () => leafletMap ? leafletMap.zoomOut() : zoomMapAt(1 / 2));
     // Rueda del ratón (o gesto de dos dedos en el panel táctil) sobre el mapa: zoom hacia el cursor.
     byId("map-container").addEventListener("wheel", (event) => {
       if (!mapSvg) return;
@@ -906,6 +1102,10 @@
       zoomMapAt(Math.pow(1.35, steps), svgPointFromEvent(event));
     }, { passive: false });
     byId("map-reset").addEventListener("click", () => {
+      if (leafletMap) {
+        resetLeafletView();
+        return;
+      }
       mapZoom = 1;
       mapCenter = [mapWidth / 2, mapHeight / 2];
       updateMapView();

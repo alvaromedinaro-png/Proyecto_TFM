@@ -9,6 +9,7 @@ El proyecto prepara los eclipses solares y lunares de los **próximos tres años
 - [Pipeline](src/eclipse_pipeline.py): adquisición y preparación de los datos.
 - [Experimento de ML](src/ml_planning_experiment.py): reproduce sin red las métricas de `data/gold/ml/` a partir del Gold, incluida la prueba del ranking completo (tiempo y geometría) para elegir entre destinos.
 - [Selector](app/index.html): interfaz local que explora los resultados preparados.
+- [Versión online](https://alvaromedinaro-png.github.io/Proyecto_TFM/app/index.html): el mismo selector publicado con GitHub Pages. Funciona igual salvo la disponibilidad y el precio de los alojamientos, que necesitan el servidor local.
 - [Guía de tipos de eclipse](app/eclipses.html): explicación de cada tipo con esquemas propios y fotos de Wikimedia Commons guardadas en `app/img/eclipses/` (autor y licencia en el pie de cada una).
 
 ## Uso
@@ -71,7 +72,7 @@ Open-Meteo limita el uso gratuito a 600 llamadas por minuto, 5.000 por hora y 10
 - **Pronóstico** de [Open-Meteo](https://open-meteo.com/) a la hora del máximo, cuando faltan 16 días o menos. Antes indica desde qué fecha estará disponible.
 - **Alojamientos** de [OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL) a menos de 8 km, o de 25 km si apenas hay, mediante la API Overpass. Se consultan tres instancias públicas a la vez y, si fallan, [Photon](https://photon.komoot.io/) como búsqueda parcial. El mapa usa teselas de Esri y [Leaflet](https://leafletjs.com/) desde cdnjs, con verificación de integridad.
 - **Fechas y personas.** Por defecto, la noche anterior y la del eclipse para 2 adultos en una habitación; se pueden cambiar entrada, salida (hasta 30 noches), adultos (hasta 8) y habitaciones. Al pulsar «Consultar» se actualizan los precios y los enlaces de reserva.
-- **Disponibilidad y precio para esas fechas** de los alojamientos cercanos, si la app se abre con el servidor local (ver abajo): tarifa más baja por habitación y noche, total de la estancia y agencia. Siempre hay además enlaces a Booking con las fechas y personas ya rellenadas y a Google Maps para ver la ubicación.
+- **Disponibilidad y precio para esas fechas** de los alojamientos cercanos, si la app se abre con el servidor local (ver abajo): tarifa más baja por habitación y noche, total de la estancia y agencia. Siempre hay además enlaces a Booking con las fechas y personas ya rellenadas, a Google Hoteles con las fechas ya rellenadas (el número de personas hay que ajustarlo allí) y a Google Maps para ver la ubicación.
 - **Al pulsar un alojamiento del mapa**, su ventana muestra, con el servidor local, si está disponible para tus fechas y personas, con el precio por noche, el total y la agencia (lo busca en TripAdvisor por nombre y posición). También muestra fotos del propio alojamiento: la de TripAdvisor, la que tenga en OpenStreetMap o las de [Wikimedia Commons](https://commons.wikimedia.org/) que lo citan; no se muestran fotos del entorno sin relación. Siempre hay un enlace a Google Imágenes. El enlace de Google Maps solo sirve para la ubicación: Google no admite fechas en sus enlaces, y Booking sí las lleva.
 
 Solo se envían las coordenadas del destino (y, al servidor de precios, las fechas y el número de personas). Sin conexión, el panel lo indica y el resto de la app funciona igual.

@@ -301,6 +301,22 @@ window.EclipseLive = (() => {
     return `https://www.booking.com/searchresults.es.html?${params}`;
   }
 
+  // Google Maps no admite fechas en la URL. Google Hoteles (el mismo mapa con precios) tampoco tiene
+  // parámetros documentados, pero sí interpreta las fechas escritas en la búsqueda: «hoteles en X del
+  // 5 de febrero de 2027 al 7 de febrero de 2027» abre con esas fechas. El número de personas no lo
+  // interpreta (deja 2) ni las coordenadas, así que se busca por nombre del lugar.
+  const monthNames = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+  function spokenDate(day) {
+    const [year, month, date] = day.split("-").map(Number);
+    return `${date} de ${monthNames[month - 1]} de ${year}`;
+  }
+
+  function googleHotelsUrl(place, stay) {
+    const q = `hoteles en ${place} del ${spokenDate(stay.checkin)} al ${spokenDate(stay.checkout)}`;
+    return `https://www.google.com/travel/search?${new URLSearchParams({ q, hl: "es" })}`;
+  }
+
   function isReference(location) {
     return location.candidate_type === "astronomical_reference" || /^Referencia\b/i.test(location.name || "");
   }
@@ -309,9 +325,14 @@ window.EclipseLive = (() => {
     const container = byId("lodging-links");
     const lat = location.latitude.toFixed(5);
     const lon = location.longitude.toFixed(5);
-    const links = [link("Ver hoteles en Google Maps", `https://www.google.com/maps/search/hoteles/@${lat},${lon},13z`, "action-link primary")];
+    const place = `${location.name}, ${location.country_name || ""}`.replace(/,\s*$/, "");
+    // Los puntos de referencia astronómica no tienen un pueblo con nombre: ahí solo sirve el mapa
+    // por coordenadas, que no lleva fechas.
+    const links = isReference(location)
+      ? [link("Ver hoteles en Google Maps", `https://www.google.com/maps/search/hoteles/@${lat},${lon},13z`, "action-link primary")]
+      : [link("Ver hoteles en Google con tus fechas", googleHotelsUrl(place, stay), "action-link primary")];
     if (!isReference(location)) {
-      links.push(link("Disponibilidad en Booking", bookingUrl(`${location.name}, ${location.country_name || ""}`.replace(/,\s*$/, ""), stay), "action-link"));
+      links.push(link("Disponibilidad en Booking", bookingUrl(place, stay), "action-link"));
     }
     container.replaceChildren(...links);
   }
