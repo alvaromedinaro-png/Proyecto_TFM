@@ -9,7 +9,7 @@
 ## Motivación para realizar el proyecto
 * **Relevancia personal y empresarial:** La industria del videojuego mueve millones de usuarios orientados a métricas de retención y completismo. Existe una comunidad masiva (*completionists*) dedicada al trofeo/logro.
 * **Interés profesional o técnico:** Permite trabajar con arquitecturas de grafos de decisión, procesamiento de lenguaje natural (NLP) para análisis de guías, algoritmos de recomendación/secuenciación y la integración con la Web API pública de Steam.
-* **Utilidad potencial:** Simplifica radicalmente la experiencia de completismo para jugadores entusiastas sin necesidad de *spoilers* innecesarios.
+* **Utilidad potencial:** Permite completar un juego al 100 % sin tener que leer guías llenas de *spoilers*.
 * **Existencia de datos:** Existen APIs públicas oficiales (Steam Web API) que ofrecen datos en tiempo real de perfiles, biblioteca de juegos, estado de logros por usuario y porcentajes globales de obtención. También es posible extraer información contextual mediante web scraping o datasets de plataformas como *TrueSteamAchievements* o *HowLongToBeat*.
 
 ## A quién impacta
@@ -21,8 +21,8 @@
 * **Ahorro de tiempo:** Evita tener que repetir un juego desde el inicio por haber pasado por alto un logro en una decisión irreversible.
 * **Mejora de planificación:** Genera "rutas de completado" personalizadas y secuenciales según el punto exacto de la historia donde se encuentra el jugador.
 * **Detección de riesgos:** Alerta explícitamente sobre logros perdibles o decisiones excluyentes (*missables*) antes de avanzar en la trama.
-* **Automatización de tareas:** Agrupa automáticamente la información contextual dispersa en foros y guías en una única vista inteligente analizada por datos.
-* **Mayor transparencia y experiencia de usuario:** Ofrece visibilidad real sobre la dificultad y tiempo restante estimado para el 100% adaptado al ritmo del usuario.
+* **Automatización de tareas:** Reúne en una sola vista lo que ahora está repartido entre foros y guías.
+* **Dificultad y tiempo restante:** Estima cuánto falta para el 100 % según el ritmo de cada jugador.
 
 
 # Idea 2 - Asistente Personalizado de Control Glucémico e Insulina
@@ -45,11 +45,11 @@
 * **Profesionales sanitarios:** Tendrían acceso a métricas y tendencias útiles para seguimiento más personalizado entre consultas.
 
 ## Por qué tiene valor
-* **Personalización real:** No aplica reglas genéricas; ajusta recomendaciones al comportamiento glucémico histórico de cada usuario.
+* **Personalización:** Ajusta las recomendaciones al histórico de glucosa de cada usuario en lugar de aplicar reglas genéricas.
 * **Prevención de picos e hipoglucemias:** Anticipa respuestas probables ante comidas y contexto diario para actuar antes de que ocurra el descontrol.
 * **Optimización del uso de insulina:** Busca reducir dosis innecesarias manteniendo objetivos de control glucémico definidos.
 * **Aprendizaje continuo:** Mejora sus predicciones conforme recopila más datos del usuario y detecta cambios en su patrón metabólico.
-* **Mejor experiencia de autocuidado:** Reduce carga cognitiva al convertir datos complejos en recomendaciones claras y accionables.
+* **Mejor experiencia de autocuidado:** Menos cálculos mentales en el día a día: los datos se traducen en recomendaciones concretas.
 
 
 # Idea 3 - Planificador Geoespacial de Observación de Eclipses
@@ -64,7 +64,7 @@
 * **Relevancia social y educativa:** Los eclipses generan gran interés público y son oportunidades de divulgación científica, turismo astronómico y aprendizaje en torno a la observación del cielo.
 * **Interés profesional o técnico:** Permite trabajar con geolocalización, análisis espacial, series temporales meteorológicas, visualización de mapas y sistemas de recomendación basados en varios criterios.
 * **Utilidad potencial:** Puede servir para orientar a personas que quieren planificar con antelación desplazamientos para ver eclipses en condiciones óptimas, evitando decisiones improvisadas o poco informadas.
-* **Existencia de datos:** Existen efemérides astronómicas, trayectorias de eclipses, datos de meteorología histórica, altitud, accesibilidad y mapas que permitirían construir un análisis viable y visualmente atractivo.
+* **Existencia de datos:** Existen efemérides astronómicas, trayectorias de eclipses, datos de meteorología histórica, altitud, accesibilidad y mapas suficientes para construir el análisis.
 
 ## A quién impacta
 * **Aficionados a la astronomía:** Personas que quieren ver eclipses desde un punto con alta probabilidad de buena visibilidad.
@@ -76,7 +76,7 @@
 * **Mejora de planificación:** Ayuda a elegir con más criterio el mejor punto de observación antes de que ocurra el eclipse.
 * **Ahorro de tiempo y desplazamientos:** Reduce la necesidad de comparar manualmente múltiples fuentes para decidir una ubicación.
 * **Reducción de riesgo de mala observación:** Permite evitar zonas con baja cobertura, mala meteorología histórica o mala accesibilidad.
-* **Mayor transparencia y experiencia de usuario:** Resume información compleja en una recomendación clara y comprensible.
+* **Una sola respuesta:** Resume en una recomendación lo que ahora hay que cruzar a mano entre varias fuentes.
 * **Apoyo a la decisión profesional o de divulgación:** Ofrece una base útil para organizar salidas, rutas y materiales divulgativos en torno a eclipses concretos.
 
 

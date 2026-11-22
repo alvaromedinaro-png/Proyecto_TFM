@@ -716,7 +716,7 @@
     }
     const detail = byId("map-detail");
     const box = node("div", "map-detail-cluster");
-    box.append(node("strong", "", `${near.length} zonas muy próximas`), node("p", "", "He acercado el mapa para separarlas. Elige una:"));
+    box.append(node("strong", "", `${near.length} zonas muy próximas`), node("p", "", "El mapa se ha acercado para separarlas. Elige una:"));
     const list = node("ul", "cluster-list");
     // Primero la zona pulsada y después las demás por cercanía.
     near.sort((a, b) => Math.hypot(project(a.longitude, a.latitude)[0] - x, project(a.longitude, a.latitude)[1] - y)

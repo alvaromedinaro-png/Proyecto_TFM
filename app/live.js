@@ -483,8 +483,11 @@ window.EclipseLive = (() => {
 
   // ---------- Precios (solo con la app servida por src/app_server.py) ----------
 
+  // El servidor de precios solo existe en local; en la versión publicada no se consulta.
+  const servedLocally = /^https?:$/.test(window.location.protocol) && ["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname);
+
   function priceServer() {
-    if (!/^https?:$/.test(window.location.protocol)) return Promise.resolve(null);
+    if (!servedLocally) return Promise.resolve(null);
     if (!serverStatus) serverStatus = fetchJson("/api/status", {}, 5000).catch(() => null);
     return serverStatus;
   }
@@ -512,7 +515,10 @@ window.EclipseLive = (() => {
     const status = await priceServer();
     if (id !== lodgingRequest) return;
     if (!status) {
-      priceNote(box, "Precios dentro de la app", "La app está abierta como archivo. Para ver aquí la disponibilidad, el precio de tus fechas y la foto de TripAdvisor de cada alojamiento, ábrela con «abrir_planificador.bat» (o «python src/app_server.py»). Mientras, el enlace de Booking de cada alojamiento lleva a tus fechas y su ventana en el mapa muestra fotos del entorno.");
+      const opened = window.location.protocol === "file:"
+        ? "La app está abierta como archivo. Para ver aquí la disponibilidad, el precio de tus fechas y la foto de TripAdvisor de cada alojamiento, ábrela con «abrir_planificador.bat» (o «python src/app_server.py»)."
+        : "La disponibilidad, el precio de tus fechas y la foto de TripAdvisor de cada alojamiento se consultan con el servidor local de la app («python src/app_server.py»), que no forma parte de esta versión publicada.";
+      priceNote(box, "Precios dentro de la app", `${opened} El enlace de Booking de cada alojamiento lleva a tus fechas y su ventana en el mapa muestra las fotos que tenga en OpenStreetMap o Wikimedia Commons.`);
       return;
     }
     if (!status.prices) {
