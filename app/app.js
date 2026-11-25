@@ -87,6 +87,139 @@
     return date ? dateFormatter.format(date) : "Fecha no disponible";
   }
 
+  // ---------- Cuenta atrás del evento ----------
+
+  // Mismo horizonte que el pronóstico en directo de live.js (Open-Meteo, 16 días).
+  const forecastHorizonDays = 16;
+  const dayMs = 86400000;
+
+  // Primer máximo local del evento entre sus zonas; sin horas, el inicio del día en UTC.
+  function eventReference(event) {
+    const peaks = (Array.isArray(event.locations) ? event.locations : [])
+      .map((location) => dateValue(location.peak_time_utc))
+      .filter(Boolean)
+      .map((date) => date.getTime());
+    if (peaks.length) return new Date(Math.min(...peaks));
+    return dateValue(event.event_date);
+  }
+
+  function countdownText(event, now = new Date()) {
+    const reference = eventReference(event);
+    if (!reference) return "";
+    const days = (reference.getTime() - now.getTime()) / dayMs;
+    if (days < -0.5) return "Este eclipse ya ha pasado.";
+    if (days <= 0) return "El eclipse es hoy. Elige un destino para consultar el pronóstico real.";
+    if (days < 1) return "Falta menos de 1 día. Elige un destino para consultar el pronóstico real.";
+    const left = Math.ceil(days);
+    const countdown = left === 1 ? "Falta 1 día" : `Faltan ${number.format(left)} días`;
+    if (days <= forecastHorizonDays - 1) return `${countdown}. Ya hay pronóstico real: elige un destino para consultarlo.`;
+    const from = new Date(reference.getTime() - (forecastHorizonDays - 1) * dayMs);
+    return `${countdown}. Pronóstico real a partir del ${dateFormatter.format(from)}; hasta entonces, climatología histórica.`;
+  }
+
+  // ---------- Añadir al calendario (.ics) ----------
+
+  // Texto de iCalendar (RFC 5545): se escapan barra, punto y coma, coma y saltos de línea.
+  function icsText(value) {
+    return String(value).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+  }
+
+  function icsDate(date) {
+    return date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  }
+
+  // Las líneas no pueden pasar de 75 octetos; las de continuación empiezan con un espacio.
+  function icsFold(line) {
+    const encoder = new TextEncoder();
+    const parts = [];
+    let current = "";
+    let size = 0;
+    for (const char of line) {
+      const bytes = encoder.encode(char).length;
+      if (size + bytes > (parts.length ? 74 : 75)) {
+        parts.push(current);
+        current = "";
+        size = 0;
+      }
+      current += char;
+      size += bytes;
+    }
+    parts.push(current);
+    return parts.join("\r\n ");
+  }
+
+  function slug(value) {
+    return String(value || "zona").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "zona";
+  }
+
+  // Evento de calendario centrado en el máximo del lugar. Dura la fase calculada (mínimo
+  // 30 minutos) y avisa un día antes; las horas van en UTC y el calendario las pasa a la local.
+  function calendarFile(location, event) {
+    const peak = dateValue(location.peak_time_utc);
+    if (!peak) return null;
+    const lasting = finite(location.phase_duration_s) ? Math.max(location.phase_duration_s * 1000, 30 * 60000) : 60 * 60000;
+    const start = new Date(peak.getTime() - lasting / 2);
+    const end = new Date(peak.getTime() + lasting / 2);
+    const lunar = event.event_family === "lunar";
+    const country = locationCountry(location);
+    const name = location.name || "";
+    // Algunos nombres de NASA ya incluyen el país («Ndjamena, CHAD»).
+    const place = country && !name.toLocaleLowerCase("es").includes(country.toLocaleLowerCase("es")) ? [name, country].filter(Boolean).join(", ") : name || country;
+    const formatter = typeof location.timezone === "string" && location.timezone ? localFormatter(location.timezone) : null;
+    const peakLine = formatter
+      ? `${lunar ? "Máximo global" : "Máximo local"}: ${formatter.time.format(peak)} (${formatter.day.format(peak)}), ${utcTimeFormatter.format(peak)} UTC.`
+      : `${lunar ? "Máximo global" : "Máximo local"}: ${peakTime(location.peak_time_utc)}.`;
+    const phase = phaseNames[location.local_phase] || location.local_phase;
+    const description = [
+      peakLine,
+      phase ? `Fase visible: ${phase}.` : "",
+      event.event_family === "solar" && finite(location.obscuration_pct) ? `Disco solar oculto: ${formatted(location.obscuration_pct, " %")}.` : "",
+      finite(location.clear_probability_pct) ? `Cielo despejado en el ${formatted(location.clear_probability_pct, " %")} de los años a esa hora (lo habitual, no un pronóstico).` : "",
+      "El inicio y el fin del evento son aproximados; la referencia es el máximo.",
+      lunar ? "" : "Nunca mires al Sol sin gafas de eclipse homologadas (ISO 12312-2).",
+      "Planificador de eclipses · datos NASA GSFC y Open-Meteo."
+    ].filter(Boolean).join("\n");
+    const lines = [
+      "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Planificador de eclipses//ES", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      `UID:${slug(event.event_id)}-${slug(location.name)}-${icsDate(peak)}@planificador-eclipses`,
+      `DTSTAMP:${icsDate(new Date())}`,
+      `DTSTART:${icsDate(start)}`,
+      `DTEND:${icsDate(end)}`,
+      `SUMMARY:${icsText(`${eventTitle(event)} · ${location.name || "zona"}`)}`,
+      `LOCATION:${icsText(place)}`,
+      finite(location.latitude) && finite(location.longitude) ? `GEO:${location.latitude.toFixed(5)};${location.longitude.toFixed(5)}` : "",
+      `DESCRIPTION:${icsText(description)}`,
+      "BEGIN:VALARM", "ACTION:DISPLAY", `DESCRIPTION:${icsText(`Mañana: ${eventTitle(event).toLocaleLowerCase("es")} en ${location.name || "tu destino"}`)}`, "TRIGGER:-P1D", "END:VALARM",
+      "END:VEVENT", "END:VCALENDAR"
+    ].filter(Boolean);
+    return {
+      name: `eclipse-${event.event_date || icsDate(peak).slice(0, 8)}-${slug(location.name)}.ics`,
+      content: lines.map(icsFold).join("\r\n") + "\r\n"
+    };
+  }
+
+  function calendarButton(location, event) {
+    const button = node("button", "secondary-button calendar-button", "Añadir al calendario");
+    button.type = "button";
+    const file = calendarFile(location, event);
+    button.disabled = !file;
+    button.title = "Descarga un archivo .ics para Google Calendar, Outlook o Apple Calendar";
+    button.addEventListener("click", () => {
+      const current = calendarFile(location, event);
+      if (!current) return;
+      const url = URL.createObjectURL(new Blob([current.content], { type: "text/calendar;charset=utf-8" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = current.name;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+    return button;
+  }
+
   // Ventana [hoy, hoy + años) en UTC, igual que planning_window en Python (29/02 pasa a 28/02).
   function currentWindow(years) {
     const today = new Date().toISOString().slice(0, 10);
@@ -377,7 +510,7 @@
     if (!hasClimate(location)) {
       const pending = node("p", "climate-pending");
       pending.append(node("strong", "", "Climatología pendiente"), document.createTextNode("La geometría del eclipse está calculada para esta zona; sus datos meteorológicos aún no están preparados."));
-      card.append(pending);
+      card.append(pending, calendarButton(location, event));
       return card;
     }
     card.append(node("h5", "climate-heading", "Lo habitual a la hora del eclipse"));
@@ -396,7 +529,7 @@
     else if (location.climate_status === "partial") card.append(node("p", "climate-partial", "Parte de los datos meteorológicos todavía no está disponible."));
     const details = dailyDetails(location);
     if (details) card.append(details);
-    card.append(destinationButton(location));
+    card.append(destinationButton(location), calendarButton(location, event));
     return card;
   }
 
@@ -672,7 +805,7 @@
     const card = node("button", "secondary-button", "Ver la tarjeta completa");
     card.type = "button";
     card.addEventListener("click", () => scrollToCard(location));
-    actions.append(choose, card);
+    actions.append(choose, calendarButton(location, selectedEvent), card);
     detail.append(actions);
   }
 
@@ -993,6 +1126,7 @@
     if (window.EclipseLive) window.EclipseLive.hide();
     byId("event-date").textContent = readableDate(selectedEvent.event_date);
     byId("event-title").textContent = eventTitle(selectedEvent);
+    byId("event-countdown").textContent = countdownText(selectedEvent);
     updateGuideLink(selectedEvent);
     const status = ["ready", "partial", "pending"].includes(selectedEvent.status) ? selectedEvent.status : "pending";
     const badge = byId("event-status");

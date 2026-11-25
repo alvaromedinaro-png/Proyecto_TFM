@@ -160,6 +160,7 @@ La incertidumbre es parte del resultado y se muestra donde aparece la cifra, no 
 - La lista y el mapa están **sincronizados**: seleccionar en uno resalta en el otro. El mapa ampliado se **desplaza arrastrando** con el ratón o el dedo, y un arrastre no selecciona por error el país o el punto donde termina.
 - **Explorar zonas cercanas sin perder el mapa.** El mapa de zonas usa teselas de calles (gris oscuro en modo noche) con los países disponibles sombreados encima. La rueda del ratón acerca hacia el cursor hasta el nivel de calle y, al ampliar, cada punto muestra su nombre. Pulsar un punto abre sus datos en una **ficha junto al mapa** (fase, duración, hora local, cielo despejado y lluvia con su rango) sin desplazar la página; la ficha ofrece «Elegir como destino» y «Ver la tarjeta completa». Si el punto pulsado se solapa con otros, el mapa se acerca a ellos y la ficha los lista, empezando por el más cercano, para elegir el correcto. Los contornos de los países son los de Natural Earth a escala 1:110 millones y de cerca no coinciden con las fronteras del mapa base, así que su sombreado se atenúa al ampliar. Sin conexión, el mapa se dibuja solo con esos contornos.
 - **Guía de tipos de eclipse** en una página aparte y no en un desplegable. Quien no sabe qué diferencia un eclipse anular de uno total entiende qué va a ver antes de elegir destino, y la pantalla principal no se alarga para quien ya lo sabe. El enlace bajo el título lleva directamente al tipo del eclipse elegido. Las fotos se guardan en la app para que funcione sin conexión.
+- **Volver arriba.** Al bajar más de una pantalla aparece un botón flotante en la esquina inferior derecha que devuelve al principio de la página sin tener que desplazarse a mano. Está en el planificador y en la guía, deja el foco del teclado en la cabecera y evita la animación si el sistema pide reducir el movimiento.
 - Se mantiene la accesibilidad de la app actual: navegación con teclado, enlace para saltar al selector, regiones anunciadas a lectores de pantalla y diseño adaptable al móvil.
 
 ## 5. Continuidad hacia el MVP final
@@ -170,16 +171,19 @@ La incertidumbre es parte del resultado y se muestra donde aparece la cifra, no 
 |---|---|---|
 | Selector de tipo, eclipse y país (1) | ✔ | Ya existe |
 | Orden «Recomendado / Cielo despejado / Duración» (1) | ✔ | Ya implementado: «Ordenar por» con Recomendado (por defecto), Cielo despejado habitual, Disco solar oculto (o Altura de la Luna) y Duración. «Recomendado» usa la puntuación del Gold, que la exportación reproduce en cada zona (`phase_priority`, `recommendation_score`) |
-| Estado del evento, días que faltan y aviso de pronóstico (2) | ✔ | El estado existe; faltan la cuenta atrás y la fecha del pronóstico |
-| Ranking compacto con barra de rango y categoría (3) | ✔ | Rango al 95 % (barra) y categoría ya están en cada tarjeta; falta la vista compacta en filas |
-| Mapa centrado en la región y coloreado por categoría (4) | ✔ | Mapa con teselas que se encuadra en el país elegido; falta colorear los puntos por categoría |
+| Estado del evento, días que faltan y aviso de pronóstico (2) | ✔ | Ya implementado: bajo el título, «Faltan N días» y la fecha desde la que habrá pronóstico real (16 días antes del primer máximo del evento), con la fecha del navegador |
+| Ranking con barra de rango y categoría (3) | ✔ | Ya implementado en cada tarjeta: rango al 95 % (barra) y categoría |
+| Vista compacta del ranking en filas (3) | Mejora futura | Las tarjetas ya muestran el ranking; las filas servirían para comparar muchas zonas de un vistazo |
+| Mapa centrado en la región (4) | ✔ | Ya implementado: mapa con teselas que se encuadra en el país elegido |
+| Puntos del mapa coloreados por categoría (4) | Mejora futura | Hoy distinguen zonas con climatología y pendientes; la categoría está en la ficha junto al mapa |
 | Zoom con la rueda, nombres al ampliar y ficha de la zona junto al mapa (4, 5) | ✔ | Ya implementado, con selector de zonas solapadas |
 | Detalle con recuento, datos del eclipse y días cercanos (5) | ✔ | Los datos ya están en la tarjeta («Clima en los días cercanos») |
 | Hora local además de UTC (3, 5) | ✔ | Ya implementado: zona horaria IANA de la localidad GeoNames más cercana del mismo país; el navegador aplica el horario de verano («10:47 CEST · 08:47 UTC» en Ceuta) |
-| Añadir al calendario (.ics) (6) | ✔ | Nuevo; se genera en el navegador |
-| Estados, zonas pendientes y textos de incertidumbre (7) | ✔ | Ya existen en parte |
+| Añadir al calendario (.ics) (6) | ✔ | Ya implementado: botón en cada tarjeta y en la ficha del mapa. El archivo se genera en el navegador con el máximo del lugar (hora UTC, que el calendario pasa a la local), la fase, la ocultación, lo habitual del cielo y un aviso el día anterior |
+| Estados, zonas pendientes y textos de incertidumbre (7) | ✔ | Ya implementado: estado del evento, zonas con climatología pendiente y rango al 95 % de cada porcentaje |
 | Porcentajes presentados como lo habitual del lugar y la época, no como pronóstico | ✔ | Ya implementado en las tarjetas, la ficha del mapa, la lista de zonas y la nota «Cómo leer la climatología» |
 | Modo noche con botón en la cabecera | ✔ | Ya implementado |
+| Botón flotante para volver arriba | ✔ | Ya implementado en el planificador y en la guía (`app/back-to-top.js`) |
 | Zonas de Copernicus agrupadas en una línea fuera del ranking (7) | ✔ | Ahora aparecen en la lista; la cabecera indica cuántas usan esa fuente |
 | Desplazar el mapa ampliado arrastrando | ✔ | Ya implementado |
 | Guía de tipos de eclipse enlazada desde cada evento | ✔ | Ya implementado (`app/eclipses.html`) |

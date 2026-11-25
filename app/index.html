@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#122c36">
   <title>Planificador de eclipses</title>
   <script src="theme.js"></script>
+  <script src="back-to-top.js" defer></script>
   <!-- Mapas con teselas (Leaflet): el de zonas y el del destino. Sin conexión el de zonas se dibuja
        con la cartografía local en SVG y el del destino se oculta; el resto funciona igual. -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha384-c6Rcwz4e4CITMbu/NBmnNS8yN2sC3cUElMEMfP3vqqKFp7GOYaaBBCqmaWBjmkjb" crossorigin="anonymous">
@@ -67,6 +68,7 @@
           <div>
             <p class="eyebrow" id="event-date"></p>
             <h2 id="event-title"></h2>
+            <p id="event-countdown" class="event-countdown"></p>
             <a id="event-guide" class="guide-link" href="eclipses.html"></a>
           </div>
           <span id="event-status" class="status-badge"></span>
@@ -171,5 +173,6 @@
     </footer>
   </div>
   <noscript><p class="noscript-note">Activa JavaScript en el navegador para utilizar el selector local.</p></noscript>
+  <button type="button" id="back-to-top" class="back-to-top" aria-label="Volver arriba" title="Volver arriba" hidden><span aria-hidden="true">↑</span><span class="back-to-top-label">Arriba</span></button>
 </body>
 </html>
